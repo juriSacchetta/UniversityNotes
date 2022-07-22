@@ -1,0 +1,63 @@
+\documentclass{article}
+
+\usepackage[a4paper, total={15cm, 24.5cm}]{geometry}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage[dvipsnames]{xcolor}
+
+\title{WIP Title: Dynamic resource allocation in the cloud for compute heavy tasks in a containerized environment}
+\author{Elia Ravella}
+\begin{document}
+	\begin{titlepage}
+		\maketitle
+	\end{titlepage}
+	
+	\tableofcontents
+	\clearpage
+	
+	\part{The Problem, the State of the Art and Current Available Solutions}
+		\section{Introduction}
+		\section{Containerized Environment and High Performance Computing}
+		\section{State of the Art}
+			\subsection{Shifter}
+			\subsection{SLURM}
+			\subsection{Kubernetes}
+			\subsection{Serverless Approach}
+		\section{The Problem}
+			This section highlights the problems of the currently available solutions: the focusing on scaling through replication rather than on resources size, and the problem of having a dynamical \textit{in two senses}, both resource- and replication-wise, computational layer
+	
+	\part{Design and Testing Phase}
+		\section{MapNCloud Original Architecture}
+			Here I talk about the original deployment of the MapNCloud service. I plan to add a subsection explaining in detail the tech stack.
+		\section{Problems Addressed}
+			\begin{enumerate}
+				\item database choice and API modification
+				\item queue monitoring
+				\item resizable backend containers
+				\item cloud provider integration
+			\end{enumerate}
+			At the end of this section I will present the "final" design draft
+		\section{Testing and Validation}
+			\textbf{HERE} I will introduce the "diffusion analysis" to justify the test parameters
+			\begin{enumerate}
+				\item CouchDB testing
+				\item RabbitMQ testing
+				\item Cloud providers options, pros and cons
+				\item technological limitations (docker-compose, load balancers)
+			\end{enumerate}
+			I will also present the real "final" Architecture that will be deployed here, with cloup provider's technological names and services
+	
+	\part{Implementation}
+		\section{Frontend}
+		\section{Backend}
+		\section{Database}
+		\section{Messaging Middleware}
+		\section{Computational Layer}
+			\subsection{Renderino}
+
+	\part{Conclusion and Bibliography}
+\end{document}
+
