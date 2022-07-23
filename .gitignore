@@ -5,4 +5,8 @@
 *.gz
 *.toc
 *.dvi
-
+*.bbl
+*.blg
+*.lof
+*.lot
+*.out
