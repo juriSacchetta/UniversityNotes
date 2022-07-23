@@ -1,38 +1,190 @@
-\documentclass{article}
+% A LaTeX template for MSc Thesis submissions to 
+% Politecnico di Milano (PoliMi) - School of Industrial and Information Engineering
+%
+% S. Bonetti, A. Gruttadauria, G. Mescolini, A. Zingaro
+% e-mail: template-tesi-ingind@polimi.it
+%
+% Last Revision: October 2021
+%
+% Copyright 2021 Politecnico di Milano, Italy. NC-BY
 
-\usepackage[a4paper, total={15cm, 24.5cm}]{geometry}
-\usepackage{float}
+\documentclass{Configuration_Files/PoliMi3i_thesis}
+
+%------------------------------------------------------------------------------
+%	REQUIRED PACKAGES AND  CONFIGURATIONS
+%------------------------------------------------------------------------------
+
+% CONFIGURATIONS
+\usepackage{parskip} % For paragraph layout
+\usepackage{setspace} % For using single or double spacing
+\usepackage{emptypage} % To insert empty pages
+\usepackage{multicol} % To write in multiple columns (executive summary)
+\setlength\columnsep{15pt} % Column separation in executive summary
+\setlength\parindent{0pt} % Indentation
+\raggedbottom  
+
+% PACKAGES FOR TITLES
+\usepackage{titlesec}
+% \titlespacing{\section}{left spacing}{before spacing}{after spacing}
+\titlespacing{\section}{0pt}{3.3ex}{2ex}
+\titlespacing{\subsection}{0pt}{3.3ex}{1.65ex}
+\titlespacing{\subsubsection}{0pt}{3.3ex}{1ex}
+\usepackage{color}
+
+% PACKAGES FOR LANGUAGE AND FONT
+\usepackage[english]{babel} % The document is in English  
+\usepackage[utf8]{inputenc} % UTF8 encoding
+\usepackage[T1]{fontenc} % Font encoding
+\usepackage[11pt]{moresize} % Big fonts
+
+% PACKAGES FOR IMAGES
 \usepackage{graphicx}
-\usepackage{caption}
-\usepackage{subcaption}
+\usepackage{transparent} % Enables transparent images
+\usepackage{eso-pic} % For the background picture on the title page
+\usepackage{subfig} % Numbered and caption subfigures using \subfloat.
+\usepackage{tikz} % A package for high-quality hand-made figures.
+\usetikzlibrary{}
+\graphicspath{{./Images/}} % Directory of the images
+\usepackage{caption} % Coloured captions
+\usepackage{xcolor} % Coloured captions
+\usepackage{amsthm,thmtools,xcolor} % Coloured "Theorem"
+\usepackage{float}
 
-\usepackage[dvipsnames]{xcolor}
+% STANDARD MATH PACKAGES
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{bm}
+\usepackage[overload]{empheq} % For braced-style systems of equations.
+\usepackage{fix-cm} % To override original LaTeX restrictions on sizes
 
-\title{WIP Title: Dynamic resource allocation in the cloud for compute heavy tasks in a containerized environment}
-\author{Elia Ravella}
+% PACKAGES FOR TABLES
+\usepackage{tabularx}
+\usepackage{longtable} % Tables that can span several pages
+\usepackage{colortbl}
+
+% PACKAGES FOR ALGORITHMS (PSEUDO-CODE)
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+% PACKAGES FOR REFERENCES & BIBLIOGRAPHY
+\usepackage[colorlinks=true,linkcolor=black,anchorcolor=black,citecolor=black,filecolor=black,menucolor=black,runcolor=black,urlcolor=black]{hyperref} % Adds clickable links at references
+\usepackage{cleveref}
+\usepackage[square, numbers, sort&compress]{natbib} % Square brackets, citing references with numbers, citations sorted by appearance in the text and compressed
+\bibliographystyle{abbrvnat} % You may use a different style adapted to your field
+
+% OTHER PACKAGES
+\usepackage{pdfpages} % To include a pdf file
+\usepackage{afterpage}
+\usepackage{lipsum} % DUMMY PACKAGE
+\usepackage{fancyhdr} % For the headers
+\fancyhf{}
+
+% Input of configuration file. Do not change config.tex file unless you really know what you are doing. 
+\input{Configuration_Files/config}
+
+%----------------------------------------------------------------------------
+%	NEW COMMANDS DEFINED
+%----------------------------------------------------------------------------
+
+% EXAMPLES OF NEW COMMANDS
+\newcommand{\bea}{\begin{eqnarray}} % Shortcut for equation arrays
+\newcommand{\eea}{\end{eqnarray}}
+\newcommand{\e}[1]{\times 10^{#1}}  % Powers of 10 notation
+
+%----------------------------------------------------------------------------
+%	ADD YOUR PACKAGES (be careful of package interaction)
+%----------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------
+%	ADD YOUR DEFINITIONS AND COMMANDS (be careful of existing commands)
+%----------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------
+%	BEGIN OF YOUR DOCUMENT
+%----------------------------------------------------------------------------
+
 \begin{document}
-	\begin{titlepage}
-		\maketitle
-	\end{titlepage}
-	
-	\tableofcontents
-	\clearpage
-	
-	\part{The Problem, the State of the Art and Current Available Solutions}
+
+\fancypagestyle{plain}{%
+\fancyhf{} % Clear all header and footer fields
+\fancyhead[RO,RE]{\thepage} %RO=right odd, RE=right even
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}}
+
+%----------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------
+
+\pagestyle{empty} % No page numbers
+\frontmatter % Use roman page numbering style (i, ii, iii, iv...) for the preamble pages
+
+\puttitle{
+	title=WIP Title: Dynamic resource allocation in the cloud for compute heavy tasks in a containerized environment,
+	name=Elia Ravella,
+	course=Computer Science and Engineering,
+	ID  = 967243,
+	advisor= Prof. Raffaela Mirandola,
+	coadvisor={Name Surname, Name Surname},
+	academicyear={2021-22},
+} % These info will be put into your Title page 
+
+%----------------------------------------------------------------------------
+%	PREAMBLE PAGES: ABSTRACT (inglese e italiano), EXECUTIVE SUMMARY
+%----------------------------------------------------------------------------
+\startpreamble
+\setcounter{page}{1} % Set page counter to 1
+
+% ABSTRACT IN ENGLISH
+\chapter*{Abstract} 
+\textbf{Keywords:} Cloud, Containers, Dynamic infrastructure
+
+%----------------------------------------------------------------------------
+%	LIST OF CONTENTS/FIGURES/TABLES/SYMBOLS
+%----------------------------------------------------------------------------
+
+% TABLE OF CONTENTS
+\thispagestyle{empty}
+\tableofcontents % Table of contents 
+
+\addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
+\mainmatter % Begin numeric (1,2,3...) page numbering
+	\chapter{The Problem, the State of the Art and Current Available Solutions}
 		\section{Introduction}
+		\label{se:intoduction}
+
 		\section{Containerized Environment and High Performance Computing}
+		\label{se:containerHPC}
+		
 		\section{State of the Art}
+		\label{se:stateoftheart}
+		
 			\subsection{Shifter}
+			\label{sse:shifter}
+			
 			\subsection{SLURM}
+			\label{sse:slurm}
+			
 			\subsection{Kubernetes}
+			\label{sse:kubernetes}
+			
 			\subsection{Serverless Approach}
+			\label{sse:serverless}
+		
 		\section{The Problem}
+		\label{se:problem}
 			This section highlights the problems of the currently available solutions: the focusing on scaling through replication rather than on resources size, and the problem of having a dynamical \textit{in two senses}, both resource- and replication-wise, computational layer
 	
-	\part{Design and Testing Phase}
+	\chapter{Design and Testing Phase}
+	\label{ch:designandtesting}
+
 		\section{MapNCloud Original Architecture}
+		\label{se:originalarchitecture}
 			Here I talk about the original deployment of the MapNCloud service. I plan to add a subsection explaining in detail the tech stack.
+
 		\section{Problems Addressed}
+		\label{se:problemaddressed}
 			\begin{enumerate}
 				\item database choice and API modification
 				\item queue monitoring
@@ -40,7 +192,9 @@
 				\item cloud provider integration
 			\end{enumerate}
 			At the end of this section I will present the "final" design draft
+		
 		\section{Testing and Validation}
+		\label{se:testingvalidation}
 			\textbf{HERE} I will introduce the "diffusion analysis" to justify the test parameters
 			\begin{enumerate}
 				\item CouchDB testing
@@ -50,14 +204,27 @@
 			\end{enumerate}
 			I will also present the real "final" Architecture that will be deployed here, with cloup provider's technological names and services
 	
-	\part{Implementation}
+	\chapter{Implementation}
+	\label{ch:implementation}
+
 		\section{Frontend}
+		\label{se:frontend}
+
 		\section{Backend}
+		\label{se:backend}
+
 		\section{Database}
+		\label{se:database}
+
 		\section{Messaging Middleware}
+		\label{se:mom}
+
 		\section{Computational Layer}
+		\label{se:complayer}
+			
 			\subsection{Renderino}
+			\label{sse:renderino}
 
-	\part{Conclusion and Bibliography}
+	\addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
+	\bibliography{Thesis_bibliography} % The references information are stored in the file named "Thesis_bibliography.bib"
 \end{document}
-
