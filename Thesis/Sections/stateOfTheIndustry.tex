@@ -1,14 +1,23 @@
 There are several solutions available on the market that provides flexible infrastructure management and are built to automate the management of the infrastructure of an application. These systems can be seen as schedulers (so software components that organize when a task is executed and on which resources) with some additional features as the capability of actually \textit{allocate} the resources needed or the automated management of the interfaces between resources and components.
 
+\subsection{SLURM}
+\label{sse:slurm}
+  SLURM is "an open source, fault-tolerant, and highly scalable cluster management and job scheduling system for large and small Linux clusters"\cite{slurm}. It aims to organize and schedule tasks on multiple nodes; these tasks can also be defined as OCI-compliant containers. SLURM was crated to be executed on supercomputers or clusters of computers; in fact, SLURM focuses on communication between daemons and tasks through message passing framework as MPI and queue-managed resource access. Even if it can integrate containerized workloads, it is not suited to be deployed in a cloud environment rather than a computation center.
+
 \subsection{Shifter}
 \label{sse:shifter}
   Shifter is a simple scheduler which aims to utilize the container format in an HPC environment. It allows the user to specify the load in a docker image, then Shifter automates the conversion of that image to an HPC format and the scheduling of such task. Shifter is \textit{not} an extension of Docker or the Docker engine, nor aims to automate the infrastructure, instead it just provides an additional interface (which is container compatible) to an already existing HPC platform.
 
-\subsection{SLURM}
-\label{sse:slurm}
-
 \subsection{Kubernetes}
 \label{sse:kubernetes}
+  Kubernetes (often called "k8s") is a container orchestration system, and is the \textit{de facto} standard for container orchestration. It provides an all-in-one system to manage containerized applications:
+  \begin{itemize}
+    \item It provides an abstraction over the container level (the Pod) that is used to define the service provided rather than the container itself
+    \item It includes different ways to persist data and state across containers; this gives a kubernetes cluster the capability to hold an entire application, from data layer to presentation layer
+    \item Kubernetes clusters embeds security and access control by enforcing the already existing isolation features of a containerized environment and by providing a set of tools that easily control the access to the cluster itself (the Ingress controllers)
+    \item It allows developers to define the redundancy for every single service defined, so to set an "horizontal scaling width" beforehand to handle faults and heavy loads
+  \end{itemize}
+  Kubernetes has been designed for applications that are designed as microservices, and it provides the tooling for administrate single services, replication, and scaling in such an environment. As already stated in (\ref{se:problem}) the level of abstraction provided by kubernetes is efficent when horizontal scaling must be automated, but also removes some of the controllability of a containerized system. Moreover, resource management within kubernetes deployment in the cloud is very difficult: all the needed resources must be available at any time so that kubernetes can manage them, and this implies reserving significant amounts of resources for a prolonged period of time; in a cloud deployed application this renders the cost of application maintenance too high. 
 
 \subsection{Serverless Approach}
 \label{sse:serverless}
