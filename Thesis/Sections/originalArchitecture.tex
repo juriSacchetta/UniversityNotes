@@ -1,1 +1,21 @@
-Here I talk about the original deployment of the MapNCloud service. I plan to add a subsection explaining in detail the tech stack.
+This thesis project extends and develops the original Distributed Software Development project, which have been created during the first semester of the 2021 / 2022 academic year. The original project aim was to create a system which could offer photogrammetry services, so the rendering of a tridimensional model from a set of images of the subject, leveraging the container technology to encapsulate the rendering engine. In this section I describe the original architecture of that system and in the next ones I will explain how that architecture has been redesigned, adapted and extended in this thesis project. 
+
+\subsection{System Design}
+\label{sse:originalsystemdesign}
+  The MapNCloud project was designed as a "three plus one" tiers application:
+  \begin{itemize}
+    \item a \textbf{presentation layer} or front end, which has been developed as a web site and offers a graphical interface to the system
+    \item a \textbf{business layer} or back end, which embodies all the business logic of the application
+    \item a \textbf{data layer}, the database which persists the data needed by the application
+    \item a \textbf{computation layer}, which is a separated back end module that is tasked with the most computational heavy routines (as the photogrammetry pipelines)
+  \end{itemize}
+  Another module is present in the application, and it is the ticketing service. It is not considered a whole tier, in fact its only job is to manage the queues of tasks that the backend generates, and let the computational layer components access them in the right order with the right schedule.
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width = \textwidth]{../Images/MNCOriginal.png}
+    \caption{Original MapNCloud component diagram, with internal modules detailed.}
+  \end{figure}
+
+  \subsubsection{Front End}
+  \label{ssse:originalfrontend}
+    The presentation layer of the original system was developed as a web application, %%
