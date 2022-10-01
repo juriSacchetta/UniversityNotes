@@ -18,4 +18,12 @@ This thesis project extends and develops the original Distributed Software Devel
 
   \subsubsection{Front End}
   \label{ssse:originalfrontend}
-    The presentation layer of the original system was developed as a web application, %%
+    The presentation layer of the application was developed as a web application; this exposes a graphical user interface for the services offered by the system. It is a JavaScript application (developed with the VueJS framework) which interacts with the backend via HTTP calls; this allows it to be considered, by the cloud provider, a static web application, which is easy to deploy and has a low resources demand.\\
+    The front end architecture follows the Model View ViewModel pattern, which separates the actual GUI elements from the logic of the user experience in View and ViewModel respectively, and lets the ViewModel reflect the changes on the Model; this is a common pattern to adopt as it provides a clear organization of functionalities and responsibilities among the internal software submodules.\\
+    The front end module is the one that is the least affected by this thesis work; it is only extended to include an admininitration section.
+
+  \subsubsection{Back End}
+  \label{ssse:originalbackend}
+
+  \subsubsection{Computation Later}
+  \label{ssse:originalcomputationlayer}
