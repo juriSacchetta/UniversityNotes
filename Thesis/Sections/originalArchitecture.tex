@@ -24,6 +24,12 @@ This thesis project extends and develops the original Distributed Software Devel
 
   \subsubsection{Back End}
   \label{ssse:originalbackend}
+    The backend module is composed of two main software modules, which are distinct applications:
+    \begin{itemize}
+      \item the actual MapNCloud backend, a TypeScript application that exposes a REST API with all the functionalities of the application;
+      \item a queue managing system, which acts as the ticketing system for the tasks issued to the computation layer. This is a RabbitMQ (a popular open source queue management system) instance, communicating via AMQP\cite{AMQP} with the other modules.
+    \end{itemize}
+
 
   \subsubsection{Computation Later}
   \label{ssse:originalcomputationlayer}
