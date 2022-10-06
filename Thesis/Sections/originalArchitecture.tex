@@ -20,16 +20,16 @@ This thesis project extends and develops the original Distributed Software Devel
   \label{ssse:originalfrontend}
     The presentation layer of the application was developed as a web application; this exposes a graphical user interface for the services offered by the system. It is a JavaScript application (developed with the VueJS framework) which interacts with the backend via HTTP calls; this allows it to be considered, by the cloud provider, a static web application, which is easy to deploy and has a low resources demand.\\
     The front end architecture follows the Model View ViewModel pattern, which separates the actual GUI elements from the logic of the user experience in View and ViewModel respectively, and lets the ViewModel reflect the changes on the Model; this is a common pattern to adopt as it provides a clear organization of functionalities and responsibilities among the internal software submodules.\\
-    The front end module is the one that is the least affected by this thesis work; it is only extended to include an admininitration section.
+    The front end is deployed as a static web app in the cloud provider web hosting dedicate service. It is directly built and made available from the code repository (through a CI/CD pipeline) reacting at every code change. The cloud provider also takes care of the SSL certificates (to ensure crypted communication) and the global availability through content delivery networks.\\
+    The front end module is the one that is the least affected by this thesis work; it is only extended to include an administration section.\\
 
   \subsubsection{Back End}
   \label{ssse:originalbackend}
     The backend module is composed of two main software modules, which are distinct applications:
     \begin{itemize}
-      \item the actual MapNCloud backend, a TypeScript application that exposes a REST API with all the functionalities of the application;
-      \item a queue managing system, which acts as the ticketing system for the tasks issued to the computation layer. This is a RabbitMQ (a popular open source queue management system) instance, communicating via AMQP\cite{AMQP} with the other modules.
+      \item the actual MapNCloud backend, a TypeScript application that exposes a REST API with all the functionalities of the application. This module is packaged as a Docker container; in this scenario, the possibility to bundle together code, configuration files and additional resources in a single image makes deployment faster and easier, also providing all the isolation properties offered by the containers alone.
+      \item a queue managing system, which acts as the ticketing system for the tasks issued to the computation layer. This is a RabbitMQ (a popular open source queue management system) instance, communicating via AMQP\cite{AMQP} with the other modules. This module is also deployed as a Docker container, but in this case the choice was made to reduce the amount of infrastructure needed for the application: the alternatives were deploying a single container group with RabbitMQ and the computational layer together or provisioning a whole virtual machine just for installing RabbitMQ.
     \end{itemize}
-
 
   \subsubsection{Computation Later}
   \label{ssse:originalcomputationlayer}
