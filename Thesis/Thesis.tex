@@ -177,19 +177,15 @@
 		\label{se:problemsaddressed}
     \input{./Sections/problemsAddressed.tex}
 
-		\section{Testing and Validation}
-		\label{se:testingvalidation}
-			\textbf{HERE} I will introduce the "diffusion analysis" to justify the test parameters
-			\begin{enumerate}
-				\item CouchDB testing
-				\item RabbitMQ testing
-				\item Cloud providers options, pros and cons
-				\item technological limitations (docker-compose, load balancers)
-			\end{enumerate}
-			I will also present the real "final" Architecture that will be deployed here, with cloup provider's technological names and services
-	
+    \section{Final Design}
+    \label{se:finaldesign}
+    \input{./Sections/finalDesign.tex}
+
 	\chapter{Implementation}
 	\label{ch:implementation}
+    
+    \section{Infrastructure}
+    \label{se:infrastructure}
 
 		\section{Frontend}
 		\label{se:frontend}
@@ -209,6 +205,9 @@
 			\subsection{Renderino}
 			\label{sse:renderino}
 
+    \section{Methods and Tooling}
+    \label{se:methodsandtooling}
+
   \appendix
 
   \chapter{Tests}
@@ -219,6 +218,9 @@
     \label{ap:rmqtests}
 
   \chapter{Models}
+    \section{Original Application Backend Architecture}
+    \label{ap:originaldesigndoc}
+
     \section{Adoption Model}
     \label{ap:adoptionmodel}
 
