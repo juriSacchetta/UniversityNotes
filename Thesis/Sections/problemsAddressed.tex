@@ -1,9 +1,4 @@
-\begin{enumerate}
-	\item database choice and API modification
-	\item queue monitoring
-	\item resizable backend containers
-	\item cloud provider integration
-\end{enumerate}
+The original application was packaged and deployed as a self-hostable stack: a group of containerized applications all in the same configuration files, which used docker-compose as the orchestration tool. This simple deployment solution was suited for the demo required for the original project, but the really limited support cloud providers offer to the docker-compose tool\footnote{at the moment of writing, several cloud providers has early-development stage support for docker compose, moreover further limited to only a few container-oriented services.} and the future necessity to dynamically scale the backend modules rendered this approach non suitable. In this section we will address the major problems the architecture had in the first place, how these were faced and which decisions were taken to overcome them.
 
 \subsection{Scalability}
   The MapNCloud system was designed to ensure a detachment between the "business logic" backend and the "computational" backend, in order to ensure that that the full application does not get stuck on a request by offloading longer tasks to a different independent module. This module (\ref{ssse:originalcomputationlayer}) is the main bottleneck of the system, and though the one I focused on to improve its overall scalability.\\
