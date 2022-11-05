@@ -1,0 +1,17 @@
+When designing the system, it became clear at an early stage that the overall complexity of the application made really complicated to manage and configure all the components by hand, as from the graphical user interface that the cloud provider makes available to customers, which is designed to allow users to manage effortlessly clusters with a limited number of resources rather then complex and diverse architectures.
+
+\subsection{Infrastructure as Code}
+  Infrastructure as code is the term used to describe the process of managing, provisioning and configuration of cloud resources through machine-readable definitions. This approach has multiple aspects:
+  \begin{itemize}
+    \item Being machine-readable, the infrastructure code has all the advantages of code:
+      \begin{itemize}
+        \item code can be versioned, so to control the evolution of a system or to manage different versions of it
+        \item codebases already have a plethora of tools to manage them, and more importantly to make it possible for multiple people or teams to collaborate on the same codebases
+        \item code can be tested; even configuration files can be written following certain rules that make possible to test if an infrastructure definition is valid or sound
+        \item code can be commented and documented: this in not a best practice, documenting codebases has become a necessary phase to ensure readability, maintainability and usability
+        \item code can be versioned, either to deploy different versions of the same system or to develop different systems with a common background
+      \end{itemize}
+    \item the centralization of the infrastructure definition renders different resources accessible from a single point, facilitating the developing of complex systems
+    \item managing infrastructure as code also is also useful in the maintenance of the system, since when an addition or modification must be applied the overall system is formally described by a single codebase, that also explains how the resources are interconnected and how they operate
+  \end{itemize}
+  This approach seemed the most suitable approach to develop the MapNCloud system, as it allowed us to manage a large number of heterogeneous resource and configuring them, fast iterating between different prototypes to test out the various schemas while managing the infrastructure with well known tools as version control systems and integrated development environments.
