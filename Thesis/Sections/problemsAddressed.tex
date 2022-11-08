@@ -1,24 +1,62 @@
 The original application was packaged and deployed as a self-hostable stack: a group of containerized applications all in the same configuration files, which used docker-compose as the orchestration tool. This simple deployment solution was suited for the demo required for the original project, but the really limited support cloud providers offer to the docker-compose tool\footnote{at the moment of writing, several cloud providers has early-development stage support for docker compose, moreover further limited to only a few container-oriented services.} and the future necessity to dynamically scale the backend modules rendered this approach non suitable. In this section we will address the major problems the architecture had in the first place, how these were faced and which decisions were taken to overcome them.
 
 \subsection{Scalability}
+\label{sse:scalability}
   The MapNCloud system was designed to ensure a detachment between the "business logic" backend and the "computational" backend, in order to ensure that that the full application does not get stuck on a request by offloading longer tasks to a different independent module. This module (\ref{ssse:originalcomputationlayer}) is the main bottleneck of the system, and though the one we focused on to improve its overall scalability.\\
   The first approach considered was to use an automated orchestration software as Kubernetes (\ref{sse:kubernetes}) or a task scheduler as SLURM (\ref{sse:slurm}) to manage the mapping of tasks on available computational units; as explained in the respective sections, these approaches were not viable, due to either an high infrastructure cost or a poor cloud compatibility. The system was required to be able to handle different traffic paces, with different requests weights, being at the same time cost effective\footnote{which translates, in cloud environments, to deallocate unused resources}.\\
   The target solution needed to dynamically spawn workers, each one tailored to the actual traffic detected or to a forecast on traffic (based on past data or statically, using time of day as index for example). Each worker had to be spawned with a different set of resources, to better handle the traffic. As an example, if a great number of requests suddenly arrive all together, each one with an high number of input files, some resourceful workers needed to be spawned; instead, if the number of unacknowledged tasks grows steadily but slowly, a smaller\footnote{smaller in the number or size of resources allocated: number of CPUs, amount of RAM and optional GPUs} worker unit can be created to handle the accumulating tasks. This kind of reasoning \textit{must} be applied also in the other direction: especially in the cloud, systems that allocates a significant number of hardware resources are very expensive; if heavy workers (i.e. some modules with high CPU or GPU count) are idling, or the system can satisfy the incoming traffic without them, in order to be cost effective the system should be able to identify the unnecessary workers and kill them. The final design uses an automation tool provided by the cloud vendor to expose a REST interface that allows an alerting module (built in the queuing system) to notify congestion situations, and to also shape the worker spawned in terms of CPU count, GPU count and memory available.
 
 \subsection{Cloud Provider Integration}
+\label{sse:cloudintegration}
   The choice of the cloud provider was discussed in the first steps of the project, and after some initial performance tests Azure by Microsoft has been chosen. These simple tests were conducted to see if there was a significant difference in performance between the two vendors: the results are available in the dedicated appendix. In the choice of the cloud vendor other factors have been relevant, as the ease of integration between internal services, general support provided by the vendor itself, migration problems and developer familiarity with the tools.
 
-\subsection{Queue Monitoring}
-  The queue module is the one that is "congestion aware". The workers are designed to interact with it by dequeuing a message (which contains all the task-related information), processing the task and only when the task has been successfully executed and completed acknowledge the message to the queue. This provides a straightforward metric to both understand congestion of the queues and of the workers: the combination of unacknowledged messages and the ones entirely not delivered to clients. A majority of unacknowledged messages would suggest that the workers are underpowered, while a majority of not delivered messages would suggest that too few workers are deployed. These kind of metrics and indexes must be extracted from the queuing system in order to manage the number of workers present.\\
-  Luckily, RabbitMQ embeds a monitoring tool (called Prometheus) which automatically organizes the queues data and exports them in a text format. An additional module of Prometheus, called AlertManager, handles the notifications and interacts with external services; this fits perfectly our use case, allowing us to group together various pieces of information and deliver a precise alert (which will be encapsulated in a HTTP request) that actively reshapes the backend to align to the congestion status.\\
-  In the early design steps, it was considered to use a cluster of RabbitMQ instances rather than a single one, to improve on reliability and resilience. The cluster additional copies of RabbitMQ would have provided an higher failure tolerance, since the whole cluster could then withstand a failure of an instance, up to "all but one" instances failure. This option was discarded:
-  \begin{itemize}
-    \item Using a set of instances in place of a single one requires either to inform the other modules of the fallback options or to use a load balancer put in front of the RabbitMQ cluster to interact with it: in the former case all the backend modules would have needed an additional modification; in the latter, an additional software component should have been inserted in the architecture and configured, with the risk of degrading performance
-    \item Tests were conducted to assure if a single RabbitMQ instance could withstand the load imposed by the application, in different scenarios (as single backend workers versus dynamic resizing backend workers). These tests are available in the appendix
-    \item Clustering RabbitMQ nodes, although a very powerful feature of that software and surely fundamental in large distributed message oriented scenarios, requires some additional per-node configuration which would have itself complicated the deployment of the system
-  \end{itemize}
+\subsection{Message Oriented System}
+\label{sse:rabbitmq}
+  One of the most important modules in the back end system is the message oriented module, which is implemented as a RabbitMQ instance. As explained briefly in \ref{ssse:originalbackend}, this piece of software acts as a ticketing system which keeps the tasks submitted to the system in order and exposes an interface to the computational layer to retrieve them, execute them and mark them as complete.
+  \subsubsection{Queue Monitoring}
+  \label{ssse:monitoring}
+    The queue module is the one that is "congestion aware". The workers are designed to interact with it by dequeuing a message (which contains all the task-related information), processing the task and only when the task has been successfully executed and completed acknowledge the message to the queue. This provides a straightforward metric to both understand congestion of the queues and of the workers: the combination of unacknowledged messages and the ones entirely not delivered to clients. A majority of unacknowledged messages would suggest that the workers are underpowered, while a majority of not delivered messages would suggest that too few workers are deployed. These kind of metrics and indexes must be extracted from the queuing system in order to manage the number of workers present.\\
+    RabbitMQ embeds a monitoring tool (called Prometheus) which automatically organizes the queues data and exports them in a text format. An additional module of Prometheus, called AlertManager, handles the notifications and interacts with external services; this fits perfectly our use case, allowing us to group together various pieces of information and deliver a precise alert (which will be encapsulated in a HTTP request) that actively reshapes the backend to align to the congestion status.
+    %% TODO insert prometheus AlertManager parameters here
+  
+  \subsubsection{Clustering}
+  \label{ssse:rmqclustering}
+    In the early design steps, it was considered to use a cluster of RabbitMQ instances rather than a single one, to improve on reliability and resilience. The cluster additional copies of RabbitMQ would have provided an higher failure tolerance, since the whole cluster could then withstand a failure of an instance, up to "all but one" instances failure. This option was discarded:
+    \begin{itemize}
+      \item Using a set of instances in place of a single one requires either to inform the other modules of the fallback options or to use a load balancer put in front of the RabbitMQ cluster to interact with it: in the former case all the backend modules would have needed an additional modification; in the latter, an additional software component should have been inserted in the architecture and configured, with the risk of degrading performance
+      \item Clustering RabbitMQ nodes, although a very powerful feature of that software and surely fundamental in large distributed message oriented scenarios, requires some additional per-node configuration which would have itself complicated the deployment of the system
+    \end{itemize}
+    
+    \paragraph{RabbitMQ Stress Test}
+      To further analyze if a clustered deployment of the messaging system was needed, a stress test was conducted on a single-instance RabbitMQ deployment, to ensure that such a configuration could withstand the load of the application. The test featured a single container instance of RabbitMQ deployed directly in the cloud (to be more adherent with the designed final system). Two different scenarios were analyzed:
+      \begin{itemize}
+        \item An artificial scenario where the number of receiver nodes do not change, as in the original architecture. This run helped us understand whether RabbitMQ could withstand a large number of unacknowledged or unsent messages in memory
+        \item A scenario where the number of receivers rises over time, starting in a heavy deficit situation (so few "slow" workers facing an high number of requests) and then adapting the number of receivers until a balance scenario was reached
+      \end{itemize}
+      An extract of the test runs are here summarized:
+      %% TODO a table with the non-changing backends, a table with the changing backends, show 
+      %% + number of messages
+      %% + interval
+      %% for sender,
+      %% + "class"
+      %% + pools
+      %% + number of workers
+      %% for receivers
+
+      \begin{center}
+        \begin{tabular}{| p{5em} | p{5em} || p{5em} | p{5em} | p{5em} || p{5em} |}
+          \hline
+          \multicolumn{2}{| c ||}{ \textbf{Sender} } & \multicolumn{3}{ | c || }{ \textbf{Receivers} } & \textbf{Messages Lost}\\
+          \hline
+          Number of messages & Messages / Seconds & Receiver 'class' & Number of pools & Number of workers (per pool) \\
+          \hline
+          17542 & 0.305 & \verb|slow| & 1 (static receiver number) & 8 & 0\%\\
+          \hline
+        \end{tabular}
+      \end{center}
 
 \subsection{API Redesign and Organization}
+\label{sse:redesign}
   The module that mostly is impacted by this thesis' work is the backend. From the original design (\ref{ssse:originalcomputationlayer}) the module has been separated in two main components
   \begin{enumerate}
     \item the \textbf{MainBackend}: this module actually hosts the exposed Application Programming Interface the frontend utilizes. The interface exposed is very similar to the original one, the major changes residing in the data access layer\footnote{further details on the original architecture available in appendix (\ref{ap:originaldesigndoc})} which no longer interfaces directly with the database, but instead calls another API to interact with it for tasks as attachments searching and retrieving, data access (which encapsulates authentication) and uploading of resources.\\
