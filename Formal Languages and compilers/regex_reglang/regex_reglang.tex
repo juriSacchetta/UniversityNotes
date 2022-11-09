@@ -1,12 +1,21 @@
 \chapter{Regular Expressions and Regular Languages}
+    \section{Introduction}
+        Regual languages are the simplest family of formal language.
     \section{RL and RE}
-        A Regular Language is a language over an alphabet that can be expressed by applying \emph{a finite number of times} this three operations:
+    A Regular Language is a \textbf{language over an alphabet that can be expressed by applying} \emph{a finite number of times} this three operations:
         \begin{enumerate}
-            \item Union (or Alternative)
-            \item Concatenation
+            \item Union $\bigcup, \vee$
+            \item Concatenation $\cdot$
             \item Star (Kleene Star)
         \end{enumerate}
+        Rule of precedence: star, concatenation, union.
+        It is permitted to use $\varesplisopn = \emptyset^* $
         
+        \begin{RegularLanguage}[Regular Language]
+            cioa
+        \end{RegularLanguage}
+
+
         \subsection{Other Operators}
             Also set operators can be used: Intersection and Complement are used when it's more concise to express a language to a set of languages (the former) or the inverse of a complex rule (the latter: a clear example is "a language with no 2 consecutive 'a' in it").
         
