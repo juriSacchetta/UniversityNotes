@@ -1,13 +1,24 @@
 \chapter{Context Free Grammars}
-	Regular expressions as a tool to generate languages are not enough powerful. Super simple languages like "all words followed by their reverse" or "concatenation of two strings of the same length" cannot be generated.\\
-	Context Free grammars are defined as the triple
+	Regular expressions as a tool to generate languages are not enough powerful. 
+	Super simple languages like "all words followed by their reverse" or "concatenation of two strings of the same length" cannot be generated.\\
+	Context Free grammars are defined by means of four entities
 	\begin{itemize}
-		\item Nonterminal alphabet
-		\item Terminal alphabet (disjointed from the nonterminal one)
-		\item Set of Rules or Productions
+		\item $V$: \emph{non-terminal alphabet}, is a set of \emph{non-terminal symbols (or syntactic classes)}
+		\item $\sum$: \emph{terminal alphabet}, is the set of the \emph{characteres} that costitute the phrases
+		\item $P$: is a set of \emph{syntactic rules} (also called \emph{production rules} or simply \emph{rules})
+		\item $S \in V$is a particular non-terminal, called axiom
 	\end{itemize}
-	One particular nonterminal is choosen as starter (or axiom). A Rule is an ordered pair with a left side and a right side: left side can contain only nonterminals, right side both terminals and nonterminals. 
+	One particular nonterminal is choosen as starter (or axiom).
+	A Rule is an ordered pair with a left side and a right side: left side can contain only nonterminals, right side both terminals and nonterminals. 
 	
+	In order to define a language, one can use RULES that, after repeated application, allow to generate all and only the phrases of the language
+	The set of such rules constitutes a GENERATIVE GRAMMAR (or SYNTAX).
+
+	\begin{syntax}[Regular Language]
+		A set of rules generating all the possible strings belong to the language.
+	\end{syntax}
+
+
 	\section{Rule Classification}
 	    Lowercase or greek letters: terminals.\\
 	    Uppercase letters: terminals.
