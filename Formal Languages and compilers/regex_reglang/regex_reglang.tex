@@ -2,18 +2,49 @@
     \section{Introduction}
         Regual languages are the simplest family of formal language.
     \section{RL and RE}
-    A Regular Language is a \textbf{language over an alphabet that can be expressed by applying} \emph{a finite number of times} this three operations:
-        \begin{enumerate}
-            \item Union $\bigcup, \vee$
-            \item Concatenation $\cdot$
-            \item Star (Kleene Star)
-        \end{enumerate}
-        Rule of precedence: star, concatenation, union.
-        It is permitted to use $\varesplisopn = \emptyset^* $
-        
-        \begin{RegularLanguage}[Regular Language]
-            cioa
-        \end{RegularLanguage}
+        \subsection{Introduction and Definitions}
+            A Regular Language is a \textbf{language over an alphabet that can be expressed by applying} \emph{a finite number of times} this three operations:
+            \begin{enumerate}
+                \item Union $\bigcup, \vee$
+                \item Concatenation $\cdot$
+                \item Star (Kleene Star)
+            \end{enumerate}
+            Rule of precedence: star, concatenation, union.
+            It is permitted to use $\varepsilon = \emptyset^* $
+            
+            \begin{RegularLanguage}[Regular Language]
+                A language is regular  if it is the meaning (hence if it is generated) by a regular expression.
+            \end{RegularLanguage}
+            \begin{famreg}[Family of Regular Languages (REG)]
+                Collection of regular languages.
+            \end{famreg}
+            \begin{famfin}[Family of Finite Languages (FIN)]
+                Collection of all languages of finite cardinality.
+            \end{famfin}
+            \textbf{Caution}: REG and FIN are sets of sets of set of strings, not set of strings themeselves.
+
+            Notice that \emph{every finite language is regular} because it is the (finite)
+            union of finitely many strings, and each string is in turn the concatenation
+            of finitely many letters or in general of alphabetic symbols
+
+            \begin{equation*}
+                \left(x_1\bigcup x_2\bigcup\ldots\bigcup x_k\right)=\left({a_1}_1{a_1}_2\ldots {a_1}_n\bigcup\ldots\bigcup{a_k}_1{a_k}_2\ldots{a_k}_n\right)
+            \end{equation*}
+
+            Remember that $FIN\subset REG$
+        \subsection{Subexpression of a regexp}
+            \begin{enumerate}
+                \item Consider a fully parenthesized regex
+                \begin{equation}
+                    e=\left(a\bigcup\left(bb\right)\right)^*\left(c^+\bigcup\left(a\bigcup\left(bb\right)\right)\right)
+                \end{equation}
+                \item Number every alphabetic symbol that occurs in the regexp
+                \begin{equation}
+                    e_N=\left(a_1\bigcup\left(b_2b_3\right)\right)^*\left(c_4^+\bigcup\left(a_5\bigcup\left(b_6b_7\right)\right)\right)
+                \end{equation}
+                \item isolate the subexpressions and put them into evidence
+            \end{enumerate}
+
 
 
         \subsection{Other Operators}
