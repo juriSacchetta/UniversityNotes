@@ -28,16 +28,22 @@
 
 	\part{Advanced Algorithms}
 	\section{Algorithms Recall}
-		An algorithm is a well defined computational procedure that takes some value as input and produces some value as output after a finite sumber of steps.
+		An algorithm is a well defined computational procedure that takes some value as input and produces some value as output after a finite number of steps.
 		
 		\paragraph{Algorithm Performance - Complexity}
-			A straightforward performance index for an algorithm is his running time. Obviously, the running time depends on the size of the input, so making the performance index parametric wrt the input size is the best way to compare algorithms. Generally, we look for upper bounds of running time, as a guarantee; but three main analysis can be carried out:
+			A straightforward performance index for an algorithm is his running time. Obviously, the running time depends on the size of the input, so making the performance index parametric w.r.t. the input size is the best way to compare algorithms. Generally, we look for upper bounds of running time, as a guarantee; but three main analysis can be carried out:
 			\begin{itemize}
 				\item worst case scenario (big $O$ notation): maximum time of the algorithm for an input of fixed size
 				\item average case scenario ($\Theta$ notation): expected time for a fixed size input. To comeplete an analysis like this one, we need assumption on the distribution of the input
 				\item best case scenario ($\Omega$ notation): analize the \textit{minimum time required to terminate} with the best possible combination of input. It's useful because provides a lower bound of performance for an algorithm (we "can't do better" with that algorithm)
 			\end{itemize}
 			When we compare complexity curves, we must not forget the fact that those are dependent from the input instance size. For sufficently large inputs, then a $n^2$ complexity always beats an $n^3$, but it's not so when instances are small enough. Use complexity to help structure the design phase, not as the one and only performance index to use.
+
+			\paragraph{Recursion and complexity}
+			If we are interested in estimate how much time is spend by the algorithm to reach the solution, we can study which type of dependence there is between the input size and the time. We call this dependence $T(n)$.
+			In case of recursion we can study it using a recursive equation, something like this:
+			$$T(n) = a T(n/b) + f(n)$$
+			But it is not simple estimate the correct result for this type of equation. Fortunately exists an efficient theorem, the Master theorem.
 
 			\subparagraph{The Master Method}
 				To solve recurrencies (analysis of complexity for algorithms expressed as mere time functions of the input) of the form
@@ -76,7 +82,7 @@
 					\item Sort the two subarrays
 					\item Linear time merge
 				\end{enumerate}
-				resulting in a total complexity of $T(n) = 2T(\frac{n}{2}) + \Theta(n)$ that can be easily worked out with the master theorem: it falls in the second case with k = 0. This leaves us with a total complexity of $\Theta(n\, \log(n)$.
+				resulting in a total complexity of $T(n) = 2T(\frac{n}{2}) + \Theta(n))$ that can be easily worked out with the master theorem: it falls in the second case with k = 0. This leaves us with a total complexity of $\Theta(n\, \log(n)$.
 
 			\paragraph{Binary Search}
 				DeC applied to searching an element in a \underline{sorted} array
@@ -85,7 +91,7 @@
 					\item Recursively search a single subarray
 					\item Find element
 				\end{enumerate}
-				total complexity: $T(n) = T(\frac{n}{2} + \Theta(1)$. Again, through the Master Method, we obtain a complexity of $T(n) = \Theta(\log(n))$
+				total complexity: $T(n) = T(\frac{n}{2}) + \Theta(1)$. Again, through the Master Method, we obtain a complexity of $T(n) = \Theta(\log(n))$
 
 			\paragraph{Number Power}
 				Computing $a^n$ in underlinear complexity: with divide and conquer is possible. Just apply
@@ -111,28 +117,44 @@
 		To actually evaluate the performances of the algorithm we make use of \textit{indicator random variables} that are simple binary variables that indicates wheter something is happened or not.
 
 		\subsection{Monte Carlo Algorithms}
-			Monte Carlo algorithms are randomized algorithms that \textit{can return a wrong result}, but with little probability. In the case this probability is non null, the problem is said to have a \textit{two sided error}.
+			Monte Carlo algorithms are randomized algorithms that \textit{can return a wrong result}, but with little probability.
+			\subsubsection{Decision problem}
+				For decision problems (in which the output can be True or False), there are two kinds of Monte Carlo algorithms:
+				\begin{enumerate}
+    			\item those with \textbf{one-side} error, 
+    			\item and those with \textbf{two-side} error.
+				\end{enumerate}
+				\paragraph{One-side error}
+				It is said to have one-sided error if the probability that it errs is zero for at least one of the possible outputs (YES/NO) that it produces.
+				\paragraph{Two-side error}
+				A Monte Carlo algorithm is said to have two-sided error if there is a non-zero probability that it errs when it outputs either YES or NO.
 	
 			\subsubsection{Las Vegas Algorithms}
 				Las Vegas algorithms are randomized algorithms that (differently from Monte Carlo ones) \textit{always return correct results}, but they directly depends on some random  choices; this implies that the running time can vary even with identical input, thus rendering the \textit{average running time} very difficult to compute.
+			
+			\subsubsection{Which is better?}
+			Like anythings in the engineer filed depends on the application - in some applications an incorrect solution may be catastrophic.
+			A Las Vegas algorithm is by definition a Monte Carlo algorithm with error probability 0.
+			A Las Vegas algorithm is an efficient Las Vegas algorithm if on any input its expected running time is bounded by a polynomial function of the input size
+			A Monte Carlo algorithm is an efficient Monte Carlo algorithm if on any input its worst-case running time is bounded by a polynomial function of the input size
+			Using Monte Carlo we risk to encore in a wrong answer, so to tell that a Monte Carlo is efficient we have to guaranty more than its expected running time is polynomial also in its worst-case.
+		\subsection{Karger's min-cut algorithm}
+			Minimum cut problem: to find the cut (on a connected undirected weighted graph) with the \textit{minimum possible capacity}. The general algorithm computes $n - 1$ times the so called "st-cut problem", that only considers the "weight flow" between two fixed nodes. Karger's approach is based on randomization and contractions\footnote{make two nodes coincidental in a graph, "collapse"}: by contracting together nodes we will eventually find a cut of the graph, that will be represented by the arcs that go through the "central most contracted node".\\
+			So the Karger algorithm translates to:
+			\begin{enumerate}
+				\item pick a random edge
+				\item contract it (doing so, remove self-loops)
+				\item repeat 1 and 2 until the graph has only two nodes
+				\item check the obtained cut
+				\item repeat in case
+			\end{enumerate}
+			The average complexity is far less that the linear programming formulation of the problem. Moreover, statistically speaking and given enough runs, the Karger's algorithm finds the solution far before the "traditional" linear programming algorithm, that runs in $O(n \cdot m \cdot \log (\frac{n^2}{m}))$ where \emph{n} and \emph{m} represent nodes and edges number, respectively.\\
+			An improved version of this algorithm was provided by Karger himself, after the observation that is very unlikely to pick a min cut edge \textit{at the beginning} of the algorithm wrt the end of the procedure. The thing that changes here is the last step of the algorithm: instead of restarting from the beginning (so from the complete graph) it restarts from an \textit{intermediate graph} with a reduced number of nodes and then compares the two obtained results. This improvement is huge: it reduces the running time to $n^2 \cdot \log(n)$, with an error probability that's polynomial.
 
-			\subsubsection{Karger's min-cut algorithm}
-				Minimum cut problem: to find the cut (on a connected undirected weighted graph) with the \textit{minimum possible capacity}. The general algorithm computes $n - 1$ times the so called "st-cut problem", that only considers the "weight flow" between two fixed nodes. Karger's approach is based on randomization and contractions\footnote{make two nodes coincidental in a graph, "collapse"}: by contracting together nodes we will eventually find a cut of the graph, that will be represented by the arcs that go through the "central most contracted node".\\
-				So the Karger algorithm translates to:
-				\begin{enumerate}
-					\item pick a random edge
-					\item contract it (doing so, remove self-loops)
-					\item repeat 1 and 2 until the graph has only two nodes
-					\item check the obtained cut
-					\item repeat in case
-				\end{enumerate}
-				The average complexity is far less that the linear programming formulation of the problem. Moreover, statistically speaking and given enough runs, the Karger's algorithm finds the solution far before the "traditional" linear programming algorithm, that runs in $O(n \cdot m \cdot \log (\frac{n^2}{m}))$ where \emph{n} and \emph{m} represent nodes and edges number, respectively.\\
-				An improved version of this algorithm was provided by Karger himself, after the observation that is very unlikely to pick a min cut edge \textit{at the beginning} of the algorithm wrt the end of the procedure. The thing that changes here is the last step of the algorithm: instead of restarting from the beginning (so from the complete graph) it restarts from an \textit{intermediate graph} with a reduced number of nodes and then compares the two obtained results. This improvement is huge: it reduces the running time to $n^2 \cdot \log(n)$, with an error probability that's polynomial.
-
-			\subsubsection{Randomized Quicksort}
-				Classic quicksort is an $O(n \log (n))$ in place sorting algorithm, using the divide and conquer approach. The algorithm can be seen as an "in place merge sort": it divides the algorithm around a \textbf{pivot} element and recusively sort the two portions of array.\\
-				The random formulation introduces randomness in the pivot selection, in particular in the selection of the indexes that produces the pivot. This ensures that the running time is \textit{indipendent} of the input order. We end up with an average complexity of $n \log (n)$.
-				\begin{lstlisting}[language=Ruby]
+			\subsection{Randomized Quicksort}
+			Classic quicksort is an $O(n \log (n))$ in place sorting algorithm, using the divide and conquer approach. The algorithm can be seen as an "in place merge sort": it divides the algorithm around a \textbf{pivot} element and recusively sort the two portions of array.\\
+			The random formulation introduces randomness in the pivot selection, in particular in the selection of the indexes that produces the pivot. This ensures that the running time is \textit{indipendent} of the input order. We end up with an average complexity of $n \log (n)$.
+			\begin{lstlisting}[language=Ruby]
 # randomized adjustement to quicksort algorithm, where the pivot is 
 # randomly chosen each time
 def rand_partition(arr, bottom, top)
@@ -340,6 +362,12 @@ end
 			\begin{equation}
 				n! \leq 2^{height} \,\Rightarrow\, height \geq \log(n!) \,\Rightarrow\, \underbrace{height \geq \log((\frac{n}{e})^n)}_{Stirling's formula} \,\Rightarrow\, \Omega(n \cdot \log(n))
 			\end{equation}
+
+	    \begin{figure}[H]
+	    	\centering
+				\includegraphics[width = 0.7\textwidth]{images/decision_tree_example.png}
+				\caption{Example of a decision tree}
+			\end{figure}
 
 		\subsection{Linear Time Sorting}
 			The counting sort and the radix sort are two algorithms that sort collections in linear time. How is this possible? They do not rely on \textit{comparisons} and they make strong assumptions on input types.
@@ -839,7 +867,7 @@ void gather(int *input, int *indexes, int *output){
 		Amortized analysis is a technique used to compute the time needed to perform a certain set of operations; it averages the time required to do an operation over all the operations performed. The goal is to show that an operation is small when compared to the whole set of operations, even though a single operation can be expensive.\\
 		\textbf{Amortized analysis is not average-case analysis}: probability is not involved here, and this method \textit{guarantees the average performance of each operation} in the worst case. It's an alternative to worst-case analysis to compute the running time of an algorithm.
 
-		\paragraph{Aggregate analysis}
+		\subsection{Aggregate analysis}
 			We analyze the problem of adjusting the size of an hash table in order to keep it as small as possible \textit{and} not having overflow lists. The first idea is to reallocate the whole table whenever an overflow is detected, with the total space doubled. This way, the insertion of a single element will have constant complexity unless exactly $2^n-1$ elements have been inserted, in that case the cost will be equal to $2^n$ (n being the size of the table).\\
 			If we analyze the complexity in the classic worst-case approach, we see that since a single insertion can cause the re-insertion of all the previous elements (due to the reallocating in case of overflow) the overall complexity is $\Theta(n^2)$.
 			\begin{figure}[H]
@@ -896,7 +924,7 @@ void gather(int *input, int *indexes, int *output){
 		where $S$ represents the sequence of operations taken into consideration.
 
 		\paragraph{Self Organizing Lists}
-			Say we wanto to implement a linked list, and we want to make so that the implementation can adapt to the requests in order to speedup the accessing of elements. This will not change the worst case complexity (it will remain $O(n)$ of course) but could significatively improve the average seek time. We have to introduce heuristics to do so:
+			Say we want to implement a linked list, and we want to make so that the implementation can adapt to the requests in order to speedup the accessing of elements. This will not change the worst case complexity (it will remain $O(n)$ of course) but could significatively improve the average seek time. We have to introduce heuristics to do so:
 			\begin{itemize}
 				\item \textbf{Move to front}: this heuristic simply takes the accessed element and moves it at the first place of the list. Since moving an item of n positions (that we will call \textit{rank}) costs n, we have that the total cost of finding + reordering is
 					\begin{equation}
