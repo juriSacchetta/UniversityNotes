@@ -6,10 +6,14 @@
 		A state can be useful or useless. A state is useful if it is reachable from an initiale state and a final state can be reached from it (condition of accessibility and post-accessibility). Otherwise it's useless.\\
 		For every finite automaton there exists an equivalent clean automaton.\\
 		To clean an automaton it can be easily flooded starting from the initial state then starting from the final state(s); all states not flooded at the end are useless.
-	\paragraph{Minimal automaton}
-		Property of minimal automaton uniqueness: \emph{For every finite-state language, the finite recognizer is minimal w.r.t. the number of states exists and is unique (apart from a renaming of states)}.\\
+	\begin{definition}[Minimal automaton - uniqueness property]
+		For every finite state language, the finite recognizer is minimal w.r.t. the number of states exists and is unique
+		 (apart from a renaming of states)
+	\end{definition}
 		This property enables to represent a whole class of equivalent automata with a single one, that moreover is \emph{minimal}.\\
-		An algorithm to reduce automaton to their minimal equivalent is based on the equivalence relation between states called \emph{distinguishablity}: two state are undistinguishable if applying the same input to the both reach a final state or both do not. This relation looks like it does not provide a tool to effectively distinguish two state, but it's a RECURSIVE DEFINITION:
+		An algorithm to reduce automaton to their minimal equivalent is based on the equivalence relation between states called \emph{distinguishablity}: two state are 
+		undistinguishable if applying the same input to the both reach a final state or both do not. This relation looks like it does not provide a tool to effectively 
+		distinguish two state, but it's a RECURSIVE DEFINITION:
 		\begin{itemize}
 			\item The sink state (or error state) is distinguishable from all other state;
 			\item If a state is final is distinguishable from every other non final state;
