@@ -1,8 +1,9 @@
 \chapter{Finite Automaton as Regular Language Recognizers}
+	\section{Preliminar definitions}
 	You should know what a FSA is. In particular, you should know well DFSAs\\
 	A Finite State Machine (or finite state automaton) is composed of a set of states, a transiction function (that determines the change of state at a certain input) a set of termination states, and an input alphabet.\\
 	\textbf{\underline{A DFSA is expressive as an uniliear grammar (so like a regular expression)}}.\\
-	\paragraph{Clean automaton}
+	\section{Clean automaton}
 		A state can be useful or useless. A state is useful if it is reachable from an initiale state and a final state can be reached from it (condition of accessibility and post-accessibility). Otherwise it's useless.\\
 		For every finite automaton there exists an equivalent clean automaton.\\
 		To clean an automaton it can be easily flooded starting from the initial state then starting from the final state(s); all states not flooded at the end are useless.
