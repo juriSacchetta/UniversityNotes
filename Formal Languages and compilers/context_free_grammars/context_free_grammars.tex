@@ -6,7 +6,7 @@
 		\item $V$: \emph{non-terminal alphabet}, is a set of \emph{non-terminal symbols (or syntactic classes)}
 		\item $\sum$: \emph{terminal alphabet}, is the set of the \emph{characteres} that costitute the phrases
 		\item $P$: is a set of \emph{syntactic rules} (also called \emph{production rules} or simply \emph{rules})
-		\item $S \in V$is a particular non-terminal, called axiom
+		\item $S \in V$ is a particular non-terminal, called axiom
 	\end{itemize}
 	One particular nonterminal is choosen as starter (or axiom).
 	A Rule is an ordered pair with a left side and a right side: left side can contain only nonterminals, right side both terminals and nonterminals. 
@@ -57,9 +57,11 @@
 	\section{Ambiguity}
 		Ambiguity in grammars is similar to the ambiguity for regular expressions. The definition is pretty much the same: a sentence is ambiguous if it admits several different syntax trees.\\
 		Syntactic ambiguity (the only of interest when studying formal languages) is the kind of ambiguity that derives from the \emph{structure} of the production, rather than the effective meaning it carry.\\\\
+		% //TODO metti in risalto sta cosa
 		The formal problem of discovering/computing the ambiguity of a grammar is an undecidable one. This is in practice not a great problem: heuristics to check if a given grammar is ambiguous exists, but most importantly the grammar designer should keep in mind (and design accordingly) the said grammar in an unambiguous way.
 		
 		\subsection{Ambiguous Forms and Remedies}
+		% //TODO metti una description o fai capire che stai per elencare i tipi 
 			\subsubsection{Bilateral Recursion}
 				A bilateral recursion (so a both left and right recursive rule) often leads to ambiguity because there's usually no fixed order of generation of nonterminals.\\\\
 				This can be usually avoided by splitting the two side recursive rule into more rules each one either right or left recursive.\\
@@ -87,6 +89,7 @@
 			Let L and L2 be regular languages. Their intersection and the complement of each is still a regular language. (The formal proof utilizes the recognizers automata to prove this).
 	
 	\section{Equivalence}
+	%//TODO metti una fottuta spiegazione su che cose un condensed tree
 		Two grammar are said to be equivalent if they define the same language. Two grammars are \emph{strongly} equivalent if they define the same language \textbf{and} they have the same \emph{condensed skeleton trees}; this means that every production from both grammar is generated "with the same choices".\\
 		Strong equivalence $\Rightarrow$ weak equivalence\\
 		Strong equivalence can be formally proved, while checking for weak equivalence is an undecidable problem.\\
@@ -107,6 +110,7 @@
 				\end{figure}
 			
 	\section{Grammar Transformation and Normal Forms}
+	%//TODO controllare se c'è tutto, sembra un po' sintetico
 		Normal forms are standardized rules. They don't reduce grammar expressiveness of the grammar, and using them does not affect the language iself. They just guide the design process to obtain a grammar with certain properties.\\
 		\subsubsection{Elimination of the axiom from right part}
 			Straightforward. Use an additional rule from the axiom to a sub-axiom that is replaced in all other rules.\\
