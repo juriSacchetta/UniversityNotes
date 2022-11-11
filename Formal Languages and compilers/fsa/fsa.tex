@@ -7,13 +7,15 @@
 		A state can be useful or useless. A state is useful if it is reachable from an initiale state and a final state can be reached from it (condition of accessibility and post-accessibility). Otherwise it's useless.\\
 		For every finite automaton there exists an equivalent clean automaton.\\
 		To clean an automaton it can be easily flooded starting from the initial state then starting from the final state(s); all states not flooded at the end are useless.
-	\begin{definition}[Minimal automaton - uniqueness property]
-		For every finite state language, the finite recognizer is minimal w.r.t. the number of states exists and is unique
-		 (apart from a renaming of states)
-	\end{definition}
+	\begin{property}[Minimal automaton - uniqueness property]
+		For every finite state language, the finite recognizer is minimal w.r.t. the number of states exists and is unique (apart from a renaming of states)
+	\end{property}
 		This property enables to represent a whole class of equivalent automata with a single one, that moreover is \emph{minimal}.\\
-		An algorithm to reduce automaton to their minimal equivalent is based on the equivalence relation between states called \emph{distinguishablity}: two state are 
-		undistinguishable if applying the same input to the both reach a final state or both do not. This relation looks like it does not provide a tool to effectively 
+		An algorithm to reduce automaton to their minimal equivalent is based on the equivalence relation between states called \emph{distinguishablity}.
+		\begin{definition}[Undistinguishable states]
+			Two state are undistinguishable if applying the same input to the both reach a final state or both do not.
+		\end{definition}
+		 This relation looks like it does not provide a tool to effectively 
 		distinguish two state, but it's a RECURSIVE DEFINITION:
 		\begin{itemize}
 			\item The sink state (or error state) is distinguishable from all other state;
@@ -22,7 +24,11 @@
 		\end{itemize}
 	
 	\section{Nondeterministic Automata}
-		As a unilinear grammar rule can contain multiple alternatives for the same nonterminal, a FSA can have multiple states associated to a input symbol. Moreover, an automaton could also have spontaneous moves, so arcs that are not associated with any kind of input, besides the empty string. If one or both these two kinds of situation happen to be in a FSA it's called nondeterministic, due to the nondeterminism of the output (same input can lead to different output).\\
+		As a unilinear grammar rule can contain multiple alternatives for the same nonterminal, a FSA can have multiple states associated to a input symbol.
+		Moreover, an automaton could also have spontaneous moves, so arcs that are not associated with any kind of input, besides the empty string.
+		
+		%//TODO re-write definition of NFSA
+		If one or both these two kinds of situation happen to be in a FSA it's called nondeterministic, due to the nondeterminism of the output (same input can lead to different output).\\
 		There are a few motivations to add nondeterminism to an automaton:
 		\begin{itemize}
 			\item Concision: a nondeterministic automaton is often smaller than his deterministic counterpart, rendering the former more readable
@@ -31,20 +37,29 @@
 			\item ND recognizers: NFSA can be used to draft out a recognizer automaton
 		\end{itemize}
 		\subsection{Elimination of nondeterminism}
-			The final implementation of a recognizer automaton must be deterministic (for now). A property of automata is \emph{every nondeterministic automaton can be transformed in a deterministic equivalent one. So, every unilinear grammar admits a equivalent nonambiguous one.}\\
-			We focus on removing spontaneous moves (backward propagation method):
-			\begin{enumerate}
-				\item Compute the transitive closure of $\epsilon$ moves: if three states are connected sequentially by spontaneous moves, add all the $\epsilon$ moves that shows all the $\epsilon$ paths.
-				\item Backward propagation of the scanning moves over the epsilon moves: if a path contains a normal scan move AND a spontaneous move, then connect the first and last states of that path with a scan move with the element scanned.
-				\item Add all the states that spontaneously arrive to the final state to the final states set.
-				\item Delete all $\epsilon$ moves left.
-			\end{enumerate}
-		
-	\section{Ambiguity}
-		As for the grammars, an automaton is ambiguous if it accepts a string with two different computations. 
+			The final implementation of a recognizer automaton must be deterministic (for now).
+			\begin{theorem}\label{th:NFSA_TO_DFSA}
+				Every nondeterministic automaton can be transformed in a deterministic equivalent one.
+			\end{theorem}
+			The theorem~\ref{th:NFSA_TO_DFSA} lets to the definition of:
+			\begin{lemma}
+				Every unilinear grammar\footnote{See section: \ref{sec:uni_linear_grammars}}  admits a equivalent nonambiguous one.
+			\end{lemma}
+			We focus on removing spontaneous moves to do we introduce:
+			\paragraph{Backward propagation method}
+				\begin{enumerate}
+					\item Compute the transitive closure of $\epsilon$ moves: if three states are connected sequentially by spontaneous moves, add all the $\epsilon$ moves that shows all the $\epsilon$ paths.
+					\item Backward propagation of the scanning moves over the epsilon moves: if a path contains a normal scan move AND a spontaneous move, then connect the first and last states of that path with a scan move with the element scanned.
+					\item Add all the states that spontaneously arrive to the final state to the final states set.
+					\item Delete all $\epsilon$ moves left.
+				\end{enumerate}
+				
+			\begin{definition}[Ambiguity]
+				As for the grammars, an automaton is ambiguous if it accepts a string with two different computations. 
+			\end{definition}
 	
-	\section{Automaton to regexp - Brzozowsky McCluskey method}
-		The BMC method allows to generate a regular expression from an automaton that produces the same language.\\
+	\section{Automaton to regexp - Brzozowski McCluskey method}
+		The Brzozowski McCluskey method (BMC) method allows to generate a regular expression from an automaton that produces the same language.\\
 		Assumptions:
 		\begin{itemize}
 			\item unique initial state
