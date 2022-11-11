@@ -67,7 +67,26 @@
 			\item unique final state
 			\item final state has no outgoing arcs
 		\end{itemize}
-		The algorithm is quite simple: at every step, an internal node is removed and substitued by a set of arcs labeled as regular expressions (the additional arcs must not modify the automaton behaviour, obiously. They should compensate with the regexp the introduce the lack of the removed state). The algorithm terminates when only initial state and final state are left, so one only arc with a single regexp, equivalent to the whole automaton.\\
+		%The algorithm is quite simple: at every step, an internal node is removed and substitued by a set of arcs labeled as regular expressions (the additional arcs must not modify the automaton behaviour, obiously. They should compensate with the regexp the introduce the lack of the removed state). The algorithm terminates when only initial state and final state are left, so one only arc with a single regexp, equivalent to the whole automaton.\\
+		Before seeing the algorithm, we need to consider the initial state $i$, the final state $t$ and define internal states.
+		\begin{definition}[Internal states]
+			Every state other than initial state $i$ and final state $t$ is called \textbf{internal}.
+		\end{definition}
+		\begin{algorithm}[Brzozowski McCluskey (BMC) method]
+			\begin{itemize}
+				\item[]
+				\item If initial state $i$ has arcs incoming, add a new initial state with a spontaneous move ($\varepsilon$ move) to the original initial state. Do the
+				similar thing to the final state $t$ if it has others outgoing arcs (note that now the ex-initial node and the ex-final node have become \emph{internal}).
+				\item Until there are internal nodes:
+				\begin{itemize}
+					\item Consider an internal node to be removed;
+					\item Construct an equivalent automaton (called \emph{generalized}), which will be more flexible because it allows the arc labels to be not just
+					terminal characters, but also regular languages (labels can be r.e.).
+				\end{itemize}
+			\end{itemize}
+			Once every node has been eliminated, we are left with only two nodes ($i$,$t$) and one arc. At this point, the label of the arc $i\longrightarrow t$ is the 
+			r.e. of the language.
+		\end{algorithm}
 		Notes for nerdier people: this methods is similar (if not the same) to the one used to pass from an unilinear grammar to a regexp making use of "linear language equations".
 		\begin{figure}[htp]
 			\begin{center}
