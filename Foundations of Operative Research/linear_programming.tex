@@ -32,9 +32,9 @@
                 \item \underline{Parameters} are considered as constants which can be estimated with a sufficient degree of accuracy.
             \end{enumerate}
         \textbf{Note}: LP "sensitivity analysis" allows to evaluate how sensitive an optimal solution is
-        with respect to small changes in the parameter values (see end of Chapter \ref{chap:lp}).
+        with respect to small changes in the parameter values (see at the end of Chapter \ref{chap:lp}).
     \section{LP Problems Forms}
-        The most general for for a linear programming model we can define is:
+        The most general form for a linear programming model we can define is:
         \begin{equation}
             \begin{cases}
                 \text{min/max } z = \underline{c}^t\, \underline{x}\\
@@ -98,7 +98,7 @@
                 A level curve of value $z$ of a function $f$ is the set of points in $\mathbb{R}^n$ where $f$ is constant and takes value $z$.
             \end{definition}
             
-            \begin{definition}
+            \begin{definition}[Hyperplane]
                 \begin{itemize}
                     \item[]
                     \item[] $ H = \{x \in \mathbb{R}^n \,\vert\, \underline{a}^tx = \underline{b}\}$ is an \emph{hyperplane};
@@ -207,9 +207,9 @@
                 \begin{equation}
                     P = 
                     \begin{cases}
-                        \min z = \underline{c}^t x\\
-                        Ax = \underline{b}
-                        x \geq \underline{0}
+                        \min z = \underline{c}^t \underline{x}\\
+                        A\underline{x} = \underline{b}\\
+                        \underline{x} \geq \underline{0}
                     \end{cases}
                 \end{equation}
                 \begin{equation}
@@ -220,7 +220,9 @@
                         x \geq \underline{0}, y \geq \underline{0}
                     \end{cases}
                 \end{equation}
-                obviously, there exists a BFS composed by all elements in \emph{y}. We face two cases now:
+                obviously, there exists a BFS composed by all elements in \emph{y}.\\
+                
+                We face two cases now:
                 \begin{enumerate}
                     \item $v > 0$ the problem is \textit{\textbf{infeasible}}
                     \item if $v = 0$, the problem is feasible and we must manipulate the matrix in order to obtain a BFS that only depends on the original $x_i$ variables

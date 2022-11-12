@@ -3,7 +3,8 @@
         \begin{definition}[Graph]
             A graph is a pair $G = (N, E)$, with $N$ a set of nodes (vertices) and $E \subseteq N x N$ a set of pairs of nodes.
         \end{definition}
-        The intuitive representation is the classic web of interconnected nodes.\\
+        The intuitive representation is the classic web of interconnected nodes.
+
         There are two type of graphs, depending on how is possibile to traverse the edges:
         \begin{enumerate}
             \item \textbf{Undirected} graph $G = (N, E)$ with $E$ set of \textit{edges}, i.e. unordered pairs of nodes, denoted by $\{i, j\}$ for some $i, j \in N$.
@@ -13,10 +14,10 @@
         \begin{definition}[adjacent nodes]
             Two nodes are said to be \textbf{adjacent} if there's an edge connecting them.
         \end{definition}
-        \begin{definition}
+        \begin{definition}[Incident node]
             An edge $e$ is incident in a node $v$ if $v$ is an endpoint of $e$ .
         \end{definition}
-        \begin{definition}
+        \begin{definition}[Degree of node]
             \begin{itemize}
                 \item[]
                 \item[] \textbf{Undirected graphs}: The degree of a node is the number of incident edges
@@ -26,11 +27,11 @@
         \begin{definition}[Path]
             \begin{itemize}
                 \item[]
-                \item[] \textbf{A path} from $v_1 \in N$ to $v_k \in N$ is a sequence of consecutive edges $p =  \{v_1 , v_2 \}, \{v_2 , v_3 \}, . . . , \{v_{k-1} , v_k \}$\\with $\{v_l , v_{l+1}\} \in E$ for $l = 1, . . . , k - 1$.
+                \item[] \textbf{A path} from $v_1 \in N$ to $v_k \in N$ is a sequence of consecutive edges $p =  \{v_1 , v_2 \}, \{v_2 , v_3 \}, . . . , \{v_{k-1} , v_k \}$ with $\{v_l , v_{l+1}\} \in E$ for $l = 1, . . . , k - 1$.
                 \item[] \textbf{A directed path} from $v_1 \in N$ to $v_k \in N$ is a sequence of consecutive arcs $(v_l , v_{l+1}) \in E$, for $l = 1, . . . , k - 1$.
             \end{itemize}
         \end{definition}
-        A \textbf{path} is a subset of the $E$ set composed of consecutive edges (the endpoint of an edge is the "start"point of the next one\footnote{not in a directional way! we are talking about non directed graphs, the two consecutive edges just in fact share an endpoint}) that connects some edges in the graph.
+        A \textbf{path} is a subset of the $E$ set, composed of consecutive edges (the endpoint of an edge is the "start"point of the next one\footnote{not in a directional way! we are talking about non directed graphs, the two consecutive edges just in fact share an endpoint}) that connects some edges in the graph.
         \begin{definition}
             Two nodes are \textbf{connected} if exists a path that links them.
         \end{definition}
@@ -48,18 +49,20 @@
             A graph is \textbf{complete} if for all pair of nodes there's an edge connecting them.
         \end{definition}
         Reasoning on the definition \ref{def:completeGraphDefinition}, we can calculate the upper bounds for the number of edges given the nodes: 
-        \begin{equation}
-            \begin{cases}
-                e \leq \frac{n \times (n-1)}{2} \text{ if undirected} \\
-                e \leq n \times (n-1) \text{ if directed}
-            \end{cases}
-        \end{equation}
-        where intuitively "e" is the number of edges and "n" the number of nodes.\\
+        \begin{property}[Upper bound number of edges]\label{pro:number_of_edges}
+            \begin{equation}
+                \begin{cases}
+                    e \leq \frac{n \times (n-1)}{2}  &\text{if undirected} \\
+                    e \leq n \times (n-1) &\text{if directed}
+                \end{cases}
+            \end{equation}
+        \end{property}
+        where $e$ is the number of edges and $n$ the number of nodes.\\
         Given this two inequalities, we can redefine completeness: 
-        \begin{definition}
-            a graph is complete if and only if $e = \frac{n \times (n - 1)}{2}$ or $e = n \times (n - 1)$ depending on the graph being directed.
+        \begin{definition}[Completeness of graph]
+            A graph is complete if and only if $e = \frac{n \times (n - 1)}{2}$ or $e = n \times (n - 1)$ depending on the graph being directed.
         \end{definition}
-        \begin{definition}
+        \begin{definition}[Cut of graph]
             Given an undirected graph $G = (N, E)$ we can take $S \subset G$ subsets of nodes; we then observe $\delta(S)$ the \textit{cut} induced by S is the subsets of \textbf{edges} that connects S to N \textbackslash S.
         \end{definition}
         \begin{figure}[H]
@@ -67,7 +70,7 @@
             \includegraphics[width = \textwidth]{./images/Cut.png}
         \end{figure}
         Same definition holds for directed graphs, but this time we can distinguish among \textit{outgoing} and \textit{incoming} cuts, wheter the edges are all exiting S or ending in it.
-        \begin{definition}
+        \begin{definition}[Bipartite graph]
             A graph is said to be \textbf{bipartite} if we find a partition $N = (N_1, N_2)$ such as $\delta(N_i) = \emptyset$. So \textbf{the two subsets are disconnected}.
         \end{definition}
         A bit of foreshadowing: if a cut from a partial tree to another portion of the graph holds a minimum cost arc, then \textit{there exists a spanning tree with that arc}. This is called the \textbf{cut property}.
@@ -87,7 +90,7 @@
         \end{figure}
         \textbf{Note}: Here $Q$ is managed as FIFO queue.
         \subsection{Complexity of the reachability algorithm}
-            Refer to \ref{fig:breadthFirstSearchPseudoCode} image.
+            Referring to \ref{fig:breadthFirstSearchPseudoCode} image:
             
             At each iteration of the while loop:
             \begin{enumerate}
@@ -98,30 +101,35 @@
             
             Since each node $u$ is inserted in $Q$ at most once and each arc $(u, v)$ is considered at most once, the overall complexity is
             $O(n + m)$, where $n = |N|$, $m = |A|$.\\
-            \textbf{Note}: For dense graphs, $m = O(n^2)$.
+            \textbf{Note}: For dense graphs, $m = O(n^2)$\footnote{Referring to the property \ref{pro:number_of_edges}}.
     \section{Subgraphs, Trees, Spanning Trees}
-        We call $G' = (N', E')$ a subgraph of $G = (N, E)$ if and only if
-        \begin{equation}
-            \begin{cases}
-                N' \subseteq N \\
-                E' \subseteq E \\
-                \text{all edges inside $E'$ connects nodes in $N'$}
-            \end{cases}
-        \end{equation}
+        \begin{definition}[Subgraph]
+            We call $G' = (N', E')$ a subgraph of $G = (N, E)$ if and only if $N' \subseteq N, E' \subseteq E$ and all edges inside $E'$ connects nodes in $N'$
+        \end{definition}
+        
         \begin{definition}[Tree]
             A tree $G_t = (N', E')$ is a subgraph of a network that's both \textbf{connected} and \textbf{acyclic}.
         \end{definition}
 
-        \textbf{Note}: A tree is \textit{spanning} if it contains all the nodes of the original graph. The \textit{leaves} of a tree are the nodes with unitary degree.
+        \begin{definition}[Spanning Tree]
+            A tree is \emph{spanning} if it contains all the nodes of the original graph.
+        \end{definition}
 
-        Properties of trees:
-        \begin{itemize}
-            \item Every tree with a number of nodes greater than 2 has at least 2 leaves
-            \item All trees have number of arcs equal to number of nodes minus 1
-            \item Every pair of nodes in a tree is connected by a unique path (acyclic connected graph)
-            \item By adding an edge to a tree, we create a \textit{unique cycle}. This also mean that if we now remove \textit{any} of the edges of this new unique cycle we go back to a spanning tree
-            \item A complete Graph with n nodes has exactly $n^{n-2}$ spanning trees
-        \end{itemize}
+        \paragraph*{Properties of trees}
+        \begin{property}
+            Every trees with $n$ nodes has $n-1$ edges.
+        \end{property}
+        \begin{property}
+            Any pair of nodes in a tree is connected via a unique path.
+        \end{property}
+        \begin{property}
+            By adding a new edge to a tree, we create a unique cycle.
+        \end{property}
+        \begin{property}
+            Let $G_T = (N, T)$ be a spanning tree of $G = (N, E)$. Consider an edge $e \notin T$ and the unique cycle $C$ of $T \cup\{e\}$.\\
+            For each edge $f \in C\setminus\{e\}$, the subgraph $T \cup \{e\}\setminus\{f\}$ is also a spanning tree of $G$.
+        \end{property}
+        
 
     \section{Minimum Cost Spanning Tree}
         \textbf{Problem}: find in a graph $G = (N, E)$ with \textit{weighted arcs}\footnote{numerated arcs with a "cost" associated to them} a subgraph that is a tree and has minimum total cost of edges.
@@ -136,17 +144,15 @@
         \subsection{Prim's Algorithm}
             The Prim's algorithm is a simple iterative algorithm to build a spanning tree starting from an initial node.\\
             The algorithm adopts an incremental \emph{greedy}\footnote{A greedy algorithm constructs a feasible solution iteratively by
-            making at each step a \emph{locally optimal} choice, without reconsidering previous choices.}
-            strategy: it adds to the (initially empty) tree the nearest node every time (nearest = connected with the minimum cost outgoing edge) until the tree has the same number of nodes as the original graph.\\
-            The algorithm
-            \begin{itemize}
-                \item Input: Connected $G = (N, E)$ with edge costs.
-                \item Output: Subset $T \subseteq N$ of edges of $G$ such that $G_T$ = $(N, T)$ is a minimum cost spanning tree of $G$.
-            \end{itemize}
-            The Method:
+            making at each step a \emph{locally optimal} choice, without reconsidering previous choices.} strategy.
+
+            The algorithm takes as input a connected graph $G = (N, E)$ with edge costs and gives as output a subset $T \subseteq N$
+            of edges, such that $G_T$ = $(N, T)$ is a minimum cost spanning tree of $G$.
+
+            \paragraph*{The Method}
             \begin{enumerate}
                 \item initialize the output: $S = (N', T)$ where $N'$ is composed only of the initial chosen node and $T = \emptyset$ is the set of edges.
-                \item add to S's nodes the "nearest" node from the ones connected to it, and add to T the lowest-cost edge. Careful: we are watching at \emph{}{all the nodes reachable from the outgoing cut of $S$}, not only the ones from a single node.
+                \item add to S's nodes the \emph{nearest} node from the ones connected to it, and add to T the lowest-cost edge.\\\textbf{Careful}: we are watching at \emph{}{all the nodes reachable from the outgoing cut of $S$}, not only the ones from a single node.
                 \item repeat step 2 until the graph is covered.
             \end{enumerate}
             Prim's algorithm is \emph{exact}\footnote{Formally proven to provide an optimal solution for each instance of a problem}.\\
