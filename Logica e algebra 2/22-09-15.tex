@@ -1,0 +1,102 @@
+\chapter{Algebra}
+    \section{Insiemi}
+        \begin{definition}[Insieme dei numeri naturali]
+            $$\mathbb{N} = \{0,1,2,3,...\}$$
+        \end{definition}
+        \begin{definition}[Insieme dei numeri interi]
+            $$\mathbb{Z} = \{...,-2,-1,0,1,2,...\}$$
+        \end{definition}
+        \begin{definition}[Insieme dei numeri razionali]
+            $$\mathbb{N} = \{\frac{a}{b}: a \in \mathbb{Z}, b \in \mathbb{Z}, b \neq 0 \}$$
+        \end{definition}
+        \begin{definition}[Insieme dei numeri reali]
+            %//TODO $$\mathbb{R} = \{0,1,2,3, ...\}$$
+        \end{definition}
+        \begin{definition}[Insieme dei numeri complessi]
+            $$\mathbb{N} = \{a+ib: a,b \in \mathbb{R}, i^2=-1\}$$
+        \end{definition}
+        \begin{definition}[Prodotto cartesiano]
+            Siano $X,Y$ insiemi, l'insieme $X \times Y:= \{(x,y): x \in X, y \in Y\}$
+        \end{definition}
+        \begin{definition}[L'insieme complementare]
+            $$\mathbb{A}^c := \{x \in X : x \notin A \}$$
+        \end{definition}
+        \begin{definition}[Insieme delle parti]
+            Sia $A \in \mathcal{P}(x)$ l'insieme
+        \end{definition}
+    \section{Funzioni}
+        \begin{definition}[Funzione]
+            Siano $X,Y$ due insiemi, una \emph{funzione da $X \rightarrow Y$} è un sottoinsieme del prodotto cartesiano $$F \subseteq X\times Y$$
+            Tale che:
+            \begin{itemize}
+                \item $(x,y_1) \in F, (x,y_2) \in F \Rightarrow y_1 = y_2, \forall x \in X, y_1,y_2 \in Y$
+                \item $x \in X \Rightarrow \exists \ y \in Y$ tale che $(x,y) \in F$ 
+            \end{itemize}
+        \end{definition}
+        \begin{definition}[Immagine di una funzione]
+            L'insieme dei punti di $Y$ tali che $\{f(x):x \in X\} \subseteq Y$, viene indicata con $Im(f)$
+        \end{definition}
+        \begin{definition}[Funzione identità]
+            La funzione $Id_x : X \rightarrow X$ tale che $Id_x(x) = x, \forall x \in X$ la chiamo funzione identità
+        \end{definition}
+        \begin{definition}[Funzione iniettiva]
+            Una funzione $f : X \rightarrow Y$ è \emph{iniettiva} se $$f(x)=f(y) \Rightarrow x=y$$ $\forall x,y \in X$
+        \end{definition}
+        \begin{definition}[Funzione suriettiva]
+            Una funzione $f : X \rightarrow Y$ è \emph{suriettiva} se $$Im(f)=Y$$ 
+        \end{definition}
+        \begin{definition}[Funzione biunivoca]
+            Una funzione di dice biunivoca se è sia iniettiva sia suriettiva
+        \end{definition}
+        \subsection{Funzioni composte}
+            Siano $f: X \rightarrow Y$ e $g: Y \rightarrow Z$ due funzioni
+            \begin{definition}
+                La funzione $g \cdot f : X \rightarrow Z$ è detta \emph{funzione composta di $g$ con $f$}: $$(g \cdot f)(x) = g(f(x)), \forall x \in X$$
+            \end{definition}
+            \begin{definition}
+                Una funzione $f: X \rightarrow Y$ è invertibile se esiste $g: Y \rightarrow X$ tale che:
+                $$f \cdot g = Id_y$$
+                $$g\cdot f = Id_x$$
+                la funzione g è detta \emph{inversa} di $f$
+            \end{definition}
+            \begin{proposition}
+                Una funzione $f: X \rightarrow Y$ è invertibile se e solo se è \emph{biunivoca}
+            \end{proposition}
+        \section{Operazioni}
+            \begin{definition}
+                Una funzione $f: X\times X \rightarrow X$ è detta \emph{operazione su $X$}.
+            \end{definition}
+            \textbf{Note}. invece di $f(x,y)$ scriveremo $xy$
+            \begin{definition}[Associatività]
+                Un operazione su $X$ è \emph{associativa} se $x(yz) = (xy)z, \forall x,y,z \in X$
+            \end{definition}
+            \begin{definition}[Commutatività]
+                Un operazione su $X$ è \emph{commutativa} se $xy = yx, \forall x,y \in X$
+            \end{definition}
+            \begin{definition}[Elemento neutro]
+                Un elemento $e \in X$ tale che $ex=xe=x, \forall x \in X$ è detto \emph{neutro}.
+            \end{definition}
+            \begin{property}
+                L'identità è unica; se $e,e^1 \in X$ sono due identità allora $ee^1=e=e^1$
+            \end{property}
+            \begin{definition}[Elemento invertibile]
+                Sia $X$ un monoide (definizione \ref{def:monoide}), un elemento $x \in X$ è \emph{invertibile} se esiste un elemento $y \in X$
+                tale che $x*y=y*x=e$, indichiamo con $x^-1$ il suo inverso.
+            \end{definition}
+            \begin{property}
+                L'identità è sempre invertibile e il suo inverso è l'identità stessa.
+            \end{property}
+        \section{Strutture algebriche}
+            \begin{definition}[Monoide]\label{def:monoide}
+                Un insieme $X$ con un'operazione associativa $*$ e un elemento neutro $u$ è detto \emph{monoide} $(A,*,u)$
+            \end{definition}
+            \begin{definition}[Gruppo]
+                Sia $(A,*,u)$ un monoide tale che ogni elemento di $A$ ammetta inverso, cioè per ogni $a \in A$ tale che $a^-1*a = u$. Allora $(A,*,u)$ è un gruppo.
+                Un monoide i cui elementi sono tutti invertibili è chiamato \emph{gruppo}
+            \end{definition}
+            \begin{definition}[Gruppo abeliano]
+                Se l'operazione di un gruppo è \emph{commutativa} allora il gruppo è detto \emph{abeliano}
+            \end{definition}
+            \begin{definition}[gruppo banale]
+                un gruppo contentente solo l'identità (neutro) è detto \emph{gruppo banale}
+            \end{definition}
