@@ -1,18 +1,20 @@
-\chapter{Linear Programming}
+\chapter{Linear Programming}\label{chap:lp}
     \section{Linear Programming Problems}
         A linear programming (LP) problem is an \textit{optimization} problem in the form
-        \begin{equation}
+        \begin{equation}\label{eq:lp_problem}
             \begin{cases}
                 \text{min } f(\underline{x})\\
                 \text{s.t. } \underline{x} \in X \subseteq \mathbb{R}^n
             \end{cases}
         \end{equation}
-        where
+        where:
         \begin{itemize}
             \item $f: X \,\rightarrow\, \mathbb{R}$ is a \textit{linear function}
             \item the \textit{feasible region} $X \subseteq \mathbb{R}^n$ is a combination of linear functions.
         \end{itemize}
-        We then define the \textit{optimal solution} of a linear programming problem as $\{\underline{\bar{x}}\, \vert\, f(\underline{\bar{x}}) \leq f(\underline{x})\}$ for all other vectors in the feasible region.\\
+        \begin{definition}
+            $\underline{x}^* \in \mathbb{R}^n$ is an \emph{optimal solution} of the LP \eqref{eq:lp_problem} if $f(\underline{x}^*) \leq f(\underline{x}), \forall \underline{x} \in X$
+        \end{definition}
         LP problems can also be formulated with matrixes:
         \begin{equation}
             \begin{cases}
@@ -26,10 +28,11 @@
             LP models and the algorithms operating on them work under several assumptions:
             \begin{enumerate}
                 \item \underline{Linearity} of the objective function and constraints
-                \item \underline{Divisibility} of the variables: there are no "undivisible units"
-                \item \underline{Constant parameters} in the model. Also, accurate parameters
+                \item \underline{Divisibility}: The variables can take fractional (rational) values.
+                \item \underline{Parameters} are considered as constants which can be estimated with a sufficient degree of accuracy.
             \end{enumerate}
-
+        \textbf{Note}: LP "sensitivity analysis" allows to evaluate how sensitive an optimal solution is
+        with respect to small changes in the parameter values (see end of Chapter \ref{chap:lp}).
     \section{LP Problems Forms}
         The most general for for a linear programming model we can define is:
         \begin{equation}
@@ -38,20 +41,23 @@
                 A_1\underline{x} \geq \underline{b_1}\\
                 A_2\underline{x} \leq \underline{b_2}\\
                 A_3\underline{x} = \underline{b_3}\\
-                x_j \geq 0 \text{ for some \emph{j}}
+                x_j \geq 0 &\text{for some \emph{j}}\\
+                x_j \text{ free} & \text{for others j}
             \end{cases}
         \end{equation}
         This form is usually referred to as \textit{canonical form}.
 
         \paragraph{Standard Form}
             The standard form is the "most restrictive" one, and also one of the easiest to work with
-            \begin{equation}
-                \begin{cases}
-                    \text{min } z = \underline{c}^t\, \underline{x}\\
-                    A\underline{x} = \underline{b}\\
-                    \underline{x} \geq \underline{0} 
-                \end{cases}
-            \end{equation}
+            \begin{definition}[Standard form]
+                \begin{equation}
+                    \begin{cases}
+                        \text{min } z = \underline{c}^t\, \underline{x}\\
+                        A\underline{x} = \underline{b} & \text{only \emph{equality constraints}}\\
+                        \underline{x} \geq \underline{0} & \text{all \emph{nonnegative} variables}
+                    \end{cases}
+                \end{equation}
+            \end{definition}
             In this form, all constraints must be equalities, and all variables must be non negative.\\
             \textbf{Pay attention}: in the original general model, we have the non-negativity constraints only on \underline{some} variables.
 
@@ -59,7 +65,7 @@
                 We can easily transform a general formulation of a LP problem in standard one by applying these simple transformations:
                 \begin{itemize}
                     \item $\max(\underline{c}^t\underline{x}) = -\min(-\underline{c}^t\underline{x})$ to change objective function
-                    \item all inequalities are transformed adding a "slack variable":
+                    \item all inequalities are transformed adding a \emph{slack} variable:
                         \begin{equation}
                             \underline{a}^t\underline{x} \leq \underline{b} \Rightarrow
                                 \begin{cases}
@@ -67,7 +73,7 @@
                                     s \geq 0
                                 \end{cases}
                         \end{equation}
-                        or a surplus variable in case it's a $\geq$ inequality
+                        or a \emph{surplus} variable in case it's a $\geq$ inequality
                         \begin{equation}
                             \underline{a}^t\underline{x} \geq \underline{b} \Rightarrow
                                 \begin{cases}
@@ -87,31 +93,57 @@
                 \end{itemize}
 
     \section{Geometry of a LP Problem}
-        We assume known the notions of "level curve" for a function (a set of points where a multi variable function is constant) and gradient\footnote{Also its geometric interpretation as the \textit{direction of maximum growth}.}.
-
         \subsection{Feasible Region as an Hyperplane}
-            By definition, $\{x \in \mathbb{R}^n \,\vert\, \underline{a}^tx = \underline{b}\}$ is an hyperplane, while $\{x \in \mathbb{R}^n \,\vert\, \underline{a}^tx \geq \underline{b}\}$ an affine half space, defined as a combination of all inequality constraints.\\
+            \begin{definition}[Level curve]
+                A level curve of value $z$ of a function $f$ is the set of points in $\mathbb{R}^n$ where $f$ is constant and takes value $z$.
+            \end{definition}
+            
+            \begin{definition}
+                \begin{itemize}
+                    \item[]
+                    \item[] $ H = \{x \in \mathbb{R}^n \,\vert\, \underline{a}^tx = \underline{b}\}$ is an \emph{hyperplane};
+                    \item[] $H^- = \{x \in \mathbb{R}^n \,\vert\, \underline{a}^tx \leq \underline{b}\}$ is an \emph{affine half-space}.
+                \end{itemize}
+           \end{definition}
+           \textbf{Note}: Each inequality constraint ($a^Tx \leq b$) defines an affine half-space in the variable space.\\
+
             So, the \textit{feasible region} of an LP problem, defined as \textit{a region delimited by hyperplanes}, is called a \textit{polyhedron}. A polyhedron (so a polygon in two dimension, a 3D figure in three dimension and so on) is a \underline{convex} set of $\mathbb{R}$ as generated by convex sets.
             \begin{figure}[H]
                 \centering
-                \includegraphics{./images/Polyhedron1.png} %% perfect image size woah
+                \includegraphics{./images/Polyhedron1.png}
             \end{figure}
             \begin{definition}[Convex combination]
                 We call a convex combination a linear combination where all coefficients are non negative and sum to 1.
             \end{definition}
             \begin{definition}[Vertex]
-                We define a vertex of a polyhedron as a point in the ph that cannot be expressed as the convex combination of two other dintinct points in the ph.
+                A \emph{vertex} of $P$ is a point of $P$ which cannot be expressed as a convex combination of two other distinct points of $P$.    
             \end{definition}
-            Don't worry if you're confused: all "polyhedra theory" has a lot of dark spots\footnote{check out they wikipedia page}. Non-empty polyhedra representing an LP problem (in both canonical or standard form) \textbf{has a finite number of vertices}, greater or equal to one\footnote{a polyhedron with only one vertex is a quarter of plane, for example}.\\
-            We can represent \textit{every point of a polyhedron} as a convex combination of its \textit{vertices} plus (if needed) a vector that never ends inside the polyhedron (for unbounded polyhedron).
+            Don't worry if you're confused: all "polyhedra theory" has a lot of dark spots\footnote{check out they wikipedia page}.
+            \begin{property}
+                A non-empty polyhedron $P = \{\underline{x} \in \mathbb{R}^n : A\underline{x} = b, x \geq 0\}$ (in standard form) or
+                $P = \{\underline{x} \in R^n : A\underline{x} \geq b, x \geq 0\}$ (in canonical form) has a finite number ($\geq$ 1) of vertices.
+            \end {property}
+            \textbf{Example}: a polyhedron with only one vertex is a quarter of plane, for example.\\
+
+           
+            \begin{theorem}[Representation of polyhedra - Weyl-Minkowski]
+                Every point $x$ of a polyhedron $P$ can be expressed as a convex combination of its vertices $x^1 , . . . , x^k$ plus (if needed) an unbounded feasible direction $d$ of $P$:
+                $$ \underline{x} = \lambda_1 \underline{x}^1 + ... + \lambda_k \underline{x}^k + d$$
+                where the multipliers $\lambda_i \geq 0$ satisfy $\lambda_1 + ... + \lambda_k = 1$.
+            \end{theorem}
+            So, we can represent \textit{every point of a polyhedron} as a convex combination of its \textit{vertices} plus (if needed) a vector that never ends inside the polyhedron (for unbounded polyhedron).
+
             \begin{figure}[H]
                 \centering
                 \includegraphics{./images/Polyhedron2.png}
                 \caption{Every point of this unbounded polyhedron can be represented as a combination of $x_1$ and $x_2$ and $\underline{d}$, where $\underline{d}$ is called \textit{unbounded feasible direction} of the polyhedron.} 
             \end{figure}
-
+            Only for completeness, we can define bounded polyhedron as:
+            \begin{definition}[Polytope]
+                A polytope is a bounded polyhedron, that is, it has the only unbounded feasible direction $d = 0$.
+            \end{definition}
             \subsection{Fundamental Theorem of Linear Programming}
-            \begin{theorem}[Fundamental theorem of Linear Programming]
+                \begin{theorem}[Fundamental theorem of Linear Programming]
                 Consider a LP $min\{c^T x : x \in P\}$, where $P \subseteq R^n$ is a non-empty polyhedron of the feasible solutions (in standard or canonical form).\\
                 Then either:
                 \begin{itemize}
@@ -119,9 +151,10 @@
                     \item the value of the objective function is unbounded below on $P$.
                 \end{itemize}
                
-            \end{theorem}
-            This foggy theorem has a simple intuitive interpretation, in my mind: the feasible region is represent as a subset of $\mathbb{R}$ and reprents \textit{all the solutions of the system of constraints}. To minimize the objective function, we must "move around" this subspace in a well-defined direction, that is the opposite of the gradient of the objective function itself. Being this a \textit{straight line}, we will eventually hit a boundary of the polyhedron. We could then "slide" onto it until we are "stuck" and every move we make is not anymore bettering the solution. This can happen \textit{only} on the intersection of boundaries (so the vertices), because it's the only point where a "direction" to better the solution finds his boundary\footnote{I find this mumbo jumbo more clear than the slides definition, ok? In my head it's clear this way.}.\\
-            This theorem allows us to do determine a priori which are our solutions, just looking at the way the feasible region is defined. Also, being \textit{finite}, we can cycle through the solutions to "easily" find the right one.
+                \end{theorem}
+                This foggy theorem has a simple intuitive interpretation, in my mind: the feasible region is represent as a subset of $\mathbb{R}$ and reprents \textit{all the solutions of the system of constraints}. To minimize the objective function, we must "move around" this subspace in a well-defined direction, that is the opposite of the gradient of the objective function itself. Being this a \textit{straight line}, we will eventually hit a boundary of the polyhedron. We could then "slide" onto it until we are "stuck" and every move we make is not anymore bettering the solution. This can happen \textit{only} on the intersection of boundaries (so the vertices), because it's the only point where a "direction" to better the solution finds his boundary\footnote{I find this mumbo jumbo more clear than the slides definition, ok? In my head it's clear this way.}.\\
+                
+                This theorem allows us to do determine a priori which are our solutions, just looking at the way the feasible region is defined. Also, being \textit{finite}, we can cycle through the solutions to "easily" find the right one.
 
     \section{Algebraic Characterization of the LP Problem}
         We've seen we can exploit the geometry of the feasible region to find the solutions. We need an algebraic formulation to do that algorithmically.
