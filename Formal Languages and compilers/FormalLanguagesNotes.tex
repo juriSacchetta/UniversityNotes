@@ -1,4 +1,5 @@
 \documentclass[a4paper]{book}
+\usepackage{imakeidx}
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -12,6 +13,7 @@
 \usepackage{float}
 \usepackage{array}
 \usepackage{soul}
+\makeindex[columns=2, title = Alphabetical Index]
 
 \newtheorem{theorem}{Theorem}[chapter]
 \newtheorem{corollary}{Corollary}[theorem]
@@ -29,4 +31,6 @@
 	\input{fsa/fsa}
 	\input{pushdown_automata_parsing/pushdown_automata_parsing}
 	\input{translation_static_analysis/translation_static_analysis}
+	\input{practical_exercises/practical_exercises}
+	\printindex
 \end{document}

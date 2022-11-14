@@ -42,14 +42,14 @@
 			\mbox{ and } \forall \mbox{ symbol } a\in \Sigma \mbox{ let } \delta \left(q_{err},a\right)=q_{err}
 		\end{align*}
 	\end{definition}
-	\section{Clean automaton}
+	\section{Clean automaton}\label{sect:cleanautom}
 		A state can be useful or useless. A state is useful if it is reachable from an initiale state and a final state can be reached from it (condition of accessibility and post-accessibility). Otherwise it's useless.
 		\begin{property}
 			For every finite automaton there exists an equivalent clean automaton.
 		\end{property}
 		To clean an automaton it can be easily flooded starting from the initial state then starting from the final state(s); all states not flooded at the end are useless.
 	
-		\begin{definition}[Undistinguishable states]
+		\begin{definition}[Undistinguishable states]\label{def:undiststates}
 			Two state are undistinguishable if applying the same input to the both reach a final state or both do not.
 		\end{definition}
 		 This relation looks like it does not provide a tool to effectively 
