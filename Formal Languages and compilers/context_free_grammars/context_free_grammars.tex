@@ -181,7 +181,7 @@
 			admitted operation is the union of sub-languages.
 			Let $n = \lvert V \rvert$ be the number of nonterminals of grammar $G$. Each nonterminal $A_i$ is defined by a set of alternatives:
 
-			$$Ai → a A_1 \vert b A_1 \vert \cdots \vert a A_n \vert b A_n \vert \cdots \vert A_1 \vert \cdots \vert A_n \vert \varepsilon$$
+			$$Ai \longrightarrow a A_1 \vert b A_1 \vert \cdots \vert a A_n \vert b A_n \vert \cdots \vert A_1 \vert \cdots \vert A_n \vert \varepsilon$$
 			some of which may also be missing. We write the corresponding linear equation:
 			$$L_{A_i} = a L_{A_1} \bigcup b L_{A_1} \bigcup \cdots \bigcup a L_{A_n} \bigcup b L_{A_n} \bigcup \cdots\bigcup L_{A_1} \bigcup \cdots \bigcup L_{A_n} \bigcup \varepsilon$$
 			The last term disappears if the rule does not contain the alternative $A_i \rightarrow\varepsilon$.
