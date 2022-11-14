@@ -43,14 +43,12 @@
 		\end{align*}
 	\end{definition}
 	\section{Clean automaton}
-		A state can be useful or useless. A state is useful if it is reachable from an initiale state and a final state can be reached from it (condition of accessibility and post-accessibility). Otherwise it's useless.\\
-		For every finite automaton there exists an equivalent clean automaton.\\
+		A state can be useful or useless. A state is useful if it is reachable from an initiale state and a final state can be reached from it (condition of accessibility and post-accessibility). Otherwise it's useless.
+		\begin{property}
+			For every finite automaton there exists an equivalent clean automaton.
+		\end{property}
 		To clean an automaton it can be easily flooded starting from the initial state then starting from the final state(s); all states not flooded at the end are useless.
-	\begin{property}[Minimal automaton - uniqueness property]
-		For every finite state language, the finite recognizer is minimal w.r.t. the number of states exists and is unique (apart from a renaming of states)
-	\end{property}
-		This property enables to represent a whole class of equivalent automata with a single one, that moreover is \emph{minimal}.\\
-		An algorithm to reduce automaton to their minimal equivalent is based on the equivalence relation between states called \emph{distinguishablity}.
+	
 		\begin{definition}[Undistinguishable states]
 			Two state are undistinguishable if applying the same input to the both reach a final state or both do not.
 		\end{definition}
@@ -61,7 +59,18 @@
 			\item If a state is final is distinguishable from every other non final state;
 			\item Two states are distinguishable \textbf{if their next state is distinguishable}.
 		\end{itemize}
-	
+		\textbf{Note}: State $p$ and state $q$ are different (and distinguishable) if the set of labels of the arcs outgoing from $p$ and $q$ are different.\\
+
+		\emph{Indistinguishability} is a binary \textbf{relation}; it is \textbf{reflexive}, \textbf{symmetric}, and \textbf{transitive} hence it is an \textbf{equivalence relation}.
+
+		\subsection{Minimization}
+			States of the minimal automaton $M'$: the \emph{equivalence classes of the indistinguishability relation} transition function, arcs among equivalence classes:
+			$$[\ldots,p_r, \ldots] \overset{b}{\longrightarrow} [\ldots, q_s, \ldots] \Rightarrow [p_r] \overset{b}{\longrightarrow} [q_s]$$
+			\begin{property}[Minimal automaton - uniqueness property]
+				For every finite state language, the finite recognizer is minimal w.r.t. the number of states exists and is unique (apart from a renaming of states)
+			\end{property}
+			This property enables to represent a whole class of equivalent automata with a single one, that moreover is \emph{minimal}.\\
+			An algorithm to reduce automaton to their minimal equivalent is based on the equivalence relation between states called \emph{distinguishablity}.	
 	\section{Nondeterministic Automata}
 		As a unilinear grammar rule can contain multiple alternatives for the same nonterminal, a FSA can have multiple states associated to a input symbol.
 		Moreover, an automaton could also have spontaneous moves, so arcs that are not associated with any kind of input, besides the empty string.
