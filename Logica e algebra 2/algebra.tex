@@ -1,0 +1,240 @@
+\chapter{Algebra}
+    \section{Insiemi}
+        \begin{definition}[Insieme dei numeri naturali]
+            $$\mathbb{N} = \{0,1,2,3,...\}$$
+        \end{definition}
+        \begin{definition}[Insieme dei numeri interi]
+            $$\mathbb{Z} = \{...,-2,-1,0,1,2,...\}$$
+        \end{definition}
+        \begin{definition}[Insieme dei numeri razionali]
+            $$\mathbb{N} = \{\frac{a}{b}: a \in \mathbb{Z}, b \in \mathbb{Z}, b \neq 0 \}$$
+        \end{definition}
+        \begin{definition}[Insieme dei numeri reali]
+            %//TODO $$\mathbb{R} = \{0,1,2,3, ...\}$$
+        \end{definition}
+        \begin{definition}[Insieme dei numeri complessi]
+            $$\mathbb{N} = \{a+ib: a,b \in \mathbb{R}, i^2=-1\}$$
+        \end{definition}
+        \begin{definition}[Prodotto cartesiano]
+            Siano $X,Y$ insiemi, l'insieme $X \times Y:= \{(x,y): x \in X, y \in Y\}$
+        \end{definition}
+        \begin{definition}[L'insieme complementare]
+            $$\mathbb{A}^c := \{x \in X : x \notin A \}$$
+        \end{definition}
+        \begin{definition}[Insieme delle parti]
+            Sia $A \in \mathcal{P}(x)$ l'insieme
+        \end{definition}
+
+        \subsection{Relazioni sugli insiemi}
+            \begin{definition}
+                Sia $X$ un insieme. Un sottoinsieme $R \subseteq X \times X$ si dice \emph{relazione su $X$}
+            \end{definition}
+            \begin{definition}[Relazione di equivalenza]
+                Una relazione $R \subseteq X \times X$ è detta \emph{relazione di equivalenza} se soddisfa le seguenti propietà:
+            \end{definition}
+            \begin{propertyOfDefinition}[Riflessività]
+                $(x,x) \in R, \forall x \in X$
+            \end{propertyOfDefinition}
+            \begin{propertyOfDefinition}[Simmetria]
+                $(x,y) \in R \Rightarrow (y,x) \in R, \forall x,y$
+            \end{propertyOfDefinition}
+            \begin{propertyOfDefinition}[Transività]
+                $(x,y) \in R, (y,z) \in R \Rightarrow (x,z) \in R, \forall x,y,z \in X$
+            \end{propertyOfDefinition}
+            \textbf{Nota}: se $R$ è una relazione di equivalenza su $X$ e $(x,y) \in R$, lo indichiamo con $x \sim y$ e viene letto \emph{$x$ è equivalente a $y$}
+            \begin{definition}[Classe di equivalenza]
+                Sia $x \in X$ un insieme e $R$ una relazione di equivalenza su $X$. L'insieme: $$[x] := \{y \in X : x \sim y\}$$ è detto \emph{classe di equivalenza di $x$}.
+            \end{definition}
+            \begin{definition}[Insieme quoziente]
+                L'insieme delle classi di equivalenza di un insieme rispetto a una relazione di equivalenza $R$ è detto \emph{insieme quoziente}
+                $$X/\sim := \{[x]: x \in X\}$$
+            \end{definition}
+            \begin{definition}[Proiezione canonica]
+                La funzione:
+                $$\mathbb{\pi} =
+                \begin{cases}
+                    X \rightarrow X/\sim\\
+                    x \rightarrow [x]
+                \end{cases}$$
+                è detta \emph{proiezione canonica}
+            \end{definition}
+            \begin{corollary}
+                La proiezione canonica $\pi : A \rightarrow A/\sim$ non è una funzione iniettiva, tranne nel caso che la relazione di equivalenza su $A$ sia la relazione diagonale (ogni elemento di $A$ è in relazione solo con se stesso)
+            \end{corollary}
+            \begin{corollary}
+                La proiezione canonica $\pi : A \rightarrow A/\sim$ è una funzione suriettiva.
+            \end{corollary}
+            \begin{property}
+                Siano $x,y \in X$, allora se $x \sim y$ abbiamo che $[x] = [y]$. Se $x \nsim y$ abbiamo che $[x] \cap [y] = \emptyset$. Quindi $X/\sim$ è una \emph{partizione} di $X$. 
+            \end{property}
+    \section{Definizioni delle strutture}
+        \begin{definition}[Monoide]\label{def:monoide}
+            Un insieme $X$ con un'operazione associativa $*$ e un elemento neutro $u$ è detto \emph{monoide} $(A,*,u)$
+        \end{definition}
+        \begin{definition}[Gruppo]
+            Sia $(A,*,u)$ un monoide tale che ogni elemento di $A$ ammetta inverso, cioè per ogni $a \in A$ tale che $a^{-1}*a = u$. Allora $(A,*,u)$ è un gruppo.\\
+            Un monoide i cui elementi sono tutti invertibili è chiamato \emph{gruppo}
+        \end{definition}
+        \begin{definition}[Gruppo abeliano]
+            Se l'operazione di un gruppo è \emph{commutativa} allora il gruppo è detto \emph{abeliano}
+        \end{definition}
+        \begin{definition}[Gruppo banale]
+            Un gruppo contentente solo l'identità (neutro) è detto \emph{gruppo banale}
+        \end{definition}
+        \begin{definition}[Sottomonoide/Sottogruppo]
+            Sia $X$ un monoide e $Y$ un sottoinsieme $Y \subseteq X$ tale che $u \in Y$, $Y$ è detto \emph{sottomonoide}.\\
+            Analogamente definiamo il \emph{sottogruppo}.
+        \end{definition}
+        \begin{definition}[Sottomonoide generato]
+            Sia $X$ un monoide e $S \subseteq X$ un sottoinsieme. Definiamo \textlangle S \textrangle \ \emph{il sottomonoide di $X$ generato da $S$}
+            come l'intersezione di tutti i sottomonoidi di $X$ che contengono $S$.\\
+            Analogamente definiamo il \emph{il sottogruppo generato da $S \subseteq X$}.
+        \end{definition}
+        \begin{definition}[Prodotto diretto di monoidi]\label{def:prodotto_diretto_monoidi}
+            Siano $M_1, M_2$ con identità $e_1,e_2$ rispettivamente.
+            Si definisce \emph{prodotto diretto di $M_1 \times M_2$} con l'operazione $(a_1,b_1)(a_2,b_2)=(a_1a_2, b_1b_2).$
+            L'identità è la coppia $(e_1,e_2)$
+        \end{definition}
+        \begin{definition}[Prodotto diretto di gruppi]
+            Analogamente alla definizione \ref{def:prodotto_diretto_monoidi} definiamo il \emph{prodotto diretto di gruppi}\\
+            L'inverso di una coppia $(a,b) \in G_1 \times G_2$ è la coppia $(a^{-1}, b^{-1})$.
+        \end{definition}
+
+        \begin{definition}
+            Sia $G$ un gruppo abeliano, indiciamo con il segno $+$ l'operazione commutativa, definiamo la seguente operazione $$G/H : [g_1] + [g_2] := [g_1 + g_2]$$
+
+        \end{definition}
+    
+    \section{Funzioni}
+        \begin{definition}[Funzione]
+            Siano $X,Y$ due insiemi, una \emph{funzione da $X \rightarrow Y$} è un sottoinsieme del prodotto cartesiano $$F \subseteq X\times Y$$
+            Tale che:
+            \begin{itemize}
+                \item $(x,y_1) \in F, (x,y_2) \in F \Rightarrow y_1 = y_2, \forall x \in X, y_1,y_2 \in Y$
+                \item $x \in X \Rightarrow \exists \ y \in Y$ tale che $(x,y) \in F$ 
+            \end{itemize}
+        \end{definition}
+        \begin{definition}[Immagine di una funzione]
+            L'insieme dei punti di $Y$ tali che $\{f(x):x \in X\} \subseteq Y$, viene indicata con $Im(f)$
+        \end{definition}
+        \begin{definition}[Funzione identità]
+            La funzione $Id_x : X \rightarrow X$ tale che $Id_x(x) = x, \forall x \in X$ viene chiamata funzione identità
+        \end{definition}
+        \begin{definition}[Funzione iniettiva]
+            Una funzione $f : X \rightarrow Y$ è \emph{iniettiva} se $$f(x)=f(y) \Rightarrow x=y$$ $\forall x,y \in X$
+        \end{definition}
+        \begin{definition}[Funzione suriettiva]
+            Una funzione $f : X \rightarrow Y$ è \emph{suriettiva} se $$Im(f)=Y$$ 
+        \end{definition}
+        \begin{definition}[Funzione biunivoca]
+            Una funzione di dice biunivoca se è sia iniettiva sia suriettiva
+        \end{definition}
+        \subsection{Funzioni composte}
+            Siano $f: X \rightarrow Y$ e $g: Y \rightarrow Z$ due funzioni
+            \begin{definition}
+                La funzione $g \cdot f : X \rightarrow Z$ è detta \emph{funzione composta di $g$ con $f$}: $$(g \cdot f)(x) = g(f(x)), \forall x \in X$$
+            \end{definition}
+            \begin{definition}
+                Una funzione $f: X \rightarrow Y$ è invertibile se esiste $g: Y \rightarrow X$ tale che:
+                $$f \cdot g = Id_y$$
+                $$g\cdot f = Id_x$$
+                la funzione g è detta \emph{inversa} di $f$
+            \end{definition}
+            
+            \textbf{Note}: Una funzione $f: X \rightarrow Y$ è invertibile se e solo se è \emph{biunivoca}
+            
+        \subsection{Operazioni}
+            \begin{definition}
+                Una funzione $f: X\times X \rightarrow X$ è detta \emph{operazione su $X$}.
+            \end{definition}
+            \textbf{Note}. invece di $f(x,y)$ scriveremo $xy$
+            \begin{definition}[Associatività]
+                Un operazione su $X$ è \emph{associativa} se $x(yz) = (xy)z, \forall x,y,z \in X$
+            \end{definition}
+            \begin{definition}[Commutatività]
+                Un operazione su $X$ è \emph{commutativa} se $xy = yx, \forall x,y \in X$
+            \end{definition}
+            \begin{definition}[Elemento neutro]
+                Un elemento $e \in X$ tale che $ex=xe=x, \forall x \in X$ è detto \emph{neutro}.
+            \end{definition}
+            \begin{corollary}
+                L'identità è unica; se $e,e^1 \in X$ sono due identità allora $ee^1=e=e^1$
+            \end{corollary}
+            \begin{definition}[Elemento invertibile]
+                Sia $X$ un monoide (definizione \ref{def:monoide}), un elemento $x \in X$ è \emph{invertibile} se esiste un elemento $y \in X$
+                tale che $x*y=y*x=e$, indichiamo con $x^-1$ il suo inverso.
+            \end{definition}
+            \begin{corollary}
+                L'identità è sempre invertibile e il suo inverso è l'identità stessa.
+            \end{corollary}
+    
+    
+    \section{Morfismi}
+        \begin{definition}[Morsifmo di monoidi]\label{def:morfismoDiMonoidi}
+            Siano $M_1, M_2$ monoidi con identità rispettivamente $e_1, e_2$.\\
+            Una funzione $f: M_1 \rightarrow M_2$ è un \emph{morsifmo di monoidi} se:
+            $$f(e_1) = e_2$$
+            $$f(xy) = f(x)f(y), \forall x,y \in M_1$$
+        \end{definition}
+        \begin{definition}[Nucleo di un morfismo]
+            Il \emph{nucleo} di un morfismo $f:M_1 \rightarrow M_2$ è il sottogruppo
+            $$Ker(f):= \{x \in M_1 : f(x) = e_2\} \subseteq M_1$$
+        \end{definition}
+        Ovvero è l'insieme dei punti del insieme di partenza che vengono mappati tramite $f$ nel neutro del insieme di arrivo.\\
+        In uno spazio vettoriale verrebbero mappati nel origine.\\
+        \begin{property}
+            L'immagine $Im(f)$di un morfismo $f: M_1 \rightarrow M_2$ è un sottomonoide di $M_2$.
+        \end{property}
+        \textbf{Nota}: Tenendo conto che $f$ è un morfismo di monoidi (definizione \ref{def:morfismoDiMonoidi}) l'identità del monoide di partenza ($M_1$) viene mappata nel monoide d'arrivo ($M_2$).
+        Quindi $Im(f)$ contiene l'identità di $M_2$, è quindi un monoide, o più precisamente, un sottomonoide essendo $Im(f) \subseteq M_2$ 
+        
+        \begin{property}
+            Un \emph{morfismo di gruppi} $f:G_1 \rightarrow G_2$ è un morfismo di monoidi.
+        \end{property}
+        \textbf{Dim.} Poiché $e_2 = f(e_1) = f(x^{-1}) = f(x)f(x^{-1})$, si ha che $[f(x)]^{-1} = f(x^{-1})$
+        
+        Il nucleo $Ker(f)$ è un sottogruppo di $G_1$ e l'immagine $Im(f)$ è un sottogruppo di $G_2$
+        \begin{definition}[Isomorfismo di monoidi]
+            Un \emph{isomorfismo di monoidi} è un morfismo biunivoco tale che il morfismo inverso sia un morfismo. (Il risultato è valido anche per i gruppi)
+        \end{definition}
+
+        \begin{theorem}
+            Sia $f:M_1 \rightarrow M_2$ un morfismo di monoidi. Se $f$ è biunivoco, allora è un \emph{isomorfismo di monoidi}.
+        \end{theorem}
+        \begin{dimos}
+            Al fine di dimostrare il teorema dobbiamo garantire che la funzione inversa $f^{-1}: M_2 \rightarrow M_1$ è un morfismo di monoidi.\\
+            \begin{itemize}
+                \item $f(e_1) = e_2$, allora $f^{-1}(e_2) = e_1$
+                \item Siano $x_2,y_2 \in M_2$ allora esistono $x_1,y_1 \in M_1$ tali che $f(x_1) = x_2, f(x_1) = x_2$. Quindi: $$f^{-1}(x_2y_2) = f^{-1}(f(x_2)f(y_2)) = f^{-1}(f(x_1y_1)) = x_1y_1 = f^{-1}(x_2)f^{-1}(y_2)$$
+            \end{itemize}
+        \end{dimos}
+
+        \begin{theorem}
+            Sia $f: G_1 \rightarrow G_2$ un morfismo di gruppi. Allora $f$ è iniettivo se e solo se $Ker(f) = \{e_1\}$.
+        \end{theorem}
+
+        \begin{dimos}
+            Sia $f$ iniettiva e sia $x \in Ker(f)$.\\
+            Allora $f(x) = e_2$ se $x=e_1$ per l'iniettività di $f$.\\
+            Sia $Kern(f) = \{e_1\}$ e siano $x,y \in G_1$ tali che $f(x) = F(y)$. Allora $$f(x)f(y^{-1}) = e_2 \Rightarrow f(xy^{-1}) = e_2 \Rightarrow xy^{-1} \in Ker(f) \Rightarrow xy^{-1} = e_1 \Rightarrow x=y$$
+        \end{dimos}
+
+        \begin{theorem}[Teorema di isomorfismo grupp abeliani]
+            Sia $f : G_1 \rightarrow G_2$ un morfismo di gruppi abeliani. Allora esite un morfismo iniettivo $\Phi: G_1/Kern(\Phi) \rightarrow G_2$ tale che il seguente diagramma è commutativo:\\
+                \xymatrix{
+                G_1 \ar[r]|f \ar[d]|\pi & G_2 \\
+                G_1/Ker(f) \ar[ur]|\Phi}\\
+            In particolare, $G_1/Ker(f) \sim Im(f)$
+        \end{theorem}
+        \begin{dimos}
+            L'assegnazione $[g] \rightarrow f(g), \forall g \in G$, definisce una funzione $\Phi: G_1/Kern(\Phi) \rightarrow G_2$.\\
+            Infatti, se $g' \sim g$, ossia $[g] = [g']$, allora $g = g' + h$, $h \in Ker(f)$. Dunque $f(g) = f(g'+h) = f(g')+f(h) = f(g')$.\\
+            Poiché $f$ è un morfismo di gruppi, anche $\Phi$ lo è, inoltre:
+            
+            \begin{flalign}
+                Ker(\Phi) & = \{[g] \in G/Ker(f) : \Phi([g]) = 0_2\}&\\
+                     & =\{[g] \in G/Ker(f) : f(g) = 0_2 \}&\\
+                     & =\{[0_1]\}
+                \end{flalign}$$$$
+        \end{dimos}
+

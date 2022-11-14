@@ -1,0 +1,36 @@
+1. Gruppo quoziente (per gruppi abeliani). [pag. 24-26]
+2. Sottogruppi di (Z, +). [Proposizione pag. 33]
+3. Teorema di isomorfismo per gruppi abeliani. [Teorema pag. 35]
+4. Ogni sottogruppo di un gruppo ciclico è ciclico. [Teorema pag. 37]
+5. Insieme degli ideali dell’anello Z. [Esempio pag. 45]
+6. Un anello A è un campo se e solo se i suoi unici ideali sono 0 e A.
+[Proposizione pag. 47]
+7. Anello quoziente (per anelli commutativi). [pag. 48-49]
+8. Teorema di isomorfismo per anelli commutativi. [Teorema pag. 60]
+9. Teorema cinese dei resti. [Teorema pag. 61]
+10. Moltiplicatività della funzione φ di Eulero. [Corollario pag. 68]
+11. Teorema di Eulero e piccolo teorema di Fermat. [Teorema pag. 70 e
+Corollario pag. 71]
+12. Se P (x) ∈ K[x] è un polinomio irriducibile allora l’anello quoziente
+K[x]/hP (x)i è un campo. [Proposizione pag. 79]
+13. Estensione di morfismi tra campi. [Proposizione pag. 91]
+14. Tutti e soli i polinomi irriducibili di grado n in Fp [x] sono i fattori irriducibili
+n
+di xp − x ∈ Fp [x]. [Proposizione pag. 95]
+15. Costruzione di un isomorfismo tra i campi Fp[x]/hP (x)i e Fp[x]/hQ(x)i
+dove P (x) e Q(x) sono polinomi irriducibili di grado n in Fp [x]. [pag.
+96-97]
+1
+0.2
+ Parte 2: tensori
+Testi consigliati per approfondimenti:
+• J. M. Landsberg, Tensors: geometry and applications (American Mathe-
+matical Society).
+Argomenti d’esame:
+1. Algoritmo di Strassen per la moltiplicazione di matrici. [pag. 3-8]
+2. Forme multilineari e prodotto tensoriale. [pag. 25-26]
+3. Rango di un tensore. [pag. 27-39]
+4. Moltiplicazione di matrici come tensore. [pag. 40-48]
+5. Tensori simmetrici e antisimmetrici. [pag. 52-59]
+0.3
+ Parte 3: logica modale

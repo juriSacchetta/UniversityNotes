@@ -2,6 +2,8 @@
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[all]{xy}
 \usepackage{booktabs}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -12,17 +14,17 @@
 \usepackage{soul}
 \usepackage{multicol}
 
-\newtheorem{definition}{Definizione}
-\newtheorem{theorem}{Teorema}
+\newtheorem{theorem}{Teorema}[chapter]
+\newtheorem{dimos}{Dimostrazione}[theorem]
+\newtheorem{definition}{Definizione}[chapter]
+\newtheorem{corollary}{Corollario}[definition]
+\newtheorem{propertyOfDefinition}{Propietà}[definition]
 \newtheorem{property}{Propietà}
-\newtheorem{proposition}{Proposizione}
-
-
 
 \begin{document}
 	\author{Juri Sacchetta}
 	\title{Logica e algebra 2}
 	\maketitle
 	\tableofcontents
-	\input{22-09-15.tex}
+	\input{algebra.tex}
 \end{document}
