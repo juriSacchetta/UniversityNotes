@@ -1,58 +1,58 @@
 \chapter{Context Free Grammars}
-	Regular expressions as a tool to generate languages are not enough powerful. 
-	Super simple languages like "all words followed by their reverse" or "concatenation of two strings of the same length" cannot be generated.\\
-	Context Free grammars are defined by means of four entities
-	\begin{itemize}
-		\item $V$: \emph{non-terminal alphabet}, is a set of \emph{non-terminal symbols (or syntactic classes)}
-		\item $\sum$: \emph{terminal alphabet}, is the set of the \emph{characteres} that costitute the phrases
-		\item $P$: is a set of \emph{syntactic rules} (also called \emph{production rules} or simply \emph{rules})
-		\item $S \in V$ is a particular non-terminal, called axiom
-	\end{itemize}
-	One particular nonterminal is choosen as starter (or axiom).
-	A Rule is an ordered pair with a left side and a right side: left side can contain only nonterminals, right side both terminals and nonterminals. 
-	
-	In order to define a language, one can use RULES that, after repeated application, allow to generate all and only the phrases of the language
-	The set of such rules constitutes a GENERATIVE GRAMMAR (or SYNTAX).
+	\section{Preliminar definitions}
+		Regular expressions as a tool to generate languages are not enough powerful. 
+		Super simple languages like "all words followed by their reverse" or "concatenation of two strings of the same length" cannot be generated.\\
+		Context Free grammars are defined by means of four entities
+		\begin{itemize}
+			\item $V$: \emph{non-terminal alphabet}, is a set of \emph{non-terminal symbols (or syntactic classes)}
+			\item $\sum$: \emph{terminal alphabet}, is the set of the \emph{characteres} that costitute the phrases
+			\item $P$: is a set of \emph{syntactic rules} (also called \emph{production rules} or simply \emph{rules})
+			\item $S \in V$ is a particular non-terminal, called axiom
+		\end{itemize}
+		One particular nonterminal is choosen as starter (or axiom).
+		A Rule is an ordered pair with a left side and a right side: left side can contain only nonterminals, right side both terminals and nonterminals. 
+		
+		In order to define a language, one can use RULES that, after repeated application, allow to generate all and only the phrases of the language
+		The set of such rules constitutes a GENERATIVE GRAMMAR (or SYNTAX).
 
-	\begin{definition}[Regular Language]
-		A set of rules generating all the possible strings belong to the language.
-	\end{definition}
+		\begin{definition}[Regular Language]
+			A set of rules generating all the possible strings belong to the language.
+		\end{definition}
 
 
-	\section{Rule Classification}
-	    Lowercase or greek letters: terminals.\\
-	    Uppercase letters: terminals.
-		\begin{definition}[Recursive]
-			A $\rightarrow$ $\alpha$ A $\beta$ 
-		\end{definition}
-		\begin{definition}[Left recursive]
-			A $\rightarrow$ A $\beta$ 
-		\end{definition}
-		\begin{definition}[Right recursive]
-			A $\rightarrow$ $\alpha$ A
-		\end{definition}
-		\begin{definition}[Copy]
-			A $\rightarrow$ B
-		\end{definition}
-		\begin{definition}[Linear]
-			At most one nonterminal on the right side.
-		\end{definition}
-		\begin{definition}[Right Linear]
-			Linear + nonterminal is suffix.
-		\end{definition}
-		\begin{definition}[Left Linear]
-			Linear + nonterminal is prefix.
-		\end{definition}
-		\begin{definition}[Chomsky]
-			Right side is either two nonterminals or a terminal.
-		\end{definition}
-		\begin{definition}[Greibach normal]
-			Right side starts with a terminal symbol.
-		\end{definition}
-		\begin{definition}[Operator normal]
-			A $\rightarrow$ B c D.
-		\end{definition}
-    
+		\subsection{Rule Classification}
+			Lowercase or greek letters: terminals.\\
+			Uppercase letters: terminals.
+			\begin{definition}[Recursive]
+				A $\rightarrow$ $\alpha$ A $\beta$ 
+			\end{definition}
+			\begin{definition}[Left recursive]
+				A $\rightarrow$ A $\beta$ 
+			\end{definition}
+			\begin{definition}[Right recursive]
+				A $\rightarrow$ $\alpha$ A
+			\end{definition}
+			\begin{definition}[Copy]
+				A $\rightarrow$ B
+			\end{definition}
+			\begin{definition}[Linear]
+				At most one nonterminal on the right side.
+			\end{definition}
+			\begin{definition}[Right Linear]
+				Linear + nonterminal is suffix.
+			\end{definition}
+			\begin{definition}[Left Linear]
+				Linear + nonterminal is prefix.
+			\end{definition}
+			\begin{definition}[Chomsky]
+				Right side is either two nonterminals or a terminal.
+			\end{definition}
+			\begin{definition}[Greibach normal]
+				Right side starts with a terminal symbol.
+			\end{definition}
+			\begin{definition}[Operator normal]
+				A $\rightarrow$ B c D.
+			\end{definition}
     \section{Grammar Cleaning}
         Writing a grammar following non-grammar rules (so doing it for a purpose and not for its own sake) can lead to useless rules or unreachable terminals/nonterminals. This is prevented by the Grammar Cleaning algorithm:
             \begin{enumerate}
@@ -167,9 +167,23 @@
 	
 	\section{Grammar of regular languages}
 		As previously stated, regular languages (generated by regular expressions) are a proper subset of context free languages (generated by a context free grammar). This means that there's a one-to-one correlation between regular expression and a grammar that expresses the same language. 
-		\subsection{Uni/Linear Grammars}
+		\subsection{Unilinear Grammars}
 		\label{sec:uni_linear_grammars}
 			A grammar is said to be linear if every rule of that grammar is in the A $\rightarrow$ uBv form, where A and B non terminals (B can also be $\epsilon$) and u and v terminal symbols.\\
 			If only one of the two terminals is present the grammar is said to be right- or left-linear, wheter the nonterminal is right or left side of the terminal symbol.\\
 			A grammar where all rules are either right or left linear is said unilinear. A strict unilinear grammar has only one terminal per side of the rule.\\
-			\subsubsection{Relation with regular expressions} regular languages are a subset of unilinear languages: REG $\supseteq$ UNI; moreover, from an uniliear grammar we can always derive a regular expression with the same expressiveness $\Rightarrow$ UNI $\supseteq$ REG. We obtain (IMPORTANT) UNI $\equiv$ REG.
+			\begin{property}[Relation with regular expressions]
+				Regular languages are a subset of unilinear languages: REG $\supseteq$ UNI; moreover, from an uniliear grammar we can always derive a regular expression
+				with the same expressiveness $\Rightarrow$ UNI $\supseteq$ REG. We obtain (IMPORTANT) UNI $\equiv$ REG.
+			\end{property}
+		\subsection{Linear Language equations}\label{sect:linlangeq}
+			We want to go from a set of gramamr rules to the complete language generated. To do this we analyse the problem as a problem of languages where the 
+			admitted operation is the union of sub-languages.
+			Let $n = \lvert V \rvert$ be the number of nonterminals of grammar $G$. Each nonterminal $A_i$ is defined by a set of alternatives:
+
+			$$Ai → a A_1 \vert b A_1 \vert \cdots \vert a A_n \vert b A_n \vert \cdots \vert A_1 \vert \cdots \vert A_n \vert \varepsilon$$
+			some of which may also be missing. We write the corresponding linear equation:
+			$$L_{A_i} = a L_{A_1} \bigcup b L_{A_1} \bigcup \cdots \bigcup a L_{A_n} \bigcup b L_{A_n} \bigcup \cdots\bigcup L_{A_1} \bigcup \cdots \bigcup L_{A_n} \bigcup \varepsilon$$
+			The last term disappears if the rule does not contain the alternative $A_i \rightarrow\varepsilon$.
+			
+			Practical example: \ref{ese:linlangeq}.
