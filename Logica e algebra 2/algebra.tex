@@ -85,10 +85,13 @@
             Sia $X$ un monoide e $Y$ un sottoinsieme $Y \subseteq X$ tale che $u \in Y$, $Y$ è detto \emph{sottomonoide}.\\
             Analogamente definiamo il \emph{sottogruppo}.
         \end{definition}
-        \begin{definition}[Sottomonoide generato]
+        \begin{definition}[Sottomonoide/Sottogruppo generato]
             Sia $X$ un monoide e $S \subseteq X$ un sottoinsieme. Definiamo \textlangle S \textrangle \ \emph{il sottomonoide di $X$ generato da $S$}
             come l'intersezione di tutti i sottomonoidi di $X$ che contengono $S$.\\
             Analogamente definiamo il \emph{il sottogruppo generato da $S \subseteq X$}.
+        \end{definition}
+        \begin{definition}[Gruppo ciclico]\label{def:gruppo_ciclico}
+            Si definisce gruppo ciclico un gruppo che può essere generato da un unico elemento.
         \end{definition}
         \begin{definition}[Prodotto diretto di monoidi]\label{def:prodotto_diretto_monoidi}
             Siano $M_1, M_2$ con identità $e_1,e_2$ rispettivamente.
@@ -219,22 +222,41 @@
             Sia $Kern(f) = \{e_1\}$ e siano $x,y \in G_1$ tali che $f(x) = F(y)$. Allora $$f(x)f(y^{-1}) = e_2 \Rightarrow f(xy^{-1}) = e_2 \Rightarrow xy^{-1} \in Ker(f) \Rightarrow xy^{-1} = e_1 \Rightarrow x=y$$
         \end{dimos}
 
-        \begin{theorem}[Teorema di isomorfismo grupp abeliani]
-            Sia $f : G_1 \rightarrow G_2$ un morfismo di gruppi abeliani. Allora esite un morfismo iniettivo $\Phi: G_1/Kern(\Phi) \rightarrow G_2$ tale che il seguente diagramma è commutativo:\\
+        \begin{theorem}[Teorema di isomorfismo gruppi abeliani]
+            Sia $f : G_1 \rightarrow G_2$ un morfismo di gruppi abeliani. Allora esite un morfismo iniettivo $\varphi: G_1/Kern(\varphi) \rightarrow G_2$ tale che il seguente diagramma è commutativo:\\
                 \xymatrix{
                 G_1 \ar[r]|f \ar[d]|\pi & G_2 \\
-                G_1/Ker(f) \ar[ur]|\Phi}\\
+                G_1/Ker(f) \ar[ur]|\varphi}\\
             In particolare, $G_1/Ker(f) \sim Im(f)$
         \end{theorem}
         \begin{dimos}
-            L'assegnazione $[g] \rightarrow f(g), \forall g \in G$, definisce una funzione $\Phi: G_1/Kern(\Phi) \rightarrow G_2$.\\
+            L'assegnazione $[g] \rightarrow f(g), \forall g \in G$, definisce una funzione $\varphi: G_1/Kern(\varphi) \rightarrow G_2$.\\
             Infatti, se $g' \sim g$, ossia $[g] = [g']$, allora $g = g' + h$, $h \in Ker(f)$. Dunque $f(g) = f(g'+h) = f(g')+f(h) = f(g')$.\\
-            Poiché $f$ è un morfismo di gruppi, anche $\Phi$ lo è, inoltre:
-            
+            Poiché $f$ è un morfismo di gruppi, anche $\varphi$ lo è, inoltre:
             \begin{flalign}
-                Ker(\Phi) & = \{[g] \in G/Ker(f) : \Phi([g]) = 0_2\}&\\
+                Ker(\varphi) & = \{[g] \in G/Ker(f) : \varphi([g]) = 0_2\}&\\
                      & =\{[g] \in G/Ker(f) : f(g) = 0_2 \}&\\
                      & =\{[0_1]\}
-                \end{flalign}$$$$
+            \end{flalign}
+            Infine, $\varphi : G_1/Ker(f) \rightarrow Im(f)$ è un morfismo di gruppi, \emph{iniettivo} e \emph{suriettivo}, quindi è un isomorfismo.
         \end{dimos}
-
+        \begin{theorem}
+            Sia $G$ un gruppo ciclico (def. \ref{def:gruppo_ciclico}), allora ogni sottogruppo di $G$ è ciclico.
+        \end{theorem}
+        \begin{dimos}
+            Sia $g \in G$ tale che $G = <g>$, la funzione $\varphi: (\mathbb{Z}, +) \rightarrow G$, definita da $\varphi(n) = g^n, \forall x \in \mathbb{Z}$, è un morfismo suriettivo di gruppi.
+            \begin{itemize}
+                \item Se $G$ è infinito, allora $Ker(\varphi) = \{0\}$ e quindi $\varphi$ è iniettivo. Dunque $\varphi$ è un isomorfismo di gruppo. $\Rightarrow$ tutti i sottogruppi di $\mathbb{Z}$ sono ciclici.
+                \item Se $G$ è finito, sia $H \subseteq G$ un sottogruppo. Allora $$\varphi^{-1}(H):=\{n \in \mathbb{Z}: \varphi(n)\in H\} \subseteq \mathbb{Z}$$ è un sottogruppo di $\mathbb{Z}$, quindi esiste $k \in \mathbb{N}$ tale che $\varphi^{-1}(H) = <k>$.
+            \end{itemize}
+            La restrizione di $\varphi: k \mathbb{Z} \rightarrow H$ è un morfismo suriettivo di gruppi e $$\varphi(hk) = \varphi(\underbrace{k+k+\ldots+k}_{h \text{ volte}}) = \varphi(k)\varphi(k)\ldots\varphi(k) = [\varphi(k)]^{h}, \forall h \in \mathbb{Z}$$ Quindi $H =<\varphi(k)> \\\square$
+        \end{dimos}
+        \begin{corollary}
+            L'insieme dei sottogruppi di $\mathbb{Z}_n, n \in \mathbb{N}$ è $\{<\overline{m}>: \overline{m} \in \mathbb{Z}_n\}$ 
+        \end{corollary}
+        \begin{proposition}
+            Sia $n \in \mathbb{N}$ e sia $d|n$ ($d$ un divisore di $n$). Allora esiste al più un unico sottogruppo di $\mathbb{Z}_n$ di cardinalità $d$.
+        \end{proposition}
+        \begin{dimos*}
+            Sia $H \subseteq \mathbb{Z}_n$ un sottogruppo tale che $|H|=d$ si considerino le proiezioni canoniche $$\mathbb{Z} \xrightarrow{\pi_1} \mathbb{Z}_n \xrightarrow{\pi_2} \mathbb{Z}_n/H$$ 
+        \end{dimos*}
