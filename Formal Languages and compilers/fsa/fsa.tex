@@ -150,7 +150,7 @@
 			\empty The \textbf{star closure} instead is built as a recursive block of components, encapsulated in a initial and final state. The extreme steates are connected by a epsilon move.
 		\end{itemize}
 		Example:
-		\begin{figure}[htp]
+		\begin{figure}[H]
 			\begin{center}
 			    \includegraphics[width = \textwidth]{./images/ThompsonMethod.png}
 			\end{center}
@@ -190,6 +190,12 @@
 			In general, it's possible for a language to define a Dig set of diagrams that (for example) can be generated only in a certain order.
 			So not all possible combination of diagrams can be obtained.\\
 			So, with the above example, we have demonstrated that type of language is not a local language.
+			\begin{definition}[local automaton]
+				A deterministic automaton $(Q, \Sigma, \delta, q_0 , F)$ is called local if it satisfies the condition:
+				$$\forall a \in \Sigma \quad \lvert \{ \delta(q, a) : q \in Q \} \rvert \leq 1$$
+				which forbids that two identically labeled arcs enter distinct states.
+			\end{definition}
+
 			\begin{property}
 				A word can be established as member of a given local language by watching only two characters of it. 
 			\end{property}
