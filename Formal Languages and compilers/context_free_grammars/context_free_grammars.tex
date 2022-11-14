@@ -22,18 +22,36 @@
 	\section{Rule Classification}
 	    Lowercase or greek letters: terminals.\\
 	    Uppercase letters: terminals.
-	    \begin{itemize}
-	        \item Recursive: A $\rightarrow$ $\alpha$ A $\beta$ 
-	        \item Left Recursive: A $\rightarrow$ A $\beta$ 
-	        \item Right Recursive: A $\rightarrow$ $\alpha$ A
-	        \item Copy: A $\rightarrow$ B
-	        \item Linear: at most one nonterminal on the right side
-	        \item Right Linear: linear + nonterminal is suffix
-	        \item Left Linear: linear + nonterminal is prefix
-	        \item Chomsky normal: right side is either two nonterminals or a terminal
-	        \item Greibach normal: right side starts with a terminal symbol
-	        \item Operator normal: A $\rightarrow$ B c D
-	    \end{itemize}
+		\begin{definition}[Recursive]
+			A $\rightarrow$ $\alpha$ A $\beta$ 
+		\end{definition}
+		\begin{definition}[Left recursive]
+			A $\rightarrow$ A $\beta$ 
+		\end{definition}
+		\begin{definition}[Right recursive]
+			A $\rightarrow$ $\alpha$ A
+		\end{definition}
+		\begin{definition}[Copy]
+			A $\rightarrow$ B
+		\end{definition}
+		\begin{definition}[Linear]
+			At most one nonterminal on the right side.
+		\end{definition}
+		\begin{definition}[Right Linear]
+			Linear + nonterminal is suffix.
+		\end{definition}
+		\begin{definition}[Left Linear]
+			Linear + nonterminal is prefix.
+		\end{definition}
+		\begin{definition}[Chomsky]
+			Right side is either two nonterminals or a terminal.
+		\end{definition}
+		\begin{definition}[Greibach normal]
+			Right side starts with a terminal symbol.
+		\end{definition}
+		\begin{definition}[Operator normal]
+			A $\rightarrow$ B c D.
+		\end{definition}
     
     \section{Grammar Cleaning}
         Writing a grammar following non-grammar rules (so doing it for a purpose and not for its own sake) can lead to useless rules or unreachable terminals/nonterminals. This is prevented by the Grammar Cleaning algorithm:
