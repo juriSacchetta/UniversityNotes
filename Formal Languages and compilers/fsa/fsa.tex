@@ -160,14 +160,24 @@
 		\subsection{Theorical fundament: local languages and local automata}
 		%//TODO check the thory of local languages
 			In order to fully understand the Berry Sethi method (ahaha) we must introduce the family of local languages.
-			\begin{definition}
-				Local languages are a proper subset of regular languages (LOC $\subset$ REG) and are composed of
-				\begin{itemize}
-					\item a \textbf{set of initials} that is the subset of the alphabet that represents the terminals that start every sentence.
-					\item a \textbf{set of finals} that is the subset of the alphabet that contains the terminals which end the sentences.
-					\item a \textbf{set of diagrams} that contains all the substrings of length 2 present in the sentences.
-				\end{itemize}
+			\begin{definition}[Local sets]
+				For a language $L$ over an alphabet $\Sigma$, the set of \textbf{initials} is:
+				$$Ini(L)=\lbrace a\in\Sigma\vert a\Sigma^*\cap L\neq\emptyset\rbrace$$
+				i.e., the starting characters of the sentences. The set of \textbf{finals} is:
+				$$Fin(L)=\lbrace a\in\Sigma\vert \Sigma^* a\cap L\neq\emptyset\rbrace$$
+				i.e., the ending characters of the sentences. The set of \textbf{digrams} (factors) is:
+				$$Dig(L)=\lbrace x\in\Sigma^2\vert\Sigma^*\times\Sigma^*\cap L\neq\emptyset\rbrace$$
+				i.e., the substrings of length two present in the sentences. The three sets abve are called \textbf{local}.
+				The complementary of digrams are:
+				$$\overline{Dig(L)}=\Sigma^2/Dig(L)$$
 			\end{definition}
+
+			\begin{definition}[Local language]
+				A language $L$ is called local (or locally testable) if it satisfies the following identity:
+				$$L/\lbrace\varepsilon\rbrace =\lbrace x\vert Ini(x)\in Ini(L)\wedge Fin(x)\in Fin(L)\wedge Dig(x)\subseteq Dig(L)\rbrace$$
+				In other words, the non empty phrases of language $L$ are defined precisely by sets $Ini$, $Fin$, and $Dig$.
+			\end{definition}
+
 
 			The complement of the diagram set is also an important set to consider.\\
 			\begin{corollary}
