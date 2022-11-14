@@ -1,8 +1,47 @@
 \chapter{Finite Automaton as Regular Language Recognizers}
 	\section{Preliminar definitions}
 	You should know what a FSA is. In particular, you should know well DFSAs\\
-	A Finite State Machine (or finite state automaton) is composed of a set of states, a transiction function (that determines the change of state at a certain input) a set of termination states, and an input alphabet.\\
-	\textbf{\underline{A DFSA is expressive as an uniliear grammar (so like a regular expression)}}.\\
+	A Finite State Machine (or finite state automaton) is composed of a set of states, a transiction function (that determines the change of state at a certain input) a 
+	set of termination states, and an input alphabet.\\
+	\textbf{\underline{A DFSA is expressive as an unilinear grammar}} (so like a regular expression).\\
+
+	What we want to do is to use FSA as parsers to determine if a specific string belongs to a language.
+	\begin{definition}[Accepted / Regognized string]
+		a string x is accepted (recognized) iff the automaton,
+		starting from initial configuration with x $\dashv$ as input
+		performs a computation and reaches a final configuration
+	\end{definition}
+
+	From FSA theory we can state that a computation ends when the automaton:
+	\begin{itemize}
+		\item raches a final configuration ($\Rightarrow$ string is accepted), or
+		\item no move can be executed ($\Rightarrow$ string not accepted)
+	\end{itemize}
+
+	\begin{definition}[Equivalent automata]
+		Two automata accepting the same language are called equivalent.
+	\end{definition}
+
+	\begin{definition}[String recognized]\label{def:recstr}
+		A string $x$ is recognized (or accepted) by automaton $M$ if and only if when scanning $x$, $M$ goes from the initial to the final state.
+	\end{definition}
+
+	\begin{definition}[Language recognized]
+		A Language is recognized by automaton $M$ if all its strings are recognized\footnote{See definition \ref{def:recstr}.}
+	\end{definition}
+
+	\begin{definition}[Finite-state recognizable]
+		The family of languages accepted by finite state automata is called finite-state recognizable.
+	\end{definition}
+
+	\begin{definition}[Completed FSA]
+		The transition function can always be made complete by means of an \textbf{error state} $q_{err}$:
+		\begin{align*}
+			\forall \mbox{ state } q\in Q \mbox{ and } \forall \mbox{ symbol } a\in\Sigma\\
+			\mbox{ if } \delta\left(q,a\right) \mbox{ is undefined }\\
+			\mbox{ and } \forall \mbox{ symbol } a\in \Sigma \mbox{ let } \delta \left(q_{err},a\right)=q_{err}
+		\end{align*}
+	\end{definition}
 	\section{Clean automaton}
 		A state can be useful or useless. A state is useful if it is reachable from an initiale state and a final state can be reached from it (condition of accessibility and post-accessibility). Otherwise it's useless.\\
 		For every finite automaton there exists an equivalent clean automaton.\\
