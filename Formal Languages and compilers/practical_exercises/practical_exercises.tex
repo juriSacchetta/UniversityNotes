@@ -6,4 +6,10 @@
             equal lable $\Rightarrow$ same state.
         \subsection{Linear Language Equations}\label{ese:linlangeq}
             Referring to section \ref{sect:linlangeq}
-            In order to pass from grammar rules to linear language equations, substitute the $\vert$ symbol with $\bigcup$, and each nonterminal with a sublanguage.    
+            In order to pass from grammar rules to linear language equations, substitute the $\vert$ symbol with $\bigcup$, and each nonterminal with a sublanguage.
+        \subsection{Local automaton / language}\label{sect:practlocautom}
+            Referring to definition \ref{def:loclang}, when we are asked to define whether a language is local and we have the minimal automaton available, we can check 
+            whether the automaton is local. In order to do so, we can say that the automaton is local when does not exist two arcs with different labels going into 
+            different states (needs to be minimal otherwise the arcs could end up in two different states, which are the same in reality).
+
+            In case the automaton is not available, we have to find $Dig$, $Fin$, $Ini$ and check whether all their components can be recognized.
