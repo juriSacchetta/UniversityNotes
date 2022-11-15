@@ -48,16 +48,23 @@
 
 
         \subsection{Other Operators}
-            Also set operators can be used: Intersection and Complement are used when it's more concise to express a language to a set of languages (the former) or the inverse of a complex rule (the latter: a clear example is "a language with no 2 consecutive 'a' in it").
+            Also set operators can be used: Intersection and Complement are used when it's more concise to express a language to a set of languages (the former) or 
+            the inverse of a complex rule (the latter: a clear example is "a language with no 2 consecutive 'a' in it").
         
-        To define a Regular Language formally a \emph{Regular Expression} is used, defined as a string of either elements of the alphabet or operators that symbolize the three operation for regular languages.
-        The Derivation Relation binds the RE with its productions: in fact, an expression is said to be \emph{derived} from another one if it's totally or partly a choice of another one. A choice is an alternative between two options that the RE gives you (a union operator poses a choice). A Language is defined as the set of all possible productions that can be derived from a RE.
+        To define a Regular Language formally a \emph{Regular Expression} is used, defined as a string of either elements of the alphabet or operators that symbolize 
+        the three operation for regular languages.
+        The Derivation Relation binds the RE with its productions: in fact, an expression is said to be \emph{derived} from another one if it's totally or partly a 
+        choice of another one. A choice is an alternative between two options that the RE gives you (a union operator poses a choice). A Language is defined as the 
+        set of all possible productions that can be derived from a RE.
 
     \section{Ambiguity}
-        Easy enough: a RE is ambiguous if more than one identical productions exists. This obviously leads to problems in the parsing procedure, due to the difficulty to "trace back" the choices that has been made to get to that point. 
+        Easy enough: a RE is ambiguous if more than one identical productions exists. This obviously leads to problems in the parsing procedure, due to the difficulty 
+        to "trace back" the choices that has been made to get to that point. 
 
     \section{Closure Property}
-        Pretty straightforward, is the same "closure" concept from classic algebra; a family of languages is closed under an operator if applying n times that operator to a language of that family obtains only languages of that family. You can't "exit that family" with that operator.\\
+        Pretty straightforward, is the same "closure" concept from classic algebra; a family of languages is closed under an operator if applying n times that 
+        operator to a language of that family obtains only languages of that family. You can't "exit that family" with that operator.
+        
         The REG(ular) family of languages is closed under
         \begin{itemize}
             \item concatenation
