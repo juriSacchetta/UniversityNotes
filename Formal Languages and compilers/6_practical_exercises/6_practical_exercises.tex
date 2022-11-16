@@ -13,3 +13,7 @@
             different states (needs to be minimal otherwise the arcs could end up in two different states, which are the same in reality).
 
             In case the automaton is not available, we have to find $Dig$, $Fin$, $Ini$ and check whether all their components can be recognized.
+        \subsection{Ambiguity of automaton}
+            For definition of \index{Ambiguity}ambiguity refer to the section \ref{sec:ambig}.
+            An automaton is ambiguous if enables two or more accepting paths for the same string. Note that also epsilon path: in fact, if you find an epsilon loop
+            it is ofr sure ambiguous.
