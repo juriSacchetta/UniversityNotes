@@ -3,13 +3,16 @@
 		Regular expressions as a tool to generate languages are not enough powerful. 
 		Super simple languages like "all words followed by their reverse" or "concatenation of two strings of the same length" cannot be generated.
 
-		Context Free grammars are defined by means of four entities
-		\begin{itemize}
-			\item $V$: \emph{non-terminal alphabet}, is a set of \emph{non-terminal symbols (or syntactic classes)}
-			\item $\sum$: \emph{terminal alphabet}, is the set of the \emph{characteres} that costitute the phrases
-			\item $P$: is a set of \emph{syntactic rules} (also called \emph{production rules} or simply \emph{rules})
-			\item $S \in V$ is a particular non-terminal, called axiom
-		\end{itemize}
+		\begin{definition}[Context Free Grammars, BNF]
+			A Context Free grammar (CF), or BNF (they are \textbf{exactly} the same thing), is a grammar $G$ defined by four entities:
+			\begin{itemize}
+				\item $V$, the \emph{nonterminal alphabet}, a set of symbols termed \emph{nonterminals} or \emph{metasymbols};
+				\item $\Sigma$, the \emph{terminal alphabet}, a set of symbols termed \emph{terminals}, disjoint from the preceding set;
+				\item $P$, a set of syntactic \emph{Rules} (or \emph{productions})
+				\item $S\in V$, a particular nonterminal termed \emph{axiom}
+			\end{itemize}
+			N.B.: The ``or'' symbol, ``$\vert$'' is admitted.%//TODO check this sentence.
+		\end{definition}
 		One particular nonterminal is choosen as starter (or axiom).
 		A Rule is an ordered pair with a left side and a right side: left side can contain only nonterminals, right side both terminals and nonterminals. 
 		
