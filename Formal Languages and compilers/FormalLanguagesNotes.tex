@@ -13,6 +13,10 @@
 \usepackage{float}
 \usepackage{array}
 \usepackage{soul}
+\usepackage{multirow}
+\newcommand{\tableline}[1]{
+  \begin{tabular}{@{}c@{}}\strut#1\strut\end{tabular}
+}
 \makeindex[columns=2, title = Alphabetical Index, options= -s style.ist]
 
 \newtheorem{theorem}{Theorem}[chapter]

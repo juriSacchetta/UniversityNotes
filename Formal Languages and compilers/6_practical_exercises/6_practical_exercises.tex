@@ -17,3 +17,56 @@
             For definition of \index{Ambiguity}ambiguity refer to the section \ref{sec:ambig}.
             An automaton is ambiguous if enables two or more accepting paths for the same string. Note that also epsilon path: in fact, if you find an epsilon loop
             it is ofr sure ambiguous.
+    \section{Exercise 2.1}
+        \subsection{Regular languages and context free}
+            Remember: a context free language example can be $a^nb^n$. A regular language is context free, but a context free language is not always regular: for example
+            $a^nb^n$ is context free but not regular. Remember that context free is \textbf{not} closed with respect to $\cap$. An intersection of two context free 
+            languages \textbf{may} still \textbf{be} context free, but it is not guaranteed.
+            %//TODO: aggiungere teoria di questa parte
+        \subsection{Deterministic vs. non deterministic automaton from grammar}
+            Given a grammar, how to check whether the corresponding automaton is deterministic or not? In a deterministic automaton, given an input I need to know for 
+            sure in which state I will end. Epsilon moves makes the automaton nondeterministic, and a copy rule corresponds exactly to an epsilon move (spontaneous move):
+            So, if you have an alternative such as:
+            $$X\rightarrow aT \vert \varepsilon$$
+            $$T\rightarrow aT\vert V$$
+            $$V\rightarrow bV\vert cV\vert\varepsilon$$
+            The automaton is nondeterministic: in $T$ is like if you don't know whether to spontaneously go in $V$ or stay in $T$ to wait for an $a$.
+        \subsection{Is a language regular?}
+            If it is writable through a regex, it is. If it is the intersection of two regular languages, it is ($REG$ is closed with respect to the intersection).
+        \subsection{Automata, languages and grammars}
+            \begin{center}
+                \begin{tabular}{cccc}
+                    \toprule
+                    \textbf{\tableline{Chomsky\\hierarchy}} & \textbf{Grammars} & \textbf{Languages} & \textbf{\tableline{Minimal\\Automaton}}\\
+                    \midrule
+                    Type $0$ & Generals & \tableline{Recursively\\numerable} & Turing Machine\\
+                    Type $1$ & Context dependent & Context dependent & \tableline{Linear Bounded\\Automaton\\(LBA)}\\
+                    Type $2$ & Non contextual & Non contextual & NPDA\\
+                    Type $3$ & Regular & Regular & FSA\\
+                    \bottomrule
+                \end{tabular}
+            \end{center}
+        \subsection{Closure Properties of Languages}
+            \begin{center}
+                \begin{tabular}{cccccccc}
+                    \toprule
+                    \multirow{3}{*}{\textbf{\tableline{Language\\Family}}} & \multirow{3}{*}{\textbf{Formalism}} & $\cup$ & $\cap$ & $c$ & $/$ & $*$ & $.$ \\
+                    \cmidrule{3-8}
+                    && \textbf{Union} & \textbf{Inters.} & \textbf{Complem.} & \textbf{Diff.} & \textbf{\tableline{Klenee\\star}} & \textbf{Concat.}\\
+                    \midrule
+                    Star free & MFO & V & V & V & V & X & V \\
+                    \midrule
+                    Regular & \tableline{FSA,NFA\\Regex,\\Regular\\grammars,\\MSO} & V & V & V & V & V & V\\
+                    \midrule
+                    \tableline{Deterministic\\non\\contextual} & DPDA & X & X & V & X & X & X\\
+                    \midrule
+                    \tableline{Non\\contextual} & \tableline{NPDA,\\Non\\contextual\\grammars}& V & X & X & X & V & V\\
+                    \midrule
+                    \tableline{Context\\dependent} & \tableline{context\\depending\\grammar\\(Linear\\bounded\\automaton)} & V & V & V & V & V & V\\
+                    \midrule
+                    Recursive & (Decider) & V & V & V & V & V & V\\
+                    \midrule
+                    \tableline{Recursively\\Enumerable} & \tableline{TM,NTM,\\General\\Grammars} & V & V & X & X & V & V\\
+                    \bottomrule 
+                \end{tabular}
+            \end{center}
