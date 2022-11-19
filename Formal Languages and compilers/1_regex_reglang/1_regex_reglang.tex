@@ -60,6 +60,12 @@
     \section{Ambiguity}
         Easy enough: a RE is ambiguous if more than one identical productions exists. This obviously leads to problems in the parsing procedure, due to the difficulty 
         to "trace back" the choices that has been made to get to that point. 
+        \begin{definition}[Ambiguity Degree of a String]
+            Referring to a single string belonging to a language, is the number of different possible sintax trees generating that same string.
+        \end{definition}
+        \begin{definition}[Ambiguity Degree of a Grammar]
+            It is the maximum degree of ambiguity of the strings obtainable from the grammar.
+        \end{definition}
 
     \section{Closure Property}
         Pretty straightforward, is the same "closure" concept from classic algebra; a family of languages is closed under an operator if applying n times that 
