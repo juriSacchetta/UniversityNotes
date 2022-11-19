@@ -13,6 +13,17 @@
             different states (needs to be minimal otherwise the arcs could end up in two different states, which are the same in reality).
 
             In case the automaton is not available, we have to find $Dig$, $Fin$, $Ini$ and check whether all their components can be recognized.
+        \subsection{Finding class of grammars}
+            Refferring to table \ref{tab:typelang}, we can distinguish Context Free Grammars and Regular by watching non terminals in grammar rules.
+
+            For Regular:
+            \begin{itemize}
+                \item On the left of the rule, we have only one nonterminal;
+                \item On the right part fo the rule, we must have one nonterminal;
+                \item Inside the right part of the rule, the nonterminals must be all on the left or the right.\footnote{N.B.: every rule of the grammar must have 
+                the nonterminal on the left or on the right part of the right part of the rule. Or \textbf{every} rule have it on the right, or on the left.}
+            \end{itemize}
+            For context free grammars, we remove the last two points.
         \subsection{Ambiguity of automaton}
             For definition of \index{Ambiguity}ambiguity refer to the section \ref{sec:ambig}.
             An automaton is ambiguous if enables two or more accepting paths for the same string. Note that also epsilon path: in fact, if you find an epsilon loop
@@ -35,6 +46,7 @@
             If it is writable through a regex, it is. If it is the intersection of two regular languages, it is ($REG$ is closed with respect to the intersection).
         \subsection{Automata, languages and grammars}
             \begin{table}[H]
+                \label{tab:typelang}
                 \centering
                 \begin{tabular}{cccc}
                     \toprule
