@@ -128,6 +128,35 @@
 		\subsubsection{Complement and Intersection}
 			Let L and L2 be regular languages. Their intersection and the complement of each is still a regular language. (The formal proof utilizes the 
 			recognizers automata to prove this).
+		
+		\subsubsection{All Closure Properties}
+			For all the closure properties refer to the following table:
+			\begin{table}[H]
+				\label{tab:closprop}
+				\caption{Closure properties of language families.}
+                \centering
+                \begin{tabular}{cccccccc}
+                    \toprule
+                    \multirow{3}{*}{\textbf{\tableline{Language\\Family}}} & \multirow{3}{*}{\textbf{Formalism}} & $\cup$ & $\cap$ & $c$ & $/$ & $*$ & $.$ \\
+                    \cmidrule{3-8}
+                    && \textbf{Union} & \textbf{Inters.} & \textbf{Complem.} & \textbf{Diff.} & \textbf{\tableline{Klenee\\star}} & \textbf{Concat.}\\
+                    \midrule
+                    Star free & MFO & V & V & V & V & X & V \\
+                    \midrule
+                    Regular & \tableline{FSA,NFA\\Regex,\\Regular\\grammars,\\MSO} & V & V & V & V & V & V\\
+                    \midrule
+                    \tableline{Deterministic\\Context\\Free} & DPDA & X & X & V & X & X & X\\
+                    \midrule
+                    \tableline{Context\\Free} & \tableline{NPDA,\\Context\\Free\\grammars}& V & X & X & X & V & V\\
+                    \midrule
+                    \tableline{Context\\dependent} & \tableline{context\\depending\\grammar\\(Linear\\bounded\\automaton)} & V & V & V & V & V & V\\
+                    \midrule
+                    Recursive & (Decider) & V & V & V & V & V & V\\
+                    \midrule
+                    \tableline{Recursively\\Enumerable} & \tableline{TM,NTM,\\General\\Grammars} & V & V & X & X & V & V\\
+                    \bottomrule 
+                \end{tabular}
+            \end{table}
 	
 	\section{Equivalence}
 	%//TODO metti una fottuta spiegazione su che cose un condensed tree

@@ -34,39 +34,18 @@
         \subsection{Is a language regular?}
             If it is writable through a regex, it is. If it is the intersection of two regular languages, it is ($REG$ is closed with respect to the intersection).
         \subsection{Automata, languages and grammars}
-            \begin{center}
+            \begin{table}[H]
+                \centering
                 \begin{tabular}{cccc}
                     \toprule
                     \textbf{\tableline{Chomsky\\hierarchy}} & \textbf{Grammars} & \textbf{Languages} & \textbf{\tableline{Minimal\\Automaton}}\\
                     \midrule
                     Type $0$ & Generals & \tableline{Recursively\\numerable} & Turing Machine\\
                     Type $1$ & Context dependent & Context dependent & \tableline{Linear Bounded\\Automaton\\(LBA)}\\
-                    Type $2$ & Non contextual & Non contextual & NPDA\\
+                    Type $2$ & Context Free & Context Free & NPDA\\
                     Type $3$ & Regular & Regular & FSA\\
                     \bottomrule
                 \end{tabular}
-            \end{center}
+            \end{table}
         \subsection{Closure Properties of Languages}
-            \begin{center}
-                \begin{tabular}{cccccccc}
-                    \toprule
-                    \multirow{3}{*}{\textbf{\tableline{Language\\Family}}} & \multirow{3}{*}{\textbf{Formalism}} & $\cup$ & $\cap$ & $c$ & $/$ & $*$ & $.$ \\
-                    \cmidrule{3-8}
-                    && \textbf{Union} & \textbf{Inters.} & \textbf{Complem.} & \textbf{Diff.} & \textbf{\tableline{Klenee\\star}} & \textbf{Concat.}\\
-                    \midrule
-                    Star free & MFO & V & V & V & V & X & V \\
-                    \midrule
-                    Regular & \tableline{FSA,NFA\\Regex,\\Regular\\grammars,\\MSO} & V & V & V & V & V & V\\
-                    \midrule
-                    \tableline{Deterministic\\non\\contextual} & DPDA & X & X & V & X & X & X\\
-                    \midrule
-                    \tableline{Non\\contextual} & \tableline{NPDA,\\Non\\contextual\\grammars}& V & X & X & X & V & V\\
-                    \midrule
-                    \tableline{Context\\dependent} & \tableline{context\\depending\\grammar\\(Linear\\bounded\\automaton)} & V & V & V & V & V & V\\
-                    \midrule
-                    Recursive & (Decider) & V & V & V & V & V & V\\
-                    \midrule
-                    \tableline{Recursively\\Enumerable} & \tableline{TM,NTM,\\General\\Grammars} & V & V & X & X & V & V\\
-                    \bottomrule 
-                \end{tabular}
-            \end{center}
+            Please refer to table \ref{tab:closprop}.
