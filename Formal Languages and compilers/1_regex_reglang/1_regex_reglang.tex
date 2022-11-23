@@ -58,6 +58,7 @@
         set of all possible productions that can be derived from a RE.
 
     \section{Ambiguity}
+        \subsection{General Concept}
         Easy enough: a RE is ambiguous if more than one identical productions exists. This obviously leads to problems in the parsing procedure, due to the difficulty 
         to "trace back" the choices that has been made to get to that point. 
         \begin{definition}[Ambiguity Degree of a String]
@@ -66,6 +67,8 @@
         \begin{definition}[Ambiguity Degree of a Grammar]
             It is the maximum degree of ambiguity of the strings obtainable from the grammar.
         \end{definition}
+        \subsection{Formal proof}\label{sect:formalproofambiguity}
+            TODO%//TODO: controlla dove mettere questa sezione, e prima vanno capiti i parser
 
     \section{Closure Property}
         Pretty straightforward, is the same "closure" concept from classic algebra; a family of languages is closed under an operator if applying n times that 

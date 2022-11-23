@@ -28,6 +28,28 @@
             For definition of \index{Ambiguity}ambiguity refer to the section \ref{sec:ambig}.
             An automaton is ambiguous if enables two or more accepting paths for the same string. Note that also epsilon path: in fact, if you find an epsilon loop
             it is ofr sure ambiguous.
+        \subsection{Argue that is ambiguous}
+            Sometimes it is asked to argue whether a grammar is \index{Ambiguity}ambiguous or not. It could be enough to argue that an order in nonterminals is 
+            imposed by the grammars, and we don't spawn two equal nullable nonterminals.%//TODO: check this thing. ref: pag 28 2.1 divided exercises
+        \subsection{Remove Ambiguity}
+            To remove \index{Ambiguity}ambiguity, we have different ways: for example, try introducing others nonterminals, or try to see if the ambiguity 
+            comes from a repeated adjacent nullable nonterminals. For example may be useful from a nonterminal, generating an even number of letters and ending 
+            in the end with a single terminal in order to be able also to generate an odd number:
+            $$
+                G:\quad\begin{cases}
+                    \ldots
+                    X\rightarrow aaX\vert a
+                    \ldots
+                \end{cases}
+            $$
+            Split instead in this way: generate for example couples of $a$, which will generate an \emph{even} number of $a$, and terminate going with a single $a$
+            (in this way, you can generate also odd numbers of $a$).
+
+            If you want to remove \index{Ambiguity}ambiguity coming from the union of languages (they may have strings in common, and adding an axiom of the 
+            type $S\rightarrow S_1\vert S_2$ could introduce ambiguity), we could first generate the grammar from the second language, then slightly modify it in 
+            order to avoid the generation of the strings in common (before modifying could be helpful writing the slightly modified language).
+        \subsection{Formal proof of non ambiguity}
+            Refer to section \ref{sect:formalproofambiguity}.
     \section{Exercise 2.1}
         \subsection{Regular languages and context free}
             Remember: a context free language example can be $a^nb^n$. A regular language is context free, but a context free language is not always regular: for example
