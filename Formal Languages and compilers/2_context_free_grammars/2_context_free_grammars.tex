@@ -246,8 +246,19 @@
 		grammar). This means that there's a one-to-one correlation between regular expression and a grammar that expresses the same language. 
 		\subsection{Unilinear Grammars}
 		\label{sec:uni_linear_grammars}
-			A grammar is said to be linear if every rule of that grammar is in the A $\rightarrow$ uBv form, where A and B non terminals (B can also be $\epsilon$) 
-			and u and v terminal symbols.
+			\begin{definition}[Right Linear Rule]
+				A right linear rule in a grammar is a rule with the following structure:
+				$$A\longrightarrow uB\quad\mbox{with}\quad u\in\Sigma^*,\quad B\in(V\cup\varepsilon)$$
+			\end{definition}
+			\begin{definition}[Left Linear Rule]
+				A left linear rule in a grammar is a rule with the following structure:
+				$$A\longrightarrow Bv\quad\mbox{with}\quad v\in\Sigma^*,\quad B\in(V\cup\varepsilon)$$
+			\end{definition}
+			\begin{definition}[Unilinear Grammar]
+				A grammar is unilinear if and only if its rules are \textbf{either all} right linear \textbf{or all} left linear.
+			\end{definition}
+			In other words,a grammar is said to be linear if every rule of that grammar is in the A $\rightarrow$ uBv form, where A and B non terminals (B can also be 
+			$\epsilon$) and u and v terminal symbols.
 
 			If only one of the two terminals is present the grammar is said to be right- or left-linear, wheter the nonterminal is right or left side of the 
 			terminal symbol.

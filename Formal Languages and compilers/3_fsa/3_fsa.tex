@@ -68,6 +68,25 @@
 		\emph{Indistinguishability} is a binary \textbf{relation}; it is \textbf{reflexive}, \textbf{symmetric}, and \textbf{transitive} hence it is an 
 		\textbf{equivalence relation}.
 
+		We can write a generic transition $q_1\overset{a}{\longrightarrow}q_2$ (starting in state $q_1$, reading character $a$ we go in $q_2$) as:
+		$\delta(q_1,a)=q_2$. With this re-writing, we can defining easily the distinguishability of two states.
+		\begin{definition}[Distinguishable states]
+			Two states $p$ and $q$ are said to be distinguishable if one of the following condition is satisfied (they are in ``or''):
+			\begin{itemize}
+				\item $p$ is final and $q$ is not
+				\item $q$ is final and $p$ is not
+				\item $\exists a :\quad\delta(p,a)$ is distinguishable from $\delta(q,a)$.
+			\end{itemize}
+		\end{definition}
+		\begin{corollary}[Distinguishability of $q_{err}$]
+			Given an erro state $q_{err}$ is distinguishable from every postaccessible state $p$
+		\end{corollary}
+		\begin{proof}
+			Given that $F$ is the set of \emph{final} states, being $p$ postaccessible, then
+			$$\exists\mbox{ stiring }x:\quad\delta(p,x)\in D$$
+			Whereas
+			$$\forall \mbox{ string }x:\quad q_{err}\notin F$$
+		\end{proof}
 		\subsection{Minimization}
 			States of the minimal automaton $M'$: the \emph{equivalence classes of the indistinguishability relation} transition function, arcs among equivalence 
 			classes:
