@@ -940,6 +940,283 @@
 					\path[->](third) edge [in=-45, out=-135] node [swap] {A} (first);
 				\end{tikzpicture}
 			\end{figure}
+			We need to go on with the fourth state, which has four candidates. Let's look at what becomes.
+			\begin{itemize}
+				\item From $4_S$ we can recognize $C$, or it is a final state.
+				\item From $1_A$ we have finished parsing.
+				\item From $0_C$ we can recognize $d$.
+			\end{itemize}
+			We have found two final states, $4_S$ and $1_A$. circle the final states for exam (just an additional thing, not necessary for ELR).
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+					\node (initial) [shape=rectangle,fill=green] {
+						\begin{tabular}{|cc|} \hline
+							\hline
+							$0_S$ & $\dashv$\\
+							\hline
+						\end{tabular}
+					};
+					\node (first) [shape=rectangle,fill=green] [right of = initial] {
+						\begin{tabular}{|cc|} \hline
+							$1_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (second) [shape=rectangle,fill=green] [right of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (third) [shape=rectangle,fill=green] [right of = second]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $\dashv$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fourht) [shape=rectangle] [below of = third]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$4_S$} & $\dashv$\\
+							\circled{$1_A$} & $a$\\
+							\hline
+							\hline
+							$0_C$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+
+					\path[->](initial) edge node {a} (first);
+					\path[->](first) edge node {a} (second);
+					\path[->](second) edge node {b} (third);
+					\path[->](third) edge node {c} (fourht);
+					\path[->](third) edge [in=-45, out=-135] node [swap] {A} (first);
+				\end{tikzpicture}
+			\end{figure}
+			We need to go on with the fourth state, which has four candidates. Let's look at what becomes.
+			\begin{itemize}
+				\item From $4_S$ we can recognize $C$, or it is a final state.
+				\item From $1_A$ we have finished parsing.
+				\item From $0_C$ we can recognize $d$.
+			\end{itemize}
+			Anyway, we can start seing a pattern:
+			\begin{enumerate}
+				\item Consider all candidates (base or closure set)
+				\item Follow each transition on the machines
+				\item See in which state you go (copying lookahead when you stay in the same machine)
+				\item Compute the closure if one of those in the base set has a Nonterminal after, and put in the closure set.
+			\end{enumerate}
+			Let's go on. Because from $4_S$ we can also read $C$: we need to add another arc which recognizes $C$. We are going from $2_S$, in which 
+			we have already seen that we can only go to $3_S$ by reading $b$ (closure set empty), we don't have other transition that goes to a 
+			non terminal state. We already have a state with the candidate $2_S,\dashv$:
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+					\node (initial) [shape=rectangle,fill=green] {
+						\begin{tabular}{|cc|} \hline
+							\hline
+							$0_S$ & $\dashv$\\
+							\hline
+						\end{tabular}
+					};
+					\node (first) [shape=rectangle,fill=green] [right of = initial] {
+						\begin{tabular}{|cc|} \hline
+							$1_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (second) [shape=rectangle,fill=green] [right of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (third) [shape=rectangle,fill=green] [right of = second]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $\dashv$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fourht) [shape=rectangle] [below of = third]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$4_S$} & $\dashv$\\
+							\circled{$1_A$} & $a$\\
+							\hline
+							\hline
+							$0_C$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+
+					\path[->](initial) edge node {a} (first);
+					\path[->](first) edge node {a} (second);
+					\path[->](second) edge node {b} (third);
+					\path[->](third) edge node {c} (fourht);
+					\path[->](third) edge [in=-45, out=-135] node [swap] {A} (first);
+					\path[->](fourht) [in=-90, out=-135] edge node{C}(second);
+				\end{tikzpicture}
+			\end{figure}
+			Let's look at the other candidates: $1_A$ and $0_C$: $1_A$ is a final state, but does not recognize anything else, so we do not need to do anything 
+			more in order to take into account that candidate, because when we reach at that state, the next character is the one in the lookahead, and we can tell 
+			if we have recognized the production $A$. From the pilot graph point of view, there is nothing else.
+			From $0_C$, we can read $d$, and no other nonterminal symbols from there: we need to add a new transition to a new state which recognizes character $d$,
+			and as base set that state will have the advancement of the candidate, with the same lookahead:
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+					\node (initial) [shape=rectangle,fill=green] {
+						\begin{tabular}{|cc|} \hline
+							\hline
+							$0_S$ & $\dashv$\\
+							\hline
+						\end{tabular}
+					};
+					\node (first) [shape=rectangle,fill=green] [right of = initial] {
+						\begin{tabular}{|cc|} \hline
+							$1_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (second) [shape=rectangle,fill=green] [right of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (third) [shape=rectangle,fill=green] [right of = second]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $\dashv$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fourht) [shape=rectangle] [below of = third]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$4_S$} & $\dashv$\\
+							\circled{$1_A$} & $a$\\
+							\hline
+							\hline
+							$0_C$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fifth) [shape=rectangle] [below of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$1_C$ & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+
+					\path[->](initial) edge node {a} (first);
+					\path[->](first) edge node {a} (second);
+					\path[->](second) edge node {b} (third);
+					\path[->](third) edge node {c} (fourht);
+					\path[->](third) edge [in=-45, out=-135] node [swap] {A} (first);
+					\path[->](fourht) [in=-90, out=-135] edge node{C}(second);
+					\path[->](fourht) edge node [swap]{d} (fifth);
+				\end{tikzpicture}
+			\end{figure}
+			And compute the closure: we can re-enter into $S$. We need to add a new candidate in the closure set:
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+					\node (initial) [shape=rectangle,fill=green] {
+						\begin{tabular}{|cc|} \hline
+							\hline
+							$0_S$ & $\dashv$\\
+							\hline
+						\end{tabular}
+					};
+					\node (first) [shape=rectangle,fill=green] [right of = initial] {
+						\begin{tabular}{|cc|} \hline
+							$1_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (second) [shape=rectangle,fill=green] [right of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (third) [shape=rectangle,fill=green] [right of = second]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $\dashv$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fourht) [shape=rectangle] [below of = third]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$4_S$} & $\dashv$\\
+							\circled{$1_A$} & $a$\\
+							\hline
+							\hline
+							$0_C$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fifth) [shape=rectangle] [below of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$1_C$ & $b$\\
+							\hline
+							\hline
+							$0_S$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					
+					\path[->](initial) edge node {a} (first);
+					\path[->](first) edge node {a} (second);
+					\path[->](second) edge node {b} (third);
+					\path[->](third) edge node {c} (fourht);
+					\path[->](third) edge [in=-45, out=-135] node [swap] {A} (first);
+					\path[->](fourht) [in=-90, out=-135] edge node{C}(second);
+					\path[->](fourht) edge node [swap]{d} (fifth);
+				\end{tikzpicture}
+			\end{figure}
+			Why the lookahead is $b$? Is the next character we can read after the transition that recognizes our nonterminal symbol. But at 
+			this point, after $2_C$, the machine $C$ ends: the character we read, is the same lookahead by recognizing $C$: we will have the lookahead that 
+			we had before with $C$. This because when $S$ ends in $2_C$, also $C$ ends, so the lookahead is the same.
+			
+			N.B.: we did not added the $\dashv$! because 
+			is just the production of $C$ that ended, the terminal character is only at the end of the final string, not at the end of every machine (production), because 
+			this would result in $\dashv$ inside of the string.
+
+			And you have to go on like this. % if necessary other things, resume from 1:01:51 of lesson of professor Daniele Cattaneo, 20221110
 		\subsection{ELL parsers}
 			ELL = Extended Left to right Leftmost
 

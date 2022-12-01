@@ -21,6 +21,8 @@
 \newcommand{\tableline}[1]{
   \begin{tabular}{@{}c@{}}\strut#1\strut\end{tabular}
 }
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
 \makeindex[columns=2, title = Alphabetical Index, options= -s style.ist]
 
 \newtheorem{theorem}{Theorem}[chapter]
