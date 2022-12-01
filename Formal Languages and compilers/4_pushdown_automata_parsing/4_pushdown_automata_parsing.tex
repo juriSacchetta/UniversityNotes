@@ -255,7 +255,691 @@
 
 				(The official and formal way to describe the algorithm is leaved to the curious reader: page 271+ of the "Formal languages and Compilation" book from 
 				Reghizzi, Breveglieri, Morzenti)
+		
+		\subsection{ELR parser re written}
+		This question is exercise $3$ in the exam.
+			ELL and ELR are two different methods to build parsers.
+			Let's analyse ELR starting from an example:
+			\begin{figure}[H]
+				\centering
+                \subfloat[][\emph{Machine A}]{
+					\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+						\node[] (initial) {$A$};
+						\node[state] (0a) [right of =initial]      {$0_A$};
+						\node[state]         (1a) [right of=0a]  {$1_A$};
+						\node[] (final)[right of =1a]{};
+						
+						\path[->](initial) edge node {} (0a);
+						\path[->]          (0a)  edge node {c} (1a);
+						\path[->]          (1a)  edge node {} (final);
+					\end{tikzpicture}
+					\label{fig:A}
+				} \\
+                \subfloat[][\emph{Axiom $S$}]{
+					\resizebox{0.9\textwidth}{!}{
+						\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+							\node[] (initial) {$S$};
+							\node[state] (0s) [right of =initial]      {$0_S$};
+							\node[state]         (1s) [right of=0s]  {$1_S$};
+							\node[state]         (2s) [right of=1s]  {$2_S$};
+							\node[state]         (3s) [right of=2s]  {$3_S$};
+							\node[state]         (4s) [right of=3s]  {$4_S$};
+							\node[] (final)[right of =4s]{};
+							
+							\path[->](initial) edge node {} (0a);
+							\path[->]          (0s)  edge node {a} (1s);
+							\path[->]          (1s)  edge node {a} (2s);
+							\path[->]          (2s)  edge node {b} (3s);
+							\path[->]          (3s)  edge node {c} (4s);
+							\path[->]          (4s)  edge node {} (final);
+							\path[->][in=45,out=135]          (3s)  edge node [swap ]{$A$} (1s);
+							\path[->][in=-45,out=-135]          (4s)  edge node {$C$} (2s);
+						\end{tikzpicture}
+					}
+					\label{fig:B}
+				}\\
+				\subfloat[][\emph{Machine C}]{
+					\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+						\node[] (initial) {$C$};
+						\node[state] (0c) [right of =initial]      {$0_C$};
+						\node[state]         (1c) [right of=0c]  {$1_C$};
+						\node[state]         (2c) [right of=1c]  {$2_C$};
+						\node[] (final)[right of =2c]{};
+						
+						\path[->](initial) edge node {} (0a);
+						\path[->]          (0c)  edge node {d} (1c);
+						\path[->]          (2c)  edge node {} (final);
+						\path[->][in=45,out=135]          (2c)  edge node [swap ]{$A$} (1c);
+						\path[->][in=-135,out=-45]          (1c)  edge node {$a$} (2c);
+					\end{tikzpicture}
+					\label{fig:C}
+				}
+                \caption{Example}
+                \label{fig:mainexample}
+			\end{figure}
+			ELR: tries to completely match one machine to the prefix it finds. If it recognizes it, one of these three nonterminal symbols is attributed to it.
+			\begin{definition}[Reduction]
+				The production substitutes the expansion of the production with the symbol of the rule
+			\end{definition}
+			We want to perform reductions until we are left with only one symbol: the one of the axiom (considering figure \ref{fig:mainexample}, $S$): at that point 
+			we have recognized a string.
+
+			We will see the algorithm in a momnent, after some critical points we need to clarify: at the first stwp we want to create the initial state of the pilot 
+			automaton. How? we want to compute the closure of the initial state of the axiom.
+			\begin{definition}[Closure]
+				Is the set of all the candidates that can be found from a given state and the lookahead.
+			\end{definition}
+			Let's dig more into this definition, looking at what is a \textbf{candidate} and the \textbf{lookahead} in an informal way.
+
+			ELR wants to find the longest prefix: the candidate basically tells to the algorithm ``\emph{I think that at this point we will possibly recognize in
+			the end one of these three machines}''. After recognizing one of the production (say $A$ or $C$ in the example), there must be an additional character.
+			This is the secret sauce of ELR algorithm, and is what ives us the certainty (if we are in ELR1 case, we will see what this mean) that we are not 
+			doing a false match. For example: $c$ can appear inside $s$, or can be the entire tree production of $A$. How do we distinguish this case?
+			\begin{itemize}
+				\item To recognize $A$ (i.e., if $c$ comes from $A$, figure \ref{fig:A}), we must find for example $a$ coming from 
+				$1_S\overset{a}{\longrightarrow}2_S$ after character in $A$, because we can 
+				only recognize $A$ taking the arc $3_S\overset{A}{\longrightarrow}1_S$. In this case, $a$ coming from $1_S\overset{a}{\longrightarrow}2_S$ is the 
+				\textbf{lookahead} (the character that comes \emph{after} having recognized $A$), which gives the certainty that we recognized $A$.
+				\item If the $c$ instead came from $3_S\overset{c}{\longrightarrow}4_S$ (figure \ref{fig:B}), after that we have the production $C$, and its first 
+				character is $d$ ($0_C\overset{d}{\longrightarrow}1_C$), which is different from $a$.
+			\end{itemize}
+			So, when we arrive in $3_S$ (fig \ref{fig:B}), we have two candidates:
+			\begin{enumerate}
+				\item $3_S\longrightarrow 4S$ in which we continue recognizing the production $S$.
+				\item $3_S\longrightarrow 0A$ in which we start recognizing the production $A$.
+			\end{enumerate}
+			ELR looks at all these possible candidates in parallel. Until we read the $c$ and the lookahead, we don't know which is the option in which we are: 
+			we need to bring on all the possible options until we find the correct lookahead (at that point we have found the correct candidate tha we need to 
+			continue parsing the string).
+
+			Candidates are tuples:
+			\begin{equation*}
+				C=\langle q,r\rangle
+			\end{equation*}
+			where:
+			\begin{itemize}
+				\item $q$: A machine of the state;
+				\item $r$: $\Sigma$, where $\Sigma$ is the alphabet, (while $V$ are the nonterminals, hot present here).
+			\end{itemize}
+			In every state of ELR, we have these states (separate from states of the machine of the production), which are called \emph{macro states}, or 
+			\emph{m-states}.
 			
+			In each state of the pilot we have a set of candidates: the transitions of ELR recognizes all the set of characters in the alphabet and the 
+			nonterminals, becausr when we replace production with nonterminal symbols, is what the pilot need to be able to do: replace the production with the 
+			correct nonterminal symbol.
+
+			Let's see how we build transitions and symbols:
+			Initial state is built from all the initial candidates that can be found at the beginning of the string. Since we are at the beginning of the 
+			string, at the end, the look ahead will be defined by at least $\dashv$ ($4_S\longrightarrow$), because when we will recognize $S$, at the end of $S$,
+			when we have finished recognizing the whole string, we have the terminal character. In some cases additionally we will have some transition that 
+			from the initial state of the axiom enters another machine: in that case we will have multiple lookaheads. The initial state will contain the closure 
+			of $0_S$ and $\dashv$ ($\langle 0_S,\dashv\rangle$). In order to build the closure of a state we have to control all transition outgoing from $0_S$ in 
+			this case. The candidates we have next, will depend from the state we are in.
+
+			In this case, at the beginning we are in $0_S$, and the terminal character (we do not have extra candidates that need to be added).
+			At the beginning we have just $0_S,\dashv$ at the beginning, and we add this new state inside the 
+			ELR pilot machine. Le'ts see the two section of a node in ELR:
+			\begin{itemize}
+				\item \emph{base set}: elements from the closure that still belong to the original machine (in this case $S$);
+				\item \emph{closure set}: contains elements of the closurethat belongs to a new machine
+			\end{itemize}
+			We are starting, we do not have another state, we started from nothing, hence everything goes in closure set:
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+					\node (initial) [shape=rectangle,] {
+						\begin{tabular}{|cc|} \toprule
+							\hline
+							$0_s$ & $\dashv$\\
+							\hline
+						\end{tabular}
+						};
+				\end{tikzpicture}
+			\end{figure}
+			In the slides, when we see \emph{closure(C)}, we don't mean only the closure set, but the entire closure!
+			Now let's go on to produce the next state. Now, we need to look at all characters in the alphabet and all the nonterminals, 
+			and we need to check if there is a transition from one of the states that appears in the various candidates, so for example, 
+			in this case just $0_S$. For each character in the set $abcsASC$, if there is a transition that recognizes one of 
+			those character from one or multiple of the states in the candidates, then we add a new transition to a new state inside the pilot.
+			From $0_S,\dashv$, we have one single transition towards $1_S$ with $a$. We draw an arrow in the pilot, and the next state 
+			is produced from the closure of the next state that we are going to from the next state in the $S$ machine. We were starting from $0_S,\dashv$:
+			now we need to compute the closure of $\langle 1_S,\dashv\rangle$. How did we arrive to $\langle 1_S,\dashv\rangle$? we follow the transition 
+			that in machine $S$ brought us to $1_S$ through $a$, and we change the state in the candidate from the initial to the final state.
+
+			The closure of something is defined as our initial candidate itself ($1_s,\dashv$), and look at all possible transitions that from $1_S$ 
+			bring us to another state, but only through one of the nonterminal symbols. The only transition does not take a nonterminal symbol. There is nothing 
+			else to add in the closure, and we have finished. The building of the state is complete.
+			We need now to finalize the state: what there will be in the base set? all the closure copied from the closure. we have computed the closure of 
+			$1_S,\dashv$: since the closure is equal to $1_S,\dashv$ (is the closure of itself), is the base set. Then we add the closure set (new parts of new machines),
+			which is empty (just put an horizontal line.)
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+					\node (initial) [shape=rectangle,] {
+						\begin{tabular}{|cc|} \hline
+							\hline
+							$0_s$ & $\dashv$\\
+							\hline
+						\end{tabular}
+					};
+					\node (first) [shape=rectangle,] [right of = initial] {
+						\begin{tabular}{|cc|} \hline
+							$1_s$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+
+					\path[->](initial) edge node {a} (first);
+				\end{tikzpicture}
+			\end{figure}
+			And we go on. we have finished with the first state ($0_S$), we have looked at all transition from initial states to all candidates, and we 
+			will mark the state as completed (we'll never touch it again):
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+					\node (initial) [shape=rectangle,fill=green] {
+						\begin{tabular}{|cc|} \hline
+							\hline
+							$0_s$ & $\dashv$\\
+							\hline
+						\end{tabular}
+					};
+					\node (first) [shape=rectangle,] [right of = initial] {
+						\begin{tabular}{|cc|} \hline
+							$1_s$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+
+					\path[->](initial) edge node {a} (first);
+				\end{tikzpicture}
+			\end{figure}
+			And consider the candidate $1_S,\dashv$. From $1_S$, we have only one transition which reads $a$: we don't have to compute the closure of $1_S,\dashv$, 
+			but of $2_S,\dashv$. Do we have additional production we can reach from $2_S$. We don't have a transition that recognizes a new symbol, hence we don't have
+			anything to add to the closure set.:
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+					\node (initial) [shape=rectangle,fill=green] {
+						\begin{tabular}{|cc|} \hline
+							\hline
+							$0_S$ & $\dashv$\\
+							\hline
+						\end{tabular}
+					};
+					\node (first) [shape=rectangle,] [right of = initial] {
+						\begin{tabular}{|cc|} \hline
+							$1_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (second) [shape=rectangle] [right of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+
+					\path[->](initial) edge node {a} (first);
+					\path[->](first) edge node {a} (second);
+				\end{tikzpicture}
+			\end{figure}
+			Let's go on from $2_S$. Same situation. We can reach $3_S$ by reading $b$, and there is no other transition:
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+					\node (initial) [shape=rectangle,fill=green] {
+						\begin{tabular}{|cc|} \hline
+							\hline
+							$0_S$ & $\dashv$\\
+							\hline
+						\end{tabular}
+					};
+					\node (first) [shape=rectangle,] [right of = initial] {
+						\begin{tabular}{|cc|} \hline
+							$1_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (second) [shape=rectangle] [right of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (third) [shape=rectangle] [right of = second]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+
+					\path[->](initial) edge node {a} (first);
+					\path[->](first) edge node {a} (second);
+					\path[->](second) edge node {b} (third);
+				\end{tikzpicture}
+			\end{figure}
+			In slides, $\delta$ , it takes one candidate, and it computes the candidates that follows a certain symbol:
+			\begin{equation*}
+				\delta(\langle 0_S,\dashv\rangle)=\langle 1_S,\dashv\rangle
+			\end{equation*}
+			We just replace the state.
+			Now, in $3_S$ we have a transition that goes to a new nonterminal symbol: $3_S\overset{A}{\longrightarrow}1_S$.
+			We are computing the closure of $3_S$, and we go to another state in the machine by recognizing the nonterminal symbol, 
+			we need to add a new candidate in the closure set: it's not the state $1_S$, is the initial state of the machine we are 
+			recognizing the nonterminal of, $A$, hence we add $0_A$, and the lookahead will be the character (or the set of characters) 
+			that come after $A$ in the original machine. Here, after recognizing $A$, in $S$ we find $a$: this is our lookahead:
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+					\node (initial) [shape=rectangle,fill=green] {
+						\begin{tabular}{|cc|} \hline
+							\hline
+							$0_S$ & $\dashv$\\
+							\hline
+						\end{tabular}
+					};
+					\node (first) [shape=rectangle,] [right of = initial] {
+						\begin{tabular}{|cc|} \hline
+							$1_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (second) [shape=rectangle] [right of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (third) [shape=rectangle] [right of = second]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $\dashv$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+
+					\path[->](initial) edge node {a} (first);
+					\path[->](first) edge node {a} (second);
+					\path[->](second) edge node {b} (third);
+				\end{tikzpicture}
+			\end{figure}
+			This is the important part. If we have a nonterminal between $1_S$ and $2_S$, we can't write $a$ in the closure, 
+			we need to go into the machine of that nonterminal, and check the character in that machine. If there is still a 
+			nonterminal character, go ahead until you find a nonterminal character.
+
+			Let's finish computing the set of candidates: when we add a new candidate as in this case ($0_A$), we have to 
+			recursively check if this adds new candidates. This does not happens: it has not transitions to nonterminal symbols, 
+			but it might happen. we have finished building the closure, we need to produce the new states and transitions. Look at 
+			all states, and look what is recognized. Both $0_A$ and $3_S$ recognize $c$. Add a single arc that corresponds to $c$.
+			At this point, advance all the candidates where we have a recognition from the initial state of $c$, not all candidates in general.
+			Only look at the ones that whose state is a state that can recognize $c$ with an outgoing transition. Advance both $3_S$ and $4_S$.
+			From $3_S$ we go to $4_S$ (keep the same lookahead), and with $0_A$ we go to $1_A$, bringing forward lookahead ($a$), and this is the 
+			base set:
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+					\node (initial) [shape=rectangle,fill=green] {
+						\begin{tabular}{|cc|} \hline
+							\hline
+							$0_S$ & $\dashv$\\
+							\hline
+						\end{tabular}
+					};
+					\node (first) [shape=rectangle,] [right of = initial] {
+						\begin{tabular}{|cc|} \hline
+							$1_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (second) [shape=rectangle] [right of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (third) [shape=rectangle] [right of = second]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $\dashv$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fourht) [shape=rectangle] [below of = third]{
+						\begin{tabular}{|cc|}
+							\hline
+							$4_S$ & $\dashv$\\
+							$1_A$ & $a$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+
+					\path[->](initial) edge node {a} (first);
+					\path[->](first) edge node {a} (second);
+					\path[->](second) edge node {b} (third);
+					\path[->](third) edge node {c} (fourht);
+				\end{tikzpicture}
+			\end{figure}
+			Let's now check if one of these two new states have a transition that recognizes a nonterminal. $1_A$ is a final state 
+			(no other transitions from there), from $4_S$ we have a transition that recognizes $C$:
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+					\node (initial) [shape=rectangle,fill=green] {
+						\begin{tabular}{|cc|} \hline
+							\hline
+							$0_S$ & $\dashv$\\
+							\hline
+						\end{tabular}
+					};
+					\node (first) [shape=rectangle,] [right of = initial] {
+						\begin{tabular}{|cc|} \hline
+							$1_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (second) [shape=rectangle] [right of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (third) [shape=rectangle] [right of = second]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $\dashv$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fourht) [shape=rectangle] [below of = third]{
+						\begin{tabular}{|cc|}
+							\hline
+							$4_S$ & $\dashv$\\
+							$1_A$ & $a$\\
+							\hline
+							\hline
+							$0_C$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+
+					\path[->](initial) edge node {a} (first);
+					\path[->](first) edge node {a} (second);
+					\path[->](second) edge node {b} (third);
+					\path[->](third) edge node {c} (fourht);
+				\end{tikzpicture}
+			\end{figure}
+			The closure as we notice is just $b$, $2_S$ has no other transitions or recursion. But, we have also a transition from $3_S$, in 
+			which we can recognize $A$ (other than one with $c$): These transitions with nonterminals, are not different, count as the transitions with 
+			terminals: we need to add these transitions also in the pilot graph. Let's build the new state in this case: we need to bring 
+			ahead candidates that recognizes $A$, in this case just $3_S,\dashv$. We go to $1_S$, the state of the new candidate (with the same lookahead). Look 
+			at the closure of this state: from $1_S$, we have no transitions that goes to another state through a nonterminal: this state is finished here:
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+					\node (initial) [shape=rectangle,fill=green] {
+						\begin{tabular}{|cc|} \hline
+							\hline
+							$0_S$ & $\dashv$\\
+							\hline
+						\end{tabular}
+					};
+					\node (first) [shape=rectangle,] [right of = initial] {
+						\begin{tabular}{|cc|} \hline
+							$1_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (second) [shape=rectangle] [right of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (third) [shape=rectangle] [right of = second]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $\dashv$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fourht) [shape=rectangle] [below of = third]{
+						\begin{tabular}{|cc|}
+							\hline
+							$4_S$ & $\dashv$\\
+							$1_A$ & $a$\\
+							\hline
+							\hline
+							$0_C$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fifth) [shape=rectangle] [below of = second]{
+						\begin{tabular}{|cc|}
+							\hline
+							$1_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+
+					\path[->](initial) edge node {a} (first);
+					\path[->](first) edge node {a} (second);
+					\path[->](second) edge node {b} (third);
+					\path[->](third) edge node {c} (fourht);
+					\path[->](third) edge node [swap] {A} (fifth);
+				\end{tikzpicture}
+			\end{figure}
+			When we build a new state identical, with all set of candidates, as another state (the highlighted ones):
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+					\node (initial) [shape=rectangle,fill=green] {
+						\begin{tabular}{|cc|} \hline
+							\hline
+							$0_S$ & $\dashv$\\
+							\hline
+						\end{tabular}
+					};
+					\node (first) [shape=rectangle,] [right of = initial, fill=red] {
+						\begin{tabular}{|cc|} \hline
+							$1_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (second) [shape=rectangle] [right of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (third) [shape=rectangle] [right of = second]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $\dashv$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fourht) [shape=rectangle] [below of = third]{
+						\begin{tabular}{|cc|}
+							\hline
+							$4_S$ & $\dashv$\\
+							$1_A$ & $a$\\
+							\hline
+							\hline
+							$0_C$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fifth) [shape=rectangle] [below of = second,fill=red]{
+						\begin{tabular}{|cc|}
+							\hline
+							$1_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+
+					\path[->](initial) edge node {a} (first);
+					\path[->](first) edge node {a} (second);
+					\path[->](second) edge node {b} (third);
+					\path[->](third) edge node {c} (fourht);
+					\path[->](third) edge node [swap] {A} (fifth);
+				\end{tikzpicture}
+			\end{figure}
+			This means, that they are the \textbf{same} state, they are not different: we can never have two identical states (same set 
+			of candidates). Hence, we did not need the last node:
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+					\node (initial) [shape=rectangle,fill=green] {
+						\begin{tabular}{|cc|} \hline
+							\hline
+							$0_S$ & $\dashv$\\
+							\hline
+						\end{tabular}
+					};
+					\node (first) [shape=rectangle] [right of = initial] {
+						\begin{tabular}{|cc|} \hline
+							$1_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (second) [shape=rectangle] [right of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (third) [shape=rectangle] [right of = second]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $\dashv$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fourht) [shape=rectangle] [below of = third]{
+						\begin{tabular}{|cc|}
+							\hline
+							$4_S$ & $\dashv$\\
+							$1_A$ & $a$\\
+							\hline
+							\hline
+							$0_C$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+
+					\path[->](initial) edge node {a} (first);
+					\path[->](first) edge node {a} (second);
+					\path[->](second) edge node {b} (third);
+					\path[->](third) edge node {c} (fourht);
+					\path[->](third) edge [in=-45, out=-135] node [swap] {A} (first);
+				\end{tikzpicture}
+			\end{figure}
+			Be careful, always try to build closure: maybe state is not the same. Pay attention in sayng ``yes, it is duplicate''.
+			Mark now the completion of the states:
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+					\node (initial) [shape=rectangle,fill=green] {
+						\begin{tabular}{|cc|} \hline
+							\hline
+							$0_S$ & $\dashv$\\
+							\hline
+						\end{tabular}
+					};
+					\node (first) [shape=rectangle,fill=green] [right of = initial] {
+						\begin{tabular}{|cc|} \hline
+							$1_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (second) [shape=rectangle,fill=green] [right of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (third) [shape=rectangle,fill=green] [right of = second]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $\dashv$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fourht) [shape=rectangle] [below of = third]{
+						\begin{tabular}{|cc|}
+							\hline
+							$4_S$ & $\dashv$\\
+							$1_A$ & $a$\\
+							\hline
+							\hline
+							$0_C$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+
+					\path[->](initial) edge node {a} (first);
+					\path[->](first) edge node {a} (second);
+					\path[->](second) edge node {b} (third);
+					\path[->](third) edge node {c} (fourht);
+					\path[->](third) edge [in=-45, out=-135] node [swap] {A} (first);
+				\end{tikzpicture}
+			\end{figure}
 		\subsection{ELL parsers}
 			ELL = Extended Left to right Leftmost
 
