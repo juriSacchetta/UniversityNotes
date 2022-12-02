@@ -309,7 +309,7 @@
 						\path[->](initial) edge node {} (0a);
 						\path[->]          (0c)  edge node {d} (1c);
 						\path[->]          (2c)  edge node {} (final);
-						\path[->][in=45,out=135]          (2c)  edge node [swap ]{$A$} (1c);
+						\path[->][in=135,out=45]          (1c)  edge node {$S$} (2c);
 						\path[->][in=-135,out=-45]          (1c)  edge node {$a$} (2c);
 					\end{tikzpicture}
 					\label{fig:C}
