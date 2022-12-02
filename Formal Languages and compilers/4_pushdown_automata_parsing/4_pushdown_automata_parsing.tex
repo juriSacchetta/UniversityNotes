@@ -1216,7 +1216,1099 @@
 			is just the production of $C$ that ended, the terminal character is only at the end of the final string, not at the end of every machine (production), because 
 			this would result in $\dashv$ inside of the string.
 
-			And you have to go on like this. % if necessary other things, resume from 1:01:51 of lesson of professor Daniele Cattaneo, 20221110
+			And you have to go on like this (from now on, only passages will be reported, since we have seen all the important cases that can happen).
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+					\node (initial) [shape=rectangle,fill=green] {
+						\begin{tabular}{|cc|} \hline
+							\hline
+							$0_S$ & $\dashv$\\
+							\hline
+						\end{tabular}
+					};
+					\node (first) [shape=rectangle,fill=green] [right of = initial] {
+						\begin{tabular}{|cc|} \hline
+							$1_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (second) [shape=rectangle,fill=green] [right of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (third) [shape=rectangle,fill=green] [right of = second]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $\dashv$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fourht) [shape=rectangle] [below of = third,fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$4_S$} & $\dashv$\\
+							\circled{$1_A$} & $a$\\
+							\hline
+							\hline
+							$0_C$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fifth) [shape=rectangle] [below of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$1_C$ & $b$\\
+							\hline
+							\hline
+							$0_S$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					\node (sixth) [shape=rectangle] [below of = initial]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$2_C$} & $b$\\
+							$1_S$ & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					
+					\path[->](initial) edge node {a} (first);
+					\path[->](first) edge node {a} (second);
+					\path[->](second) edge node {b} (third);
+					\path[->](third) edge node {c} (fourht);
+					\path[->](third) edge [in=-45, out=-135] node [swap] {A} (first);
+					\path[->](fourht) [in=-90, out=-135] edge node{C}(second);
+					\path[->](fourht) edge node [swap]{d} (fifth);
+					\path[->](fifth) edge node [swap]{a} (sixth);
+				\end{tikzpicture}
+			\end{figure}
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+					\node (initial) [shape=rectangle,fill=green] {
+						\begin{tabular}{|cc|} \hline
+							\hline
+							$0_S$ & $\dashv$\\
+							\hline
+						\end{tabular}
+					};
+					\node (first) [shape=rectangle,fill=green] [right of = initial] {
+						\begin{tabular}{|cc|} \hline
+							$1_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (second) [shape=rectangle,fill=green] [right of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (third) [shape=rectangle,fill=green] [right of = second]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $\dashv$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fourht) [shape=rectangle] [below of = third,fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$4_S$} & $\dashv$\\
+							\circled{$1_A$} & $a$\\
+							\hline
+							\hline
+							$0_C$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fifth) [shape=rectangle] [below of = first,fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							$1_C$ & $b$\\
+							\hline
+							\hline
+							$0_S$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					\node (sixth) [shape=rectangle] [below of = initial]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$2_C$} & $b$\\
+							$1_S$ & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (seventh) [shape=rectangle] [below of = fifth]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$2_C$} & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					
+					\path[->](initial) edge node {a} (first);
+					\path[->](first) edge node {a} (second);
+					\path[->](second) edge node {b} (third);
+					\path[->](third) edge node {c} (fourht);
+					\path[->](third) edge [in=-45, out=-135] node [swap] {A} (first);
+					\path[->](fourht) [in=-90, out=-135] edge node{C}(second);
+					\path[->](fourht) edge node [swap]{d} (fifth);
+					\path[->](fifth) edge node [swap]{a} (sixth);
+					\path[->](fifth) edge node [swap] {S} (seventh);
+				\end{tikzpicture}
+			\end{figure}
+			Since in $2_C$ there are no other transitions, it is also complete.
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+					\node (initial) [shape=rectangle,fill=green] {
+						\begin{tabular}{|cc|} \hline
+							\hline
+							$0_S$ & $\dashv$\\
+							\hline
+						\end{tabular}
+					};
+					\node (first) [shape=rectangle,fill=green] [right of = initial] {
+						\begin{tabular}{|cc|} \hline
+							$1_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (second) [shape=rectangle,fill=green] [right of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (third) [shape=rectangle,fill=green] [right of = second]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $\dashv$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fourht) [shape=rectangle] [below of = third,fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$4_S$} & $\dashv$\\
+							\circled{$1_A$} & $a$\\
+							\hline
+							\hline
+							$0_C$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fifth) [shape=rectangle] [below of = first,fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							$1_C$ & $b$\\
+							\hline
+							\hline
+							$0_S$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					\node (sixth) [shape=rectangle] [below of = initial]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$2_C$} & $b$\\
+							$1_S$ & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (seventh) [shape=rectangle] [below of = fifth, fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$2_C$} & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					
+					\path[->](initial) edge node {a} (first);
+					\path[->](first) edge node {a} (second);
+					\path[->](second) edge node {b} (third);
+					\path[->](third) edge node {c} (fourht);
+					\path[->](third) edge [in=-45, out=-135] node [swap] {A} (first);
+					\path[->](fourht) [in=-90, out=-135] edge node{C}(second);
+					\path[->](fourht) edge node [swap]{d} (fifth);
+					\path[->](fifth) edge node [swap]{a} (sixth);
+					\path[->](fifth) edge node [swap] {S} (seventh);
+				\end{tikzpicture}
+			\end{figure}
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+					\node (initial) [shape=rectangle,fill=green] {
+						\begin{tabular}{|cc|} \hline
+							\hline
+							$0_S$ & $\dashv$\\
+							\hline
+						\end{tabular}
+					};
+					\node (first) [shape=rectangle,fill=green] [right of = initial] {
+						\begin{tabular}{|cc|} \hline
+							$1_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (second) [shape=rectangle,fill=green] [right of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (third) [shape=rectangle,fill=green] [right of = second]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $\dashv$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fourht) [shape=rectangle] [below of = third,fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$4_S$} & $\dashv$\\
+							\circled{$1_A$} & $a$\\
+							\hline
+							\hline
+							$0_C$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fifth) [shape=rectangle] [below of = first,fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							$1_C$ & $b$\\
+							\hline
+							\hline
+							$0_S$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					\node (sixth) [shape=rectangle] [below of = initial, fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$2_C$} & $b$\\
+							$1_S$ & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (seventh) [shape=rectangle] [below of = fifth, fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$2_C$} & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (eigth) [shape=rectangle] [below of = sixth]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					
+					\path[->](initial) edge node {a} (first);
+					\path[->](first) edge node {a} (second);
+					\path[->](second) edge node {b} (third);
+					\path[->](third) edge node {c} (fourht);
+					\path[->](third) edge [in=-45, out=-135] node [swap] {A} (first);
+					\path[->](fourht) [in=-90, out=-135] edge node{C}(second);
+					\path[->](fourht) edge node [swap]{d} (fifth);
+					\path[->](fifth) edge node [swap]{a} (sixth);
+					\path[->](fifth) edge node [swap] {S} (seventh);
+					\path[->](sixth) edge node {a}(eigth);
+				\end{tikzpicture}
+			\end{figure}
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+					\node (initial) [shape=rectangle,fill=green] {
+						\begin{tabular}{|cc|} \hline
+							\hline
+							$0_S$ & $\dashv$\\
+							\hline
+						\end{tabular}
+					};
+					\node (first) [shape=rectangle,fill=green] [right of = initial] {
+						\begin{tabular}{|cc|} \hline
+							$1_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (second) [shape=rectangle,fill=green] [right of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (third) [shape=rectangle,fill=green] [right of = second]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $\dashv$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fourht) [shape=rectangle] [below of = third,fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$4_S$} & $\dashv$\\
+							\circled{$1_A$} & $a$\\
+							\hline
+							\hline
+							$0_C$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fifth) [shape=rectangle] [below of = first,fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							$1_C$ & $b$\\
+							\hline
+							\hline
+							$0_S$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					\node (sixth) [shape=rectangle] [below of = initial, fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$2_C$} & $b$\\
+							$1_S$ & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (seventh) [shape=rectangle] [below of = fifth, fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$2_C$} & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (eigth) [shape=rectangle] [below of = sixth, fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (ninth) [shape=rectangle] [below of = eigth]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $b$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+					
+					\path[->](initial) edge node {a} (first);
+					\path[->](first) edge node {a} (second);
+					\path[->](second) edge node {b} (third);
+					\path[->](third) edge node {c} (fourht);
+					\path[->](third) edge [in=-45, out=-135] node [swap] {A} (first);
+					\path[->](fourht) [in=-90, out=-135] edge node{C}(second);
+					\path[->](fourht) edge node [swap]{d} (fifth);
+					\path[->](fifth) edge node [swap]{a} (sixth);
+					\path[->](fifth) edge node [swap] {S} (seventh);
+					\path[->](sixth) edge node {a}(eigth);
+					\path[->](eigth) edge node {b}(ninth);
+				\end{tikzpicture}
+			\end{figure}
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+					\node (initial) [shape=rectangle,fill=green] {
+						\begin{tabular}{|cc|} \hline
+							\hline
+							$0_S$ & $\dashv$\\
+							\hline
+						\end{tabular}
+					};
+					\node (first) [shape=rectangle,fill=green] [right of = initial] {
+						\begin{tabular}{|cc|} \hline
+							$1_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (second) [shape=rectangle,fill=green] [right of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (third) [shape=rectangle,fill=green] [right of = second]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $\dashv$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fourht) [shape=rectangle] [below of = third,fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$4_S$} & $\dashv$\\
+							\circled{$1_A$} & $a$\\
+							\hline
+							\hline
+							$0_C$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fifth) [shape=rectangle] [below of = first,fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							$1_C$ & $b$\\
+							\hline
+							\hline
+							$0_S$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					\node (sixth) [shape=rectangle] [below of = initial, fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$2_C$} & $b$\\
+							$1_S$ & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (seventh) [shape=rectangle] [below of = fifth, fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$2_C$} & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (eigth) [shape=rectangle] [below of = sixth, fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (ninth) [shape=rectangle] [below of = eigth]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $b$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+					\node (tenth) [shape=rectangle] [below of = ninth]{
+						\begin{tabular}{|cc|}
+							\hline
+							$1_S$ & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					
+					\path[->](initial) edge node {a} (first);
+					\path[->](first) edge node {a} (second);
+					\path[->](second) edge node {b} (third);
+					\path[->](third) edge node {c} (fourht);
+					\path[->](third) edge [in=-45, out=-135] node [swap] {A} (first);
+					\path[->](fourht) [in=-90, out=-135] edge node{C}(second);
+					\path[->](fourht) edge node [swap]{d} (fifth);
+					\path[->](fifth) edge node [swap]{a} (sixth);
+					\path[->](fifth) edge node [swap] {S} (seventh);
+					\path[->](sixth) edge node {a}(eigth);
+					\path[->](eigth) edge node {b}(ninth);
+					\path[->](ninth) edge node {A}(tenth);
+				\end{tikzpicture}
+			\end{figure}
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+					\node (initial) [shape=rectangle,fill=green] {
+						\begin{tabular}{|cc|} \hline
+							\hline
+							$0_S$ & $\dashv$\\
+							\hline
+						\end{tabular}
+					};
+					\node (first) [shape=rectangle,fill=green] [right of = initial] {
+						\begin{tabular}{|cc|} \hline
+							$1_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (second) [shape=rectangle,fill=green] [right of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (third) [shape=rectangle,fill=green] [right of = second]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $\dashv$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fourht) [shape=rectangle] [below of = third,fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$4_S$} & $\dashv$\\
+							\circled{$1_A$} & $a$\\
+							\hline
+							\hline
+							$0_C$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fifth) [shape=rectangle] [below of = first,fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							$1_C$ & $b$\\
+							\hline
+							\hline
+							$0_S$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					\node (sixth) [shape=rectangle] [below of = initial, fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$2_C$} & $b$\\
+							$1_S$ & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (seventh) [shape=rectangle] [below of = fifth, fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$2_C$} & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (eigth) [shape=rectangle] [below of = sixth, fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (ninth) [shape=rectangle] [below of = eigth, fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $b$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+					\node (tenth) [shape=rectangle] [below of = ninth]{
+						\begin{tabular}{|cc|}
+							\hline
+							$1_S$ & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (eleventh) [shape=rectangle] [below of = seventh]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$4_S$} & $b$\\
+							\circled{$1_A$} & $a$\\
+							\hline
+							\hline
+							$0_C$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					
+					\path[->](initial) edge node {a} (first);
+					\path[->](first) edge node {a} (second);
+					\path[->](second) edge node {b} (third);
+					\path[->](third) edge node {c} (fourht);
+					\path[->](third) edge [in=-45, out=-135] node [swap] {A} (first);
+					\path[->](fourht) [in=-90, out=-135] edge node{C}(second);
+					\path[->](fourht) edge node [swap]{d} (fifth);
+					\path[->](fifth) edge node [swap]{a} (sixth);
+					\path[->](fifth) edge node [swap] {S} (seventh);
+					\path[->](sixth) edge node {a}(eigth);
+					\path[->](eigth) edge node {b}(ninth);
+					\path[->](ninth) edge node {A}(tenth);
+					\path[->](ninth) edge node {c}(eleventh);
+				\end{tikzpicture}
+			\end{figure}
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+					\node (initial) [shape=rectangle,fill=green] {
+						\begin{tabular}{|cc|} \hline
+							\hline
+							$0_S$ & $\dashv$\\
+							\hline
+						\end{tabular}
+					};
+					\node (first) [shape=rectangle,fill=green] [right of = initial] {
+						\begin{tabular}{|cc|} \hline
+							$1_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (second) [shape=rectangle,fill=green] [right of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (third) [shape=rectangle,fill=green] [right of = second]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $\dashv$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fourht) [shape=rectangle] [below of = third,fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$4_S$} & $\dashv$\\
+							\circled{$1_A$} & $a$\\
+							\hline
+							\hline
+							$0_C$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fifth) [shape=rectangle] [below of = first,fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							$1_C$ & $b$\\
+							\hline
+							\hline
+							$0_S$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					\node (sixth) [shape=rectangle] [below of = initial, fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$2_C$} & $b$\\
+							$1_S$ & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (seventh) [shape=rectangle] [below of = fifth, fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$2_C$} & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (eigth) [shape=rectangle] [below of = sixth, fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (ninth) [shape=rectangle] [below of = eigth, fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $b$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+					\node (tenth) [shape=rectangle] [below of = ninth, fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							$1_S$ & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (eleventh) [shape=rectangle] [below of = seventh]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$4_S$} & $b$\\
+							\circled{$1_A$} & $a$\\
+							\hline
+							\hline
+							$0_C$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					
+					\path[->](initial) edge node {a} (first);
+					\path[->](first) edge node {a} (second);
+					\path[->](second) edge node {b} (third);
+					\path[->](third) edge node {c} (fourht);
+					\path[->](third) edge [in=-45, out=-135] node [swap] {A} (first);
+					\path[->](fourht) [in=-90, out=-135] edge node{C}(second);
+					\path[->](fourht) edge node [swap]{d} (fifth);
+					\path[->](fifth) edge node [swap]{a} (sixth);
+					\path[->](fifth) edge node [swap] {S} (seventh);
+					\path[->](sixth) edge node {a}(eigth);
+					\path[->](eigth) edge node {b}(ninth);
+					\path[->](ninth) edge node {A}(tenth);
+					\path[->](ninth) edge node {c}(eleventh);
+					\path[->](tenth) [in=-135, out=135]edge node {a}(eigth);
+				\end{tikzpicture}
+			\end{figure}
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+					\node (initial) [shape=rectangle,fill=green] {
+						\begin{tabular}{|cc|} \hline
+							\hline
+							$0_S$ & $\dashv$\\
+							\hline
+						\end{tabular}
+					};
+					\node (first) [shape=rectangle,fill=green] [right of = initial] {
+						\begin{tabular}{|cc|} \hline
+							$1_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (second) [shape=rectangle,fill=green] [right of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (third) [shape=rectangle,fill=green] [right of = second]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $\dashv$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fourht) [shape=rectangle] [below of = third,fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$4_S$} & $\dashv$\\
+							\circled{$1_A$} & $a$\\
+							\hline
+							\hline
+							$0_C$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fifth) [shape=rectangle] [below of = first,fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							$1_C$ & $b$\\
+							\hline
+							\hline
+							$0_S$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					\node (sixth) [shape=rectangle] [below of = initial, fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$2_C$} & $b$\\
+							$1_S$ & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (seventh) [shape=rectangle] [below of = fifth, fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$2_C$} & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (eigth) [shape=rectangle] [below of = sixth, fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (ninth) [shape=rectangle] [below of = eigth, fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $b$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+					\node (tenth) [shape=rectangle] [below of = ninth, fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							$1_S$ & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (eleventh) [shape=rectangle] [below of = seventh, fill=green]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$4_S$} & $b$\\
+							\circled{$1_A$} & $a$\\
+							\hline
+							\hline
+							$0_C$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					
+					\path[->](initial) edge node {a} (first);
+					\path[->](first) edge node {a} (second);
+					\path[->](second) edge node {b} (third);
+					\path[->](third) edge node {c} (fourht);
+					\path[->](third) edge [in=-45, out=-135] node [swap] {A} (first);
+					\path[->](fourht) [in=-90, out=-135] edge node{C}(second);
+					\path[->](fourht) edge node [swap]{d} (fifth);
+					\path[->](fifth) edge node [swap]{a} (sixth);
+					\path[->](fifth) edge node [swap] {S} (seventh);
+					\path[->](sixth) edge node {a}(eigth);
+					\path[->](eigth) edge node {b}(ninth);
+					\path[->](ninth) edge node {A}(tenth);
+					\path[->](ninth) edge node {c}(eleventh);
+					\path[->](tenth) [in=-135, out=135]edge node {a}(eigth);
+					\path[->](eleventh) edge node [swap]{C} (eigth);
+					\path[->](eleventh) [in=-45, out=45]edge node [swap]{d} (fifth);
+				\end{tikzpicture}
+			\end{figure}
+			N.b.: to check if a state is a duplicate state, is enough to check just the base set, because the closure set is obtained starting from the base set, and 
+			for sure will be the same.
+
+			Finally no other transition are left: in the following image there is the clean graph without the green highlights:
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm]
+					\node (initial) [shape=rectangle] {
+						\begin{tabular}{|cc|} \hline
+							\hline
+							$0_S$ & $\dashv$\\
+							\hline
+						\end{tabular}
+					};
+					\node (first) [shape=rectangle] [right of = initial] {
+						\begin{tabular}{|cc|} \hline
+							$1_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (second) [shape=rectangle] [right of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $\dashv$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (third) [shape=rectangle] [right of = second]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $\dashv$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fourht) [shape=rectangle] [below of = third]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$4_S$} & $\dashv$\\
+							\circled{$1_A$} & $a$\\
+							\hline
+							\hline
+							$0_C$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					\node (fifth) [shape=rectangle] [below of = first]{
+						\begin{tabular}{|cc|}
+							\hline
+							$1_C$ & $b$\\
+							\hline
+							\hline
+							$0_S$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					\node (sixth) [shape=rectangle] [below of = initial]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$2_C$} & $b$\\
+							$1_S$ & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (seventh) [shape=rectangle] [below of = fifth]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$2_C$} & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (eigth) [shape=rectangle] [below of = sixth]{
+						\begin{tabular}{|cc|}
+							\hline
+							$2_S$ & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (ninth) [shape=rectangle] [below of = eigth]{
+						\begin{tabular}{|cc|}
+							\hline
+							$3_S$ & $b$\\
+							\hline
+							\hline
+							$0_A$ & $a$\\
+							\hline
+						\end{tabular}
+					};
+					\node (tenth) [shape=rectangle] [below of = ninth]{
+						\begin{tabular}{|cc|}
+							\hline
+							$1_S$ & $b$\\
+							\hline
+							\hline
+						\end{tabular}
+					};
+					\node (eleventh) [shape=rectangle] [below of = seventh]{
+						\begin{tabular}{|cc|}
+							\hline
+							\circled{$4_S$} & $b$\\
+							\circled{$1_A$} & $a$\\
+							\hline
+							\hline
+							$0_C$ & $b$\\
+							\hline
+						\end{tabular}
+					};
+					
+					\path[->](initial) edge node {a} (first);
+					\path[->](first) edge node {a} (second);
+					\path[->](second) edge node {b} (third);
+					\path[->](third) edge node {c} (fourht);
+					\path[->](third) edge [in=-45, out=-135] node [swap] {A} (first);
+					\path[->](fourht) [in=-90, out=-135] edge node{C}(second);
+					\path[->](fourht) edge node [swap]{d} (fifth);
+					\path[->](fifth) edge node [swap]{a} (sixth);
+					\path[->](fifth) edge node [swap] {S} (seventh);
+					\path[->](sixth) edge node {a}(eigth);
+					\path[->](eigth) edge node {b}(ninth);
+					\path[->](ninth) edge node {A}(tenth);
+					\path[->](ninth) edge node {c}(eleventh);
+					\path[->](tenth) [in=-135, out=135]edge node {a}(eigth);
+					\path[->](eleventh) edge node [swap]{C} (eigth);
+					\path[->](eleventh) [in=-45, out=45]edge node [swap]{d} (fifth);
+				\end{tikzpicture}
+			\end{figure}
+			Let's do some final considerations. Notice first that, in this case there it is always one lookahead, but in principle may happen you have more than one lookahead.
+
+			We have seen that a certain point, we started getting repeated: there were clones states with small differences in lookahead (but same stat in the 
+			candidate), like $2_S,b$ and $2_S,\dashv$. Somebody told: what if I unify these states with differents lookaheads, what would happen? We would have a slightly less
+			powerful recognizer, which is anyway still powerful enough that most of the times we don't see the difference. This is the algorithm that bison uses to 
+			build the parser for the laboratory part (LALR algorithm).
+
+			This is not requested in exam.
+
+			In some other exercises we might have \emph{conflicts}. They happen when we build some configurations of states or candidates that makes 
+			correct parsing difficult or impossible. For example: two final state in the same macrostate with the same lookahead: if the two lookaheads are the 
+			same, we don't know whether to reduce one candidate or the other (this is a \emph{reduce reduce conflict}, and is one type of conflicts we will see).
+
+			Another conflict is the shift reduce: happens when we have a transition to another state that reads one character, but we have another final state, which is final, which have the same 
+			lookahead (a macro state, with a final states with lookahead a terminal, and an outgoing arc from that macro state with the same terminal).
+
+			Another conflict unique to the way in which we build the pilot. %restart from 1:18:40 of exercise session of prof Cattaneo 20221110
 		\subsection{ELL parsers}
 			ELL = Extended Left to right Leftmost
 
