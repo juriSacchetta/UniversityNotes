@@ -2308,7 +2308,45 @@
 			Another conflict is the shift reduce: happens when we have a transition to another state that reads one character, but we have another final state, which is final, which have the same 
 			lookahead (a macro state, with a final states with lookahead a terminal, and an outgoing arc from that macro state with the same terminal).
 
-			Another conflict unique to the way in which we build the pilot. %restart from 1:18:40 of exercise session of prof Cattaneo 20221110
+			Another conflict unique to the way in which we build the pilot in this course: it's called \textbf{convergence conflict}: is a bit harder to understand:  happens when 
+			multiple transitions in the machine nets, by using the same character, reach the same state with different lookahead.
+			The conflict is that by definition, all the candidates in the same macrostate should have a different state. This is important because when we go along and continue building 
+			the graph, if we evaluate twice the same state, we get a non deterministic pilot graph.
+			The algorithm for pilot graph:
+
+			\begin{itemize}
+				\item Create initial state
+				\item For each symbol, inside the set of terminal characters and nonterminal character, if we have a transition, then create a new transition and state
+				\item Items in the new state are the closure of the initial candidates, but advanced in order to take into account that we made a transition, and we will repeat that until we finish
+			\end{itemize}
+			Is the ELR1 condition satisfied? If the are no conflicts, then it is ELR1.
+			\begin{itemize}
+				\item No shift reduce conflicts
+				\item No reduce reduce conflicts (no couple of states with the same lookahead in the same macro state)
+				\item No convergence conflicts, because we didn't find while building pilot graph
+			\end{itemize}
+			ELL1? To check it, there are two ways:
+			\begin{enumerate}
+				\item If we have already build the pilot graph for the ELR condition, just need to check the following three conditions must holds:
+				\begin{enumerate}
+					\item No left most recursion (we have no machines in the machine net (the one given by exercise) where after the initial state we have no immediate recondition of nonterminals)
+					\item The pilot graph has the single transition property (STP: we do not have any of the macro states with a base set of multiple items)
+					\item The language is ELR1 (we can build ELR without conflicts).
+				\end{enumerate}
+				\item If we do not have the pilot graph, we do not need to build it. We need to build ELL parser control flow graph. ELL differs from ELR because it is sorta of greedy.
+				If it finds a situation where he could recognize some nonterminal he does not consider the fact that there might be others nonterminals that could not be recognized simultaneously 
+				because the grammar overlaps slightly, it just looks at the first character that starts at the beginning of each production. In the case of before: when we have $A$, if then we read a character $c$,
+				Then it is ofcourse our production of $A$. Of course this has problems: not all context free languages can be recognized by ELL parser. However, the logic of a ELL parser, and in general of 
+				LL and topdown parser is so simple, is so easy to write a program that implements the parser manually. How to build the parser control flow graph? for example, $4_S$: if the next 
+				character is $d$, then of course is $C$. To represent this logic in the machine net, we add the so called \index{Guide Sets}\textbf{Guide Sets}. Guide sets tell us which is the set of characters 
+				we need to find after the last character we have read at each state in order to be able to transfer control to decide for example: ok is not production $S$, is $C$. Example: $3_S$ can read $A$.
+				At the beginning of $A$, we have $c$: dashed arc $3_S$ to $0_A$, and the guide set is $c$. $4_S$ to $0_C$, guide $d$. $1_C$, $0_S$, with guide $a$: set of characters will appear at 
+				beginning of machine. If we have multiple transition from the same state, look at all the characters we have. If we have a nonterminal, go inside recoursively the starting character.
+				Once we have build the guide sets, to tell if it is ELL1, we need to check if there is no left most recursion, and if adding guide sets and real arcs would build an ambiguous or nondeterministic 
+				graph. In the example, everything will be ambiguous $3_S$, we can read $c$ staying in $S$, and a guide set with $c$ that brings to $A$. Being the two sets of characters are equal, once we reach $3_S$, 
+				we don't know which path to take. Need to check if there it is an ambiguity after having inserted the guide set.
+			\end{enumerate}
+			The exams asks to do explicitly with one method or with the other. If the choose is left up to you, look at what you already have % exercise session 20221110 Prof Cattaneo complete
 		\subsection{ELL parsers}
 			ELL = Extended Left to right Leftmost
 
