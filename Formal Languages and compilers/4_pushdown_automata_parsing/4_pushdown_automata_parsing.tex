@@ -2303,9 +2303,9 @@
 
 			In some other exercises we might have \emph{conflicts}. They happen when we build some configurations of states or candidates that makes 
 			correct parsing difficult or impossible. For example: two final state in the same macrostate with the same lookahead: if the two lookaheads are the 
-			same, we don't know whether to reduce one candidate or the other (this is a \emph{reduce reduce conflict}, and is one type of conflicts we will see).
+			same, we don't know whether to reduce one candidate or the other (this is a \textbf{reduce reduce conflict}, and is one type of conflicts we will see).
 
-			Another conflict is the shift reduce: happens when we have a transition to another state that reads one character, but we have another final state, which is final, which have the same 
+			Another conflict is the \textbf{shift reduce}: happens when we have a transition to another state that reads one character, but we have another final state, which is final, which have the same 
 			lookahead (a macro state, with a final states with lookahead a terminal, and an outgoing arc from that macro state with the same terminal).
 
 			Another conflict unique to the way in which we build the pilot in this course: it's called \textbf{convergence conflict}: is a bit harder to understand:  happens when 
