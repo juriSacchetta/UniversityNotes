@@ -2311,7 +2311,10 @@
 			Another conflict unique to the way in which we build the pilot in this course: it's called \textbf{convergence conflict}: is a bit harder to understand:  happens when 
 			multiple transitions in the machine nets, by using the same character, reach the same state with different lookahead.
 			The conflict is that by definition, all the candidates in the same macrostate should have a different state. This is important because when we go along and continue building 
-			the graph, if we evaluate twice the same state, we get a non deterministic pilot graph.
+			the graph, if we evaluate twice the same state, we get a non deterministic pilot graph. How to solve this? in the new macro state, keep only once the repeated 
+			state, and do the merge of the lookahead. To remember that there was a convergence conflict, the arrow incoming which generates the conflict is doubled (from 
+			``$\rightarrow$'' to ``$\Rightarrow$'').
+			
 			The algorithm for pilot graph:
 
 			\begin{itemize}
@@ -2329,7 +2332,7 @@
 			\begin{enumerate}
 				\item If we have already build the pilot graph for the ELR condition, just need to check the following three conditions must holds:
 				\begin{enumerate}
-					\item No left most recursion (we have no machines in the machine net (the one given by exercise) where after the initial state we have no immediate recondition of nonterminals)
+					\item No left most recursion (we have no machines in the machine net (the one given by exercise, not the built pilot) where after the initial state we immediately recognize a nonterminal)
 					\item The pilot graph has the single transition property (STP: we do not have any of the macro states with a base set of multiple items)
 					\item The language is ELR1 (we can build ELR without conflicts).
 				\end{enumerate}
